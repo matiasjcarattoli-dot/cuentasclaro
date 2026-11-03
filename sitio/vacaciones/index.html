@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de vacaciones: días y pago según tu antigüedad | Cuentas Claras</title>
+<meta name="description" content="Calculá cuántos días de vacaciones te corresponden según tu antigüedad (14, 21, 28 o 35 días) y cuánto te tienen que pagar, con el plus vacacional.">
+<meta property="og:title" content="Calculadora de vacaciones: días y pago según tu antigüedad | Cuentas Claras">
+<meta property="og:description" content="Calculá cuántos días de vacaciones te corresponden según tu antigüedad (14, 21, 28 o 35 días) y cuánto te tienen que pagar, con el plus vacacional.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/vacaciones/">
+<meta property="og:url" content="https://cuentasclaro.com/vacaciones/">
+<meta property="og:locale" content="es_AR">
+<meta name="theme-color" content="#0f7b5f">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../estilo.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Las vacaciones son días hábiles o corridos?", "acceptedAnswer": {"@type": "Answer", "text": "Son días corridos (incluyen fines de semana y feriados), y deben empezar un lunes o el día hábil siguiente si ese lunes es feriado."}}, {"@type": "Question", "name": "¿Cuándo se pagan las vacaciones?", "acceptedAnswer": {"@type": "Answer", "text": "Al comenzar el período de vacaciones, junto con el aviso. El valor de cada día es el sueldo dividido 25."}}, {"@type": "Question", "name": "¿Entre qué fechas me pueden dar las vacaciones?", "acceptedAnswer": {"@type": "Answer", "text": "El empleador debe otorgarlas entre el 1 de octubre y el 30 de abril, y avisarte con al menos 45 días de anticipación."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../">Cuentas<span>Claras</span></a>
+<nav><a href="../#calculadoras">Calculadoras</a></nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumb"><a href="../">Inicio</a> › Vacaciones</div>
+
+<h1>Calculadora de vacaciones</h1>
+<p class="lead">Averiguá cuántos días de vacaciones te tocan y cuánto te tienen que pagar por ellos.</p>
+<div class="card calc">
+<div class="row">
+<label>Fecha de ingreso<input id="ini" type="date" value="2022-03-01"></label>
+<label>Vacaciones del año<input id="anio" type="number" min="2000" max="2100"></label>
+</div>
+<label>Sueldo bruto mensual ($)<input id="sueldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cuántos días de vacaciones me corresponden?</h2>
+<p>La Ley de Contrato de Trabajo (art. 150) fija los días <strong>corridos</strong> de vacaciones según tu antigüedad al 31 de diciembre del año:</p>
+<ul>
+<li>Menos de 5 años: <strong>14 días</strong>.</li>
+<li>De 5 a 10 años: <strong>21 días</strong>.</li>
+<li>De 10 a 20 años: <strong>28 días</strong>.</li>
+<li>Más de 20 años: <strong>35 días</strong>.</li>
+</ul>
+<p>Si en el año trabajaste menos de la mitad de los días hábiles (por ejemplo, porque entraste en el segundo semestre), te corresponde <strong>1 día de vacaciones cada 20 días trabajados</strong>.</p>
+<h2>¿Cuánto me pagan por las vacaciones?</h2>
+<p>Para los empleados mensualizados, cada día de vacaciones se paga dividiendo el sueldo por <strong>25</strong> (no por 30). Esa diferencia es el famoso <strong>plus vacacional</strong>. Las vacaciones se pagan antes de empezar a tomarlas.</p>
+<p>Tu convenio colectivo puede darte más días que la ley: si es así, vale el convenio.</p>
+</div>
+
+<div class="ad"></div>
+<h2>Preguntas frecuentes</h2><details><summary>¿Las vacaciones son días hábiles o corridos?</summary><p>Son días corridos (incluyen fines de semana y feriados), y deben empezar un lunes o el día hábil siguiente si ese lunes es feriado.</p></details><details><summary>¿Cuándo se pagan las vacaciones?</summary><p>Al comenzar el período de vacaciones, junto con el aviso. El valor de cada día es el sueldo dividido 25.</p></details><details><summary>¿Entre qué fechas me pueden dar las vacaciones?</summary><p>El empleador debe otorgarlas entre el 1 de octubre y el 30 de abril, y avisarte con al menos 45 días de anticipación.</p></details>
+</div></main>
+<footer class="bottom"><div class="wrap">
+<p><a href="../">Inicio</a><a href="../acerca/">Acerca de</a><a href="../privacidad/">Privacidad</a></p>
+<p>© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+$('#anio').value ||= new Date().getFullYear();
+conectar(() => {
+  const anio = val('anio') || new Date().getFullYear(), sueldo = val('sueldo');
+  const ini = $('#ini').value ? new Date($('#ini').value + 'T00:00:00') : null;
+  if (!ini) { $('#res').innerHTML = 'Cargá tu fecha de ingreso.'; return; }
+  const cierre = new Date(anio, 11, 31);
+  if (ini > cierre) { $('#res').innerHTML = 'La fecha de ingreso es posterior a ese año.'; return; }
+  let ant = cierre.getFullYear() - ini.getFullYear();
+  if (cierre < new Date(cierre.getFullYear(), ini.getMonth(), ini.getDate())) ant--;
+  let dias = ant < 5 ? 14 : ant < 10 ? 21 : ant < 20 ? 28 : 35, prop = false;
+  if (ini.getFullYear() === anio) {
+    const corridos = Math.round((cierre - ini) / 864e5) + 1;
+    const habiles = Math.round(corridos * 5 / 7), habilesAnio = Math.round(365 * 5 / 7);
+    if (habiles < habilesAnio / 2) { dias = Math.floor(habiles / 20); prop = true; }
+  }
+  const pago = sueldo / 25 * dias, normal = sueldo / 30 * dias;
+  const textoAnt = ant < 1 ? 'menos de 1 año' : ant + (ant === 1 ? ' año' : ' años');
+  $('#res').innerHTML = `<div class="label">Te corresponden</div><div class="big">${dias} días corridos</div>` + filas([
+    ['Antigüedad al 31/12/' + anio, textoAnt],
+    ['Valor de cada día (sueldo ÷ 25)', $$(sueldo / 25)],
+    ['Lo que cobrarías esos días sin vacaciones', $$(normal)],
+    ['Plus vacacional', '+ ' + $$(pago - normal)],
+    ['Pago bruto de vacaciones', $$(pago), 'total'],
+  ]) + (prop ? '<p class="note">Trabajaste menos de la mitad del año: corresponde 1 día cada 20 días hábiles trabajados (estimado).</p>' : '');
+});
+</script>
+</body>
+</html>

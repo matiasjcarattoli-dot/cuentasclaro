@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de sueldo neto en Argentina: de bruto a neto | Cuentas Claras</title>
+<meta name="description" content="Calculá tu sueldo neto (en mano) a partir del bruto: jubilación 11 %, PAMI 3 %, obra social 3 % y sindicato. Gratis y al instante.">
+<meta property="og:title" content="Calculadora de sueldo neto en Argentina: de bruto a neto | Cuentas Claras">
+<meta property="og:description" content="Calculá tu sueldo neto (en mano) a partir del bruto: jubilación 11 %, PAMI 3 %, obra social 3 % y sindicato. Gratis y al instante.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/sueldo-neto/">
+<meta property="og:url" content="https://cuentasclaro.com/sueldo-neto/">
+<meta property="og:locale" content="es_AR">
+<meta name="theme-color" content="#0f7b5f">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../estilo.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué porcentaje se descuenta del sueldo bruto?", "acceptedAnswer": {"@type": "Answer", "text": "En relación de dependencia se descuenta el 17 %: 11 % de jubilación, 3 % de PAMI (Ley 19.032) y 3 % de obra social. Si estás afiliado a un sindicato se suma la cuota sindical."}}, {"@type": "Question", "name": "¿Esta calculadora incluye el impuesto a las ganancias?", "acceptedAnswer": {"@type": "Answer", "text": "No. Ganancias depende de tus deducciones personales (cónyuge, hijos, alquiler, etc.) y solo alcanza a sueldos altos. Si te corresponde, tu neto será menor."}}, {"@type": "Question", "name": "¿El sueldo bruto incluye horas extra y adicionales?", "acceptedAnswer": {"@type": "Answer", "text": "Sí: el bruto es la suma de todos los conceptos remunerativos (básico, antigüedad, presentismo, horas extra). Los conceptos no remunerativos no llevan aportes jubilatorios."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../">Cuentas<span>Claras</span></a>
+<nav><a href="../#calculadoras">Calculadoras</a></nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumb"><a href="../">Inicio</a> › Sueldo neto</div>
+
+<h1>Calculadora de sueldo neto</h1>
+<p class="lead">Poné tu sueldo bruto y te decimos cuánto cobrás en mano, con el detalle de cada descuento.</p>
+<div class="card calc">
+<label>Sueldo bruto mensual ($)<input id="bruto" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>Aporte sindical (%) <small>0 si no estás afiliado</small><input id="sind" type="number" inputmode="decimal" min="0" step="0.1" value="0"></label>
+<label>Tope de aportes ($) <small>opcional, 0 = sin tope</small><input id="tope" type="number" inputmode="decimal" min="0" value="0"></label>
+</div>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula el sueldo neto?</h2>
+<p>Si trabajás en relación de dependencia, a tu sueldo bruto se le descuentan los <strong>aportes obligatorios</strong>, que suman un 17 %:</p>
+<ul>
+<li><strong>Jubilación (SIPA): 11 %</strong>.</li>
+<li><strong>Ley 19.032 (PAMI): 3 %</strong>.</li>
+<li><strong>Obra social: 3 %</strong>.</li>
+</ul>
+<p>Si estás afiliado a un sindicato, se suma la <strong>cuota sindical</strong> (en general entre 2 % y 3 %, según el convenio). Lo que queda es tu <strong>sueldo neto</strong>, el que te depositan.</p>
+<h3>Ejemplo</h3>
+<p>Con un bruto de $1.000.000 y sin sindicato: 11 % de jubilación ($110.000) + 3 % de PAMI ($30.000) + 3 % de obra social ($30.000) = $170.000 de descuentos. Neto: <strong>$830.000</strong>.</p>
+<h3>El tope de aportes</h3>
+<p>Los aportes se calculan sobre el sueldo hasta un máximo llamado <em>base imponible máxima</em>, que ARCA (ex AFIP) actualiza periódicamente. Si tu sueldo es muy alto, podés cargar ese tope para que el cálculo sea exacto.</p>
+</div>
+
+<div class="ad"></div>
+<h2>Preguntas frecuentes</h2><details><summary>¿Qué porcentaje se descuenta del sueldo bruto?</summary><p>En relación de dependencia se descuenta el 17 %: 11 % de jubilación, 3 % de PAMI (Ley 19.032) y 3 % de obra social. Si estás afiliado a un sindicato se suma la cuota sindical.</p></details><details><summary>¿Esta calculadora incluye el impuesto a las ganancias?</summary><p>No. Ganancias depende de tus deducciones personales (cónyuge, hijos, alquiler, etc.) y solo alcanza a sueldos altos. Si te corresponde, tu neto será menor.</p></details><details><summary>¿El sueldo bruto incluye horas extra y adicionales?</summary><p>Sí: el bruto es la suma de todos los conceptos remunerativos (básico, antigüedad, presentismo, horas extra). Los conceptos no remunerativos no llevan aportes jubilatorios.</p></details>
+</div></main>
+<footer class="bottom"><div class="wrap">
+<p><a href="../">Inicio</a><a href="../acerca/">Acerca de</a><a href="../privacidad/">Privacidad</a></p>
+<p>© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const bruto = val('bruto'), tope = val('tope'), sind = val('sind');
+  const base = tope > 0 ? Math.min(bruto, tope) : bruto;
+  const jub = base * .11, pami = base * .03, os = base * .03, s = bruto * sind / 100;
+  const desc = jub + pami + os + s, neto = bruto - desc;
+  $('#res').innerHTML = `<div class="label">Sueldo neto (en mano)</div><div class="big">${$$(neto)}</div>` + filas([
+    ['Sueldo bruto', $$(bruto)],
+    ['Jubilación (11 %)', '− ' + $$(jub)],
+    ['PAMI, Ley 19.032 (3 %)', '− ' + $$(pami)],
+    ['Obra social (3 %)', '− ' + $$(os)],
+    ...(s ? [['Sindicato (' + pct(sind) + ')', '− ' + $$(s)]] : []),
+    ['Total de descuentos', '− ' + $$(desc)],
+    ['Sueldo neto', $$(neto), 'total'],
+  ]) + '<p class="note">No incluye impuesto a las ganancias.</p>';
+});
+</script>
+</body>
+</html>

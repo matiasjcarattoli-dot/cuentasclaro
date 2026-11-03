@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Cuotas o contado? Calculadora para saber qué conviene | Cuentas Claras</title>
+<meta name="description" content="Compará pagar en cuotas o de contado teniendo en cuenta la inflación. Calculá el costo financiero real de las cuotas y qué opción te conviene.">
+<meta property="og:title" content="¿Cuotas o contado? Calculadora para saber qué conviene | Cuentas Claras">
+<meta property="og:description" content="Compará pagar en cuotas o de contado teniendo en cuenta la inflación. Calculá el costo financiero real de las cuotas y qué opción te conviene.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/cuotas/">
+<meta property="og:url" content="https://cuentasclaro.com/cuotas/">
+<meta property="og:locale" content="es_AR">
+<meta name="theme-color" content="#0f7b5f">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../estilo.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Conviene pagar en cuotas sin interés?", "acceptedAnswer": {"@type": "Answer", "text": "Casi siempre sí, si no hay descuento por pagar de contado: con inflación, las últimas cuotas valen menos en términos reales."}}, {"@type": "Question", "name": "¿Qué inflación mensual pongo?", "acceptedAnswer": {"@type": "Answer", "text": "Usá la inflación que esperás para los próximos meses. Una referencia es el último dato mensual del INDEC o el Relevamiento de Expectativas de Mercado del BCRA."}}, {"@type": "Question", "name": "¿Qué es el valor actual de las cuotas?", "acceptedAnswer": {"@type": "Answer", "text": "Es lo que valen hoy todas las cuotas futuras, una vez descontada la inflación. Sirve para comparar contra el precio de contado."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../">Cuentas<span>Claras</span></a>
+<nav><a href="../#calculadoras">Calculadoras</a></nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumb"><a href="../">Inicio</a> › Cuotas o contado</div>
+
+<h1>¿Cuotas o contado?</h1>
+<p class="lead">Con inflación, pagar en cuotas puede convenir aunque tengan recargo. Cargá los datos y te decimos qué te conviene.</p>
+<div class="card calc">
+<label>Precio de contado ($) <small>con el descuento por pagar en efectivo, si hay</small><input id="contado" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>Cantidad de cuotas<input id="n" type="number" min="1" max="72" value="6"></label>
+<label>Valor de cada cuota ($)<input id="cuota" type="number" inputmode="decimal" min="0" value="180000"></label>
+</div>
+<label>Inflación mensual esperada (%)<input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+<label class="check"><input id="hoy" type="checkbox"> La primera cuota se paga hoy</label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo saber si conviene pagar en cuotas?</h2>
+<p>Cuando hay inflación, una cuota de $100.000 dentro de seis meses "vale" menos que $100.000 hoy, porque para entonces los precios (y en general los sueldos) subieron. Para comparar de forma justa hay que llevar todas las cuotas a <strong>valor de hoy</strong>, descontándoles la inflación esperada. Eso es el <strong>valor actual</strong>.</p>
+<ul>
+<li>Si el valor actual de las cuotas es <strong>menor</strong> que el precio de contado, conviene pagar en cuotas.</li>
+<li>Si es <strong>mayor</strong>, conviene pagar de contado.</li>
+</ul>
+<h3>Tasa implícita de las cuotas</h3>
+<p>También calculamos la tasa de interés mensual que te están cobrando por financiarte (la tasa implícita). Si es menor que la inflación mensual que esperás, las cuotas te convienen.</p>
+<h3>Ojo con</h3>
+<p>Los impuestos y cargos de la tarjeta, que a veces no están incluidos en la cuota que te muestran. Y comparar siempre contra el precio de contado <em>con descuento</em>, que es el que realmente podrías pagar.</p>
+</div>
+
+<div class="ad"></div>
+<h2>Preguntas frecuentes</h2><details><summary>¿Conviene pagar en cuotas sin interés?</summary><p>Casi siempre sí, si no hay descuento por pagar de contado: con inflación, las últimas cuotas valen menos en términos reales.</p></details><details><summary>¿Qué inflación mensual pongo?</summary><p>Usá la inflación que esperás para los próximos meses. Una referencia es el último dato mensual del INDEC o el Relevamiento de Expectativas de Mercado del BCRA.</p></details><details><summary>¿Qué es el valor actual de las cuotas?</summary><p>Es lo que valen hoy todas las cuotas futuras, una vez descontada la inflación. Sirve para comparar contra el precio de contado.</p></details>
+</div></main>
+<footer class="bottom"><div class="wrap">
+<p><a href="../">Inicio</a><a href="../acerca/">Acerca de</a><a href="../privacidad/">Privacidad</a></p>
+<p>© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+function tasaImplicita(contado, cuota, n, hoy) {
+  const va = r => { let s = 0; for (let k = 0; k < n; k++) s += cuota / Math.pow(1 + r, k + (hoy ? 0 : 1)); return s; };
+  let lo = -0.99, hi = 5;
+  if (va(lo) < contado || va(hi) > contado) return NaN;
+  for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; if (va(m) > contado) lo = m; else hi = m; }
+  return (lo + hi) / 2;
+}
+conectar(() => {
+  const contado = val('contado'), n = Math.max(1, Math.round(val('n'))), cuota = val('cuota'), inf = val('inf') / 100, hoy = $('#hoy').checked;
+  const total = cuota * n;
+  let va = 0; for (let k = 0; k < n; k++) va += cuota / Math.pow(1 + inf, k + (hoy ? 0 : 1));
+  const r = tasaImplicita(contado, cuota, n, hoy), dif = contado - va;
+  const conviene = dif > 0 ? 'cuotas' : 'contado';
+  $('#res').innerHTML = `<div class="label">Te conviene pagar</div><div class="big">${conviene === 'cuotas' ? 'En cuotas 💳' : 'De contado 💵'}</div>` +
+    `<p>Ahorrás unos <strong>${$$(Math.abs(dif))}</strong> en valores de hoy.</p>` + filas([
+    ['Precio de contado', $$(contado)],
+    ['Total en cuotas (' + n + ' × ' + $$(cuota) + ')', $$(total)],
+    ['Recargo nominal', pct((total / contado - 1) * 100)],
+    ['Valor actual de las cuotas', $$(va), 'total'],
+    ['Tasa implícita mensual', isFinite(r) ? pct(r * 100) : '—'],
+    ['Inflación mensual esperada', pct(inf * 100)],
+  ]);
+});
+</script>
+</body>
+</html>

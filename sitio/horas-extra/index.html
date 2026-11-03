@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de horas extra: al 50 % y al 100 % | Cuentas Claras</title>
+<meta name="description" content="Calculá cuánto te tienen que pagar por tus horas extra al 50 % (días hábiles) y al 100 % (sábados después de las 13, domingos y feriados).">
+<meta property="og:title" content="Calculadora de horas extra: al 50 % y al 100 % | Cuentas Claras">
+<meta property="og:description" content="Calculá cuánto te tienen que pagar por tus horas extra al 50 % (días hábiles) y al 100 % (sábados después de las 13, domingos y feriados).">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/horas-extra/">
+<meta property="og:url" content="https://cuentasclaro.com/horas-extra/">
+<meta property="og:locale" content="es_AR">
+<meta name="theme-color" content="#0f7b5f">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../estilo.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuánto se paga la hora extra en Argentina?", "acceptedAnswer": {"@type": "Answer", "text": "Con un recargo del 50 % en días comunes y del 100 % los sábados después de las 13 h, domingos y feriados."}}, {"@type": "Question", "name": "¿Las horas extra llevan descuentos?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, son remuneración y llevan los mismos aportes que el sueldo (17 % en total)."}}, {"@type": "Question", "name": "¿Me pueden obligar a hacer horas extra?", "acceptedAnswer": {"@type": "Answer", "text": "En general no, salvo casos de peligro grave o necesidades excepcionales de la empresa previstas por la ley."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../">Cuentas<span>Claras</span></a>
+<nav><a href="../#calculadoras">Calculadoras</a></nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumb"><a href="../">Inicio</a> › Horas extra</div>
+
+<h1>Calculadora de horas extra</h1>
+<p class="lead">Calculá el valor de tu hora y cuánto te corresponde cobrar por las horas extra del mes.</p>
+<div class="card calc">
+<div class="row">
+<label>Sueldo bruto mensual ($)<input id="sueldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<label>Horas de tu jornada por mes <small>200 es lo habitual con 48 h semanales</small><input id="hm" type="number" min="1" value="200"></label>
+</div>
+<div class="row">
+<label>Horas extra al 50 % <small>días hábiles</small><input id="h50" type="number" inputmode="decimal" min="0" value="10"></label>
+<label>Horas extra al 100 % <small>sáb. después de 13 h, dom. y feriados</small><input id="h100" type="number" inputmode="decimal" min="0" value="4"></label>
+</div>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se pagan las horas extra?</h2>
+<p>La Ley de Contrato de Trabajo (art. 201) establece que las horas extra se pagan con un recargo sobre el valor de la hora normal:</p>
+<ul>
+<li><strong>50 % de recargo</strong> en días comunes.</li>
+<li><strong>100 % de recargo</strong> los sábados después de las 13 h, los domingos y los feriados.</li>
+</ul>
+<h3>¿Cómo se calcula el valor de la hora?</h3>
+<p>Se divide el sueldo mensual por la cantidad de horas que trabajás en el mes según tu jornada. Con una jornada de 48 horas semanales se suele usar 200 horas por mes. Si tu jornada es de 40 horas semanales, usá unas 173.</p>
+<h3>Límites</h3>
+<p>La jornada máxima legal es de 8 horas diarias o 48 semanales, y las horas extra tienen un tope de 3 por día, 30 por mes y 200 por año, salvo excepciones.</p>
+</div>
+
+<div class="ad"></div>
+<h2>Preguntas frecuentes</h2><details><summary>¿Cuánto se paga la hora extra en Argentina?</summary><p>Con un recargo del 50 % en días comunes y del 100 % los sábados después de las 13 h, domingos y feriados.</p></details><details><summary>¿Las horas extra llevan descuentos?</summary><p>Sí, son remuneración y llevan los mismos aportes que el sueldo (17 % en total).</p></details><details><summary>¿Me pueden obligar a hacer horas extra?</summary><p>En general no, salvo casos de peligro grave o necesidades excepcionales de la empresa previstas por la ley.</p></details>
+</div></main>
+<footer class="bottom"><div class="wrap">
+<p><a href="../">Inicio</a><a href="../acerca/">Acerca de</a><a href="../privacidad/">Privacidad</a></p>
+<p>© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const sueldo = val('sueldo'), hm = Math.max(1, val('hm')), h50 = val('h50'), h100 = val('h100');
+  const hora = sueldo / hm, a = hora * 1.5 * h50, b = hora * 2 * h100, t = a + b;
+  $('#res').innerHTML = `<div class="label">Te corresponden por horas extra</div><div class="big">${$$(t)}</div>` + filas([
+    ['Valor de la hora normal', $$(hora)],
+    ['Hora extra al 50 %', $$(hora * 1.5)],
+    ['Hora extra al 100 %', $$(hora * 2)],
+    [h50 + ' h al 50 %', $$(a)],
+    [h100 + ' h al 100 %', $$(b)],
+    ['Total bruto', $$(t), 'total'],
+    ['Total neto estimado (−17 %)', $$(t * .83)],
+  ]);
+});
+</script>
+</body>
+</html>

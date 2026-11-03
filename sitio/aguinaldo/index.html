@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de aguinaldo (SAC): completo y proporcional | Cuentas Claras</title>
+<meta name="description" content="Calculá tu aguinaldo de junio o diciembre: completo o proporcional por días trabajados, bruto y neto. Con fechas de pago del SAC.">
+<meta property="og:title" content="Calculadora de aguinaldo (SAC): completo y proporcional | Cuentas Claras">
+<meta property="og:description" content="Calculá tu aguinaldo de junio o diciembre: completo o proporcional por días trabajados, bruto y neto. Con fechas de pago del SAC.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/aguinaldo/">
+<meta property="og:url" content="https://cuentasclaro.com/aguinaldo/">
+<meta property="og:locale" content="es_AR">
+<meta name="theme-color" content="#0f7b5f">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../estilo.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuándo se cobra el aguinaldo?", "acceptedAnswer": {"@type": "Answer", "text": "La primera cuota vence el 30 de junio y la segunda el 18 de diciembre. El empleador tiene un plazo de gracia de 4 días hábiles."}}, {"@type": "Question", "name": "¿Qué sueldo se toma para el aguinaldo?", "acceptedAnswer": {"@type": "Answer", "text": "El mayor sueldo bruto mensual del semestre, incluyendo los conceptos remunerativos (horas extra, comisiones, adicionales)."}}, {"@type": "Question", "name": "¿Me corresponde aguinaldo si trabajé pocos meses?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, cobrás la parte proporcional a los días que trabajaste en el semestre."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../">Cuentas<span>Claras</span></a>
+<nav><a href="../#calculadoras">Calculadoras</a></nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumb"><a href="../">Inicio</a> › Aguinaldo</div>
+
+<h1>Calculadora de aguinaldo</h1>
+<p class="lead">El aguinaldo (sueldo anual complementario) es la mitad de tu mejor sueldo del semestre. Calculalo completo o proporcional.</p>
+<div class="card calc">
+<label>Mejor sueldo bruto del semestre ($)<input id="mejor" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>Semestre<select id="sem"><option value="1">1.º (enero a junio)</option><option value="2">2.º (julio a diciembre)</option></select></label>
+<label>Año<input id="anio" type="number" min="2000" max="2100"></label>
+</div>
+<div class="row">
+<label>Fecha de ingreso <small>si entraste durante el semestre</small><input id="ini" type="date"></label>
+<label>Fecha de egreso <small>si te fuiste durante el semestre</small><input id="fin" type="date"></label>
+</div>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula el aguinaldo?</h2>
+<p>Según la Ley de Contrato de Trabajo, el aguinaldo equivale al <strong>50 % de la mayor remuneración mensual</strong> que cobraste en cada semestre. Se paga en dos cuotas:</p>
+<ul>
+<li><strong>Primera cuota:</strong> hasta el 30 de junio.</li>
+<li><strong>Segunda cuota:</strong> hasta el 18 de diciembre.</li>
+</ul>
+<p>Los empleadores tienen hasta 4 días hábiles extra para pagarlo.</p>
+<h3>Aguinaldo proporcional</h3>
+<p>Si no trabajaste el semestre completo (porque entraste o te fuiste en el medio), cobrás la parte proporcional: <em>mejor sueldo ÷ 2 × días trabajados ÷ días del semestre</em>.</p>
+<h3>¿El aguinaldo tiene descuentos?</h3>
+<p>Sí. Lleva los mismos aportes que el sueldo (17 % en total: jubilación, PAMI y obra social), por eso te mostramos también el neto estimado.</p>
+</div>
+
+<div class="ad"></div>
+<h2>Preguntas frecuentes</h2><details><summary>¿Cuándo se cobra el aguinaldo?</summary><p>La primera cuota vence el 30 de junio y la segunda el 18 de diciembre. El empleador tiene un plazo de gracia de 4 días hábiles.</p></details><details><summary>¿Qué sueldo se toma para el aguinaldo?</summary><p>El mayor sueldo bruto mensual del semestre, incluyendo los conceptos remunerativos (horas extra, comisiones, adicionales).</p></details><details><summary>¿Me corresponde aguinaldo si trabajé pocos meses?</summary><p>Sí, cobrás la parte proporcional a los días que trabajaste en el semestre.</p></details>
+</div></main>
+<footer class="bottom"><div class="wrap">
+<p><a href="../">Inicio</a><a href="../acerca/">Acerca de</a><a href="../privacidad/">Privacidad</a></p>
+<p>© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+$('#anio').value ||= new Date().getFullYear();
+conectar(() => {
+  const mejor = val('mejor'), sem = $('#sem').value, anio = val('anio') || new Date().getFullYear();
+  const d0 = new Date(anio, sem === '1' ? 0 : 6, 1), d1 = new Date(anio, sem === '1' ? 5 : 11, sem === '1' ? 30 : 31);
+  const dia = 864e5, total = Math.round((d1 - d0) / dia) + 1;
+  const parse = v => v ? new Date(v + 'T00:00:00') : null;
+  let a = parse($('#ini').value), b = parse($('#fin').value);
+  a = a && a > d0 ? a : d0; b = b && b < d1 ? b : d1;
+  const dias = Math.max(0, Math.round((b - a) / dia) + 1);
+  const bruto = mejor / 2 * dias / total, neto = bruto * .83;
+  const vence = sem === '1' ? '30 de junio' : '18 de diciembre';
+  $('#res').innerHTML = `<div class="label">Aguinaldo bruto</div><div class="big">${$$(bruto)}</div>` + filas([
+    ['Mejor sueldo del semestre', $$(mejor)],
+    ['Días trabajados', dias + ' de ' + total + (dias < total ? ' (proporcional)' : ' (completo)')],
+    ['Aportes (17 %)', '− ' + $$(bruto * .17)],
+    ['Aguinaldo neto estimado', $$(neto), 'total'],
+  ]) + `<p class="note">Se paga hasta el ${vence} de ${anio}.</p>`;
+});
+</script>
+</body>
+</html>

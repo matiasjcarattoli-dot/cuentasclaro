@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de plazo fijo: intereses, TEA y comparación con la inflación | Cuentas Claras</title>
+<meta name="description" content="Simulá tu plazo fijo: cuánto ganás según la TNA y los días, la tasa efectiva anual (TEA) y si le gana a la inflación.">
+<meta property="og:title" content="Calculadora de plazo fijo: intereses, TEA y comparación con la inflación | Cuentas Claras">
+<meta property="og:description" content="Simulá tu plazo fijo: cuánto ganás según la TNA y los días, la tasa efectiva anual (TEA) y si le gana a la inflación.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/plazo-fijo/">
+<meta property="og:url" content="https://cuentasclaro.com/plazo-fijo/">
+<meta property="og:locale" content="es_AR">
+<meta name="theme-color" content="#0f7b5f">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../estilo.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuál es el plazo mínimo de un plazo fijo?", "acceptedAnswer": {"@type": "Answer", "text": "En los plazos fijos tradicionales el plazo mínimo es de 30 días."}}, {"@type": "Question", "name": "¿Qué diferencia hay entre TNA y TEA?", "acceptedAnswer": {"@type": "Answer", "text": "La TNA es la tasa anual sin reinvertir intereses; la TEA supone que renovás el plazo fijo y reinvertís los intereses, por eso es más alta."}}, {"@type": "Question", "name": "¿Los plazos fijos están garantizados?", "acceptedAnswer": {"@type": "Answer", "text": "Los depósitos en pesos y dólares en bancos argentinos tienen una garantía de SEDESA hasta un monto máximo por persona y por banco."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../">Cuentas<span>Claras</span></a>
+<nav><a href="../#calculadoras">Calculadoras</a></nav>
+</div></header>
+<main><div class="wrap">
+<div class="crumb"><a href="../">Inicio</a> › Plazo fijo</div>
+
+<h1>Calculadora de plazo fijo</h1>
+<p class="lead">Poné cuánto querés invertir y la tasa de tu banco. Te mostramos cuánto ganás y si le gana a la inflación.</p>
+<div class="card calc">
+<label>Monto a invertir ($)<input id="cap" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>TNA (%) <small>tasa nominal anual de tu banco</small><input id="tna" type="number" inputmode="decimal" min="0" step="0.1" value="30"></label>
+<label>Plazo (días) <small>mínimo 30</small><input id="dias" type="number" min="1" value="30"></label>
+</div>
+<label>Inflación mensual esperada (%) <small>opcional, para comparar</small><input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se calculan los intereses de un plazo fijo?</h2>
+<p>Los bancos informan la <strong>TNA</strong> (tasa nominal anual). El interés de un plazo fijo tradicional es:</p>
+<p><em>Interés = monto × TNA ÷ 100 × días ÷ 365</em></p>
+<p>Por ejemplo, $1.000.000 a 30 días con una TNA del 30 % te da $24.657 de intereses.</p>
+<h3>TNA y TEA</h3>
+<p>La <strong>TEA</strong> (tasa efectiva anual) muestra cuánto ganarías en un año si renovaras el plazo fijo cada vez, reinvirtiendo los intereses. Por eso siempre es un poco mayor que la TNA.</p>
+<h3>¿Le gana a la inflación?</h3>
+<p>Lo importante no es cuántos pesos ganás, sino si tu plata compra más o menos cosas al final. Si la tasa mensual del plazo fijo es menor que la inflación del mes, en términos reales perdés poder de compra.</p>
+</div>
+
+<div class="ad"></div>
+<h2>Preguntas frecuentes</h2><details><summary>¿Cuál es el plazo mínimo de un plazo fijo?</summary><p>En los plazos fijos tradicionales el plazo mínimo es de 30 días.</p></details><details><summary>¿Qué diferencia hay entre TNA y TEA?</summary><p>La TNA es la tasa anual sin reinvertir intereses; la TEA supone que renovás el plazo fijo y reinvertís los intereses, por eso es más alta.</p></details><details><summary>¿Los plazos fijos están garantizados?</summary><p>Los depósitos en pesos y dólares en bancos argentinos tienen una garantía de SEDESA hasta un monto máximo por persona y por banco.</p></details>
+</div></main>
+<footer class="bottom"><div class="wrap">
+<p><a href="../">Inicio</a><a href="../acerca/">Acerca de</a><a href="../privacidad/">Privacidad</a></p>
+<p>© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const cap = val('cap'), tna = val('tna'), dias = Math.max(1, val('dias')), inf = val('inf');
+  const tasaPer = tna / 100 * dias / 365, int = cap * tasaPer;
+  const tea = (Math.pow(1 + tasaPer, 365 / dias) - 1) * 100;
+  const tem = (Math.pow(1 + tasaPer, 30 / dias) - 1) * 100;
+  let comp = '';
+  if (inf) {
+    const infPer = Math.pow(1 + inf / 100, dias / 30) - 1;
+    const real = ((1 + tasaPer) / (1 + infPer) - 1) * 100;
+    comp = `<p class="note ${real < 0 ? 'warn' : ''}">${real >= 0 ? '✅ Le gana a la inflación' : '⚠️ Pierde contra la inflación'}: rendimiento real de ${pct(real)} en el período (${$$(cap * real / 100)} en poder de compra de hoy).</p>`;
+  }
+  $('#res').innerHTML = `<div class="label">Ganás en ${dias} días</div><div class="big">${$$(int)}</div>` + filas([
+    ['Monto invertido', $$(cap)],
+    ['Intereses', '+ ' + $$(int)],
+    ['Total al vencimiento', $$(cap + int), 'total'],
+    ['Tasa efectiva mensual', pct(tem)],
+    ['TEA (renovando)', pct(tea)],
+  ]) + comp;
+});
+</script>
+</body>
+</html>
