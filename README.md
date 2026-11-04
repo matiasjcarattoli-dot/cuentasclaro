@@ -16,7 +16,7 @@ python3 herramientas/armar.py
 
 ## Anuncios
 
-En `sitio/comun.js`, poner el ID de AdSense en `ADSENSE_CLIENT` (`ca-pub-...`) y crear `sitio/ads.txt` con la línea que da AdSense.
+El código de AdSense (`ca-pub-1125850479848811`) lo agrega `herramientas/armar.py` en el `<head>` de cada página, y `sitio/ads.txt` autoriza a Google a vender los anuncios. Los anuncios son automáticos: se ajustan desde el panel de AdSense.
 
 ## Probar localmente
 

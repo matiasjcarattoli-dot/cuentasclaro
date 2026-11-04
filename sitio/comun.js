@@ -1,26 +1,7 @@
-// ===== Configuración de anuncios =====
-// Cuando Google AdSense apruebe el sitio, pegá acá tu ID de editor (ej: 'ca-pub-1234567890123456').
-// Los anuncios aparecen solos en cada <div class="ad"> de las páginas. Vacío = sin anuncios.
-const ADSENSE_CLIENT = '';
-
-(function cargarAnuncios() {
-  if (!ADSENSE_CLIENT) return;
-  const s = document.createElement('script');
-  s.async = true;
-  s.crossOrigin = 'anonymous';
-  s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADSENSE_CLIENT;
-  document.head.appendChild(s);
-  document.querySelectorAll('.ad').forEach(slot => {
-    const ins = document.createElement('ins');
-    ins.className = 'adsbygoogle';
-    ins.style.display = 'block';
-    ins.setAttribute('data-ad-client', ADSENSE_CLIENT);
-    ins.setAttribute('data-ad-format', 'auto');
-    ins.setAttribute('data-full-width-responsive', 'true');
-    slot.appendChild(ins);
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
-  });
-})();
+// ===== Anuncios =====
+// El código de Google AdSense (ca-pub-1125850479848811) va en el <head> de cada página,
+// lo agrega herramientas/armar.py. Los anuncios los ubica Google solo (anuncios automáticos),
+// y se activan o ajustan desde el panel de AdSense.
 
 // ===== Utilidades =====
 const $ = s => document.querySelector(s);

@@ -38,6 +38,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre=''):
 <meta name="theme-color" content="#0f7b5f">
 <link rel="icon" href="{up}icono.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{up}estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
 {ld}
 </head>
 <body>
