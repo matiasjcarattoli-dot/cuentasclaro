@@ -24,3 +24,12 @@ El código de AdSense (`ca-pub-1125850479848811`) lo agrega `herramientas/armar.
 ```sh
 cd sitio && python3 -m http.server 8000
 ```
+
+## Datos que hay que actualizar
+
+Están en `herramientas/paginas.py`:
+
+- `MONO` — categorías y cuotas del monotributo (ARCA las actualiza en **febrero y agosto**).
+- `DOM` — escala salarial de casas particulares (cambia casi **todos los meses**, CNTCP).
+- `FERIADOS` y `NO_LABORABLES` — feriados nacionales (cargados 2026 y 2027; revisar puentes y decretos cada año).
+- Guías con fecha (`guias/feriados-2026`, `guias/aguinaldo-diciembre-2026`): renovarlas cada año.

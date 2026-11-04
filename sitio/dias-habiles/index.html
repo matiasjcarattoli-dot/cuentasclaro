@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de días hábiles entre dos fechas (Argentina) | Cuentas Claras</title>
+<meta name="description" content="Calculá cuántos días hábiles hay entre dos fechas en Argentina, descontando fines de semana y feriados nacionales 2026 y 2027. También suma días hábiles a una fecha.">
+<meta property="og:title" content="Calculadora de días hábiles entre dos fechas (Argentina) | Cuentas Claras">
+<meta property="og:description" content="Calculá cuántos días hábiles hay entre dos fechas en Argentina, descontando fines de semana y feriados nacionales 2026 y 2027. También suma días hábiles a una fecha.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/dias-habiles/">
+<meta property="og:url" content="https://cuentasclaro.com/dias-habiles/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿El sábado es día hábil?", "acceptedAnswer": {"@type": "Answer", "text": "En la mayoría de los trámites y plazos no: se cuentan solo los días de lunes a viernes que no son feriados. Algunos plazos laborales sí consideran el sábado; revisá la norma que aplica en tu caso."}}, {"@type": "Question", "name": "¿Los días no laborables son hábiles?", "acceptedAnswer": {"@type": "Answer", "text": "Para la administración pública no. En el sector privado, el empleador decide si se trabaja. Por eso la calculadora te deja elegir."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a><a href="../guias/">Guías</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Días hábiles</nav>
+<h1>Calculadora de días hábiles</h1>
+<p class="lead">Contá los días hábiles entre dos fechas o averiguá qué fecha es dentro de X días hábiles, con los feriados de Argentina.</p>
+<div class="card calc">
+<label>¿Qué querés calcular?<select id="modo"><option value="entre">Días hábiles entre dos fechas</option><option value="sumar">Sumar días hábiles a una fecha</option></select></label>
+<div class="row">
+<label>Desde<input id="d0" type="date"></label>
+<div data-modo="entre"><label>Hasta<input id="d1" type="date"></label></div>
+<div data-modo="sumar"><label>Cantidad de días hábiles<input id="n" type="number" min="1" max="500" value="10"></label></div>
+</div>
+<label class="check"><input id="nolab" type="checkbox" checked> Contar los días no laborables (turísticos y Jueves Santo) como no hábiles</label>
+<div id="res" class="result"></div>
+<p class="note">Incluye los feriados nacionales de 2026 y 2027. Los feriados provinciales o locales no están incluidos.</p>
+</div>
+<div class="article">
+<h2>¿Qué es un día hábil?</h2>
+<p>En general, son los días de <strong>lunes a viernes que no son feriados</strong>. Los sábados, domingos y feriados nacionales no cuentan. Los <strong>días no laborables</strong> (como los "puentes" turísticos) son optativos para el empleador: en la administración pública no se trabaja, pero en el sector privado depende de cada empresa.</p>
+<h3>¿Para qué sirve?</h3>
+<ul>
+<li>Calcular plazos legales: por ejemplo, el pago de la liquidación final vence a los <strong>4 días hábiles</strong>.</li>
+<li>Saber cuándo llega una transferencia o un trámite que tarda "X días hábiles".</li>
+<li>Planificar entregas, vencimientos y vacaciones.</li>
+</ul>
+<p>Mirá también nuestra guía con el <a href="../guias/feriados-2026/">calendario completo de feriados 2026</a>.</p>
+</div>
+<div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿El sábado es día hábil?</summary><p>En la mayoría de los trámites y plazos no: se cuentan solo los días de lunes a viernes que no son feriados. Algunos plazos laborales sí consideran el sábado; revisá la norma que aplica en tu caso.</p></details><details><summary>¿Los días no laborables son hábiles?</summary><p>Para la administración pública no. En el sector privado, el empleador decide si se trabaja. Por eso la calculadora te deja elegir.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../sueldo-neto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/></svg></span><span class="tile-txt"><strong>Sueldo neto</strong><span>Cuánto cobrás en mano a partir del bruto.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../aguinaldo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20h14v-7.5M12 8.5V20M12 8.5c-1.5-3-5.5-3.5-5.5-1S10 8.5 12 8.5zm0 0c1.5-3 5.5-3.5 5.5-1S14 8.5 12 8.5z"/></svg></span><span class="tile-txt"><strong>Aguinaldo (SAC)</strong><span>Completo o proporcional, con fechas de pago.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../vacaciones/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></span><span class="tile-txt"><strong>Vacaciones</strong><span>Días que te corresponden y cuánto te pagan.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../indemnizacion/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span class="tile-txt"><strong>Indemnización por despido</strong><span>Tu liquidación final, rubro por rubro.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../monotributo/">Monotributo</a></li><li><a href="../empleada-domestica/">Sueldo de empleada doméstica</a></li><li><a href="../dias-habiles/">Días hábiles</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li></ul></div>
+<div><h3>Guías</h3><ul><li><a href="../guias/feriados-2026/">Feriados 2026 en Argentina</a></li><li><a href="../guias/aguinaldo-diciembre-2026/">Aguinaldo de diciembre 2026</a></li><li><a href="../guias/como-calcular-indemnizacion/">Cómo calcular la indemnización por despido</a></li><li><a href="../guias/cuotas-o-contado/">¿Conviene pagar en cuotas o de contado?</a></li></ul><h3 class="mt">El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+const FER = {"2026-01-01": "Año Nuevo", "2026-02-16": "Carnaval", "2026-02-17": "Carnaval", "2026-03-24": "Día de la Memoria", "2026-04-02": "Malvinas / Jueves Santo", "2026-04-03": "Viernes Santo", "2026-05-01": "Día del Trabajador", "2026-05-25": "Revolución de Mayo", "2026-06-15": "Paso a la Inmortalidad de Güemes", "2026-06-20": "Día de la Bandera", "2026-07-09": "Día de la Independencia", "2026-08-17": "Paso a la Inmortalidad de San Martín", "2026-10-12": "Día de la Diversidad Cultural", "2026-11-09": "Visita del Papa León XIV", "2026-11-23": "Día de la Soberanía Nacional", "2026-12-08": "Inmaculada Concepción", "2026-12-25": "Navidad", "2027-01-01": "Año Nuevo", "2027-02-08": "Carnaval", "2027-02-09": "Carnaval", "2027-03-24": "Día de la Memoria", "2027-03-26": "Viernes Santo", "2027-04-02": "Malvinas", "2027-05-01": "Día del Trabajador", "2027-05-25": "Revolución de Mayo", "2027-06-21": "Paso a la Inmortalidad de Güemes", "2027-06-20": "Día de la Bandera", "2027-07-09": "Día de la Independencia", "2027-08-16": "Paso a la Inmortalidad de San Martín", "2027-10-11": "Día de la Diversidad Cultural", "2027-11-20": "Día de la Soberanía Nacional", "2027-12-08": "Inmaculada Concepción", "2027-12-25": "Navidad"}, NOLAB = {"2026-03-23": "Día no laborable con fines turísticos", "2026-07-10": "Día no laborable con fines turísticos", "2026-12-07": "Día no laborable con fines turísticos", "2027-03-25": "Jueves Santo (no laborable)"};
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+if (!$('#d0').value) $('#d0').value = iso(hoy);
+if (!$('#d1').value) { const x = new Date(hoy); x.setMonth(x.getMonth() + 1); $('#d1').value = iso(x); }
+const fmt = d => d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+conectar(() => {
+  modos('#modo');
+  const nolab = $('#nolab').checked;
+  const libre = d => { const k = iso(d), w = d.getDay(); return w === 0 || w === 6 || FER[k] || (nolab && NOLAB[k]); };
+  const p = v => v ? new Date(v + 'T00:00:00') : null;
+  const a = p($('#d0').value);
+  if (!a) { $('#res').innerHTML = 'Elegí una fecha de inicio.'; return; }
+  if ($('#modo').value === 'entre') {
+    let b = p($('#d1').value); if (!b) { $('#res').innerHTML = 'Elegí la fecha final.'; return; }
+    let x = new Date(Math.min(a, b)), fin = new Date(Math.max(a, b)), hab = 0, tot = 0, fer = [];
+    while (x <= fin) { tot++; if (!libre(x)) hab++; else { const k = iso(x); if (FER[k] || (nolab && NOLAB[k])) fer.push(x.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) + ': ' + (FER[k] || NOLAB[k])); } x.setDate(x.getDate() + 1); }
+    $('#res').innerHTML = `<div class="label">Días hábiles (incluyendo ambas fechas)</div><div class="big">${hab}</div>` + filas([
+      ['Días corridos', tot], ['Fines de semana y feriados', tot - hab]]) + (fer.length ? `<p class="note">Feriados en el período: ${fer.join(' · ')}</p>` : '');
+  } else {
+    const n = Math.max(1, Math.round(val('n'))); let x = new Date(a), c = 0;
+    while (c < n) { x.setDate(x.getDate() + 1); if (!libre(x)) c++; }
+    $('#res').innerHTML = `<div class="label">${n} días hábiles después del ${a.toLocaleDateString('es-AR')}</div><div class="big">${x.toLocaleDateString('es-AR')}</div><p class="note">Es ${fmt(x)}.</p>`;
+  }
+});
+</script>
+</body>
+</html>

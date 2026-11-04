@@ -205,3 +205,9 @@ footer.bottom .logo { color: var(--text); }
 footer.bottom .logo-txt b { font-weight: inherit; color: var(--accent); }
 .legal { margin: 28px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; }
 @media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr; gap: 22px; } }
+.foot-grid h3.mt { margin-top: 18px; }
+.big-table { font-size: 14px; }
+.big-table td:first-child { font-weight: 600; }
+.big-table { display: block; overflow-x: auto; }
+.big-table td, .big-table th { white-space: normal !important; vertical-align: top; padding-right: 10px; }
+.big-table td:last-child, .big-table th:last-child { padding-right: 0; }
