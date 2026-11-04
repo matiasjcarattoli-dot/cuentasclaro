@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de préstamo personal: cuota mensual e intereses | Cuentas Claras</title>
+<meta name="description" content="Simulá tu préstamo personal con sistema francés: cuota mensual, total a pagar, intereses e IVA, y el cuadro de pagos mes a mes.">
+<meta property="og:title" content="Simulador de préstamo personal: cuota mensual e intereses | Cuentas Claras">
+<meta property="og:description" content="Simulá tu préstamo personal con sistema francés: cuota mensual, total a pagar, intereses e IVA, y el cuadro de pagos mes a mes.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/prestamo/">
+<meta property="og:url" content="https://cuentasclaro.com/prestamo/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué es el sistema francés?", "acceptedAnswer": {"@type": "Answer", "text": "Es el sistema de cuota fija: todas las cuotas tienen el mismo valor (sin contar el IVA), pero en las primeras pagás más intereses y en las últimas más capital."}}, {"@type": "Question", "name": "¿Qué diferencia hay entre TNA, TEA y CFT?", "acceptedAnswer": {"@type": "Answer", "text": "La TNA es la tasa anual sin capitalizar; la TEA incluye la capitalización mensual; el CFT además suma IVA, seguros y comisiones. Para comparar préstamos usá siempre el CFT."}}, {"@type": "Question", "name": "¿Conviene cancelar un préstamo antes?", "acceptedAnswer": {"@type": "Answer", "text": "Puede convenir si tenés el dinero, porque dejás de pagar intereses. Consultá si el banco cobra una comisión por precancelación."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo y sueldo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Préstamo personal</nav>
+<h1>Simulador de préstamo personal</h1>
+<p class="lead">Calculá la cuota de tu préstamo y cuánto vas a terminar pagando en total.</p>
+<div class="card calc">
+<label>Monto del préstamo ($)<input id="monto" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>TNA (%) <small>tasa nominal anual que informa el banco</small><input id="tna" type="number" inputmode="decimal" step="0.1" min="0" value="60"></label>
+<label>Cantidad de cuotas (meses)<input id="n" type="number" min="1" max="120" value="12"></label>
+</div>
+<label class="check"><input id="iva" type="checkbox" checked> Sumar IVA sobre los intereses (21 %)</label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula la cuota de un préstamo?</h2>
+<p>La mayoría de los préstamos personales en Argentina usan el <strong>sistema francés</strong>: pagás una cuota fija, pero al principio la mayor parte son intereses y al final, capital.</p>
+<p><em>Cuota = monto × i ÷ (1 − (1 + i)<sup>−n</sup>)</em>, donde <em>i</em> es la tasa mensual (TNA ÷ 12) y <em>n</em> la cantidad de cuotas.</p>
+<h3>El IVA sobre los intereses</h3>
+<p>En los préstamos de bancos y financieras, los intereses pagan <strong>IVA del 21 %</strong>. Por eso la cuota real es un poco más alta que la cuota "pura" y va bajando con el tiempo, a medida que pagás menos intereses.</p>
+<h3>Mirá el CFT</h3>
+<p>Para comparar préstamos, el dato más importante es el <strong>CFT (costo financiero total)</strong>, que incluye intereses, IVA, seguros y comisiones. Por ley, los bancos tienen que informarlo. Esta calculadora no incluye seguros ni comisiones.</p>
+</div>
+<div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Qué es el sistema francés?</summary><p>Es el sistema de cuota fija: todas las cuotas tienen el mismo valor (sin contar el IVA), pero en las primeras pagás más intereses y en las últimas más capital.</p></details><details><summary>¿Qué diferencia hay entre TNA, TEA y CFT?</summary><p>La TNA es la tasa anual sin capitalizar; la TEA incluye la capitalización mensual; el CFT además suma IVA, seguros y comisiones. Para comparar préstamos usá siempre el CFT.</p></details><details><summary>¿Conviene cancelar un préstamo antes?</summary><p>Puede convenir si tenés el dinero, porque dejás de pagar intereses. Consultá si el banco cobra una comisión por precancelación.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../plazo-fijo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9.5 10v8M14.5 10v8M19.5 10v8M3 20.5h18"/></svg></span><span class="tile-txt"><strong>Plazo fijo</strong><span>Intereses, TEA y si le gana a la inflación.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../interes-compuesto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span class="tile-txt"><strong>Interés compuesto y ahorro</strong><span>Cuánto juntás ahorrando todos los meses.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../sueldo-neto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/></svg></span><span class="tile-txt"><strong>Sueldo neto</strong><span>Cuánto cobrás en mano a partir del bruto.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../aguinaldo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20h14v-7.5M12 8.5V20M12 8.5c-1.5-3-5.5-3.5-5.5-1S10 8.5 12 8.5zm0 0c1.5-3 5.5-3.5 5.5-1S14 8.5 12 8.5z"/></svg></span><span class="tile-txt"><strong>Aguinaldo (SAC)</strong><span>Completo o proporcional, con fechas de pago.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li></ul></div>
+<div><h3>El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const M = val('monto'), tna = val('tna'), n = Math.max(1, Math.min(120, Math.round(val('n')))), conIva = $('#iva').checked;
+  const i = tna / 100 / 12;
+  const cuota = i ? M * i / (1 - Math.pow(1 + i, -n)) : M / n;
+  let saldo = M, totInt = 0, totIva = 0, primera = 0, filasT = '';
+  for (let k = 1; k <= n; k++) {
+    const int = saldo * i, cap = cuota - int, iva = conIva ? int * .21 : 0;
+    saldo -= cap; totInt += int; totIva += iva;
+    if (k === 1) primera = cuota + iva;
+    filasT += `<tr><td>${k}</td><td>${$$(cap)}</td><td>${$$(int + iva)}</td><td>${$$(cuota + iva)}</td></tr>`;
+  }
+  const total = M + totInt + totIva, tea = (Math.pow(1 + i, 12) - 1) * 100;
+  $('#res').innerHTML = `<div class="label">${conIva ? 'Primera cuota (con IVA)' : 'Cuota mensual'}</div><div class="big">${$$(conIva ? primera : cuota)}</div>` + filas([
+    ['Cuota pura (sin IVA)', $$(cuota)],
+    ['Intereses', $$(totInt)],
+    ...(conIva ? [['IVA sobre intereses', $$(totIva)]] : []),
+    ['Total a devolver', $$(total), 'total'],
+    ['TEA', pct(tea)],
+  ]) + `<details class="tabla"><summary>Ver cuadro de pagos</summary><table class="detail"><tr><th>Cuota</th><th>Capital</th><th>Interés${conIva ? ' + IVA' : ''}</th><th>Total</th></tr>${filasT}</table></details>`;
+});
+</script>
+</body>
+</html>

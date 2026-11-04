@@ -1,10 +1,11 @@
 # Cuentas Claras — cuentasclaro.com
 
-Sitio de calculadoras para Argentina (sueldo neto, aguinaldo, vacaciones, indemnización, horas extra, plazo fijo, cuotas o contado y dólar hoy), financiado con Google AdSense.
+Sitio de calculadoras para Argentina (sueldo, aguinaldo, vacaciones, indemnización, horas extra, plazo fijo, interés compuesto, préstamos, cuotas, inflación, alquiler, IVA, porcentajes y dólar), financiado con Google AdSense.
 
 ## Estructura
 
 - `sitio/` — lo que se publica en https://cuentasclaro.com (GitHub Pages, ver `.github/workflows/pages.yml`).
+- `herramientas/armar.py` — también tiene el catálogo (`CALCS`): nombre, ícono y categoría de cada calculadora, que arma la portada, el pie y las relacionadas.
 - `herramientas/paginas.py` — el contenido de cada página (texto, preguntas frecuentes y el JavaScript de cada calculadora).
 - `herramientas/armar.py` — arma las páginas de `sitio/`, el `sitemap.xml` y el `robots.txt`.
 

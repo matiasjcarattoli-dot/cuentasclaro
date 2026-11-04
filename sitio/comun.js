@@ -12,6 +12,11 @@ const $$ = n => pesos.format(isFinite(n) ? n : 0);
 const pct = n => num.format(n) + ' %';
 const val = id => { const v = parseFloat(String($('#' + id).value).replace(',', '.')); return isFinite(v) ? v : 0; };
 
+// Lee una lista de números (uno por línea; acepta coma decimal: 2,5).
+const lista = id => String($('#' + id).value).split(/[\n;\s]+/).map(x => parseFloat(x.replace('%', '').replace(',', '.'))).filter(isFinite);
+// Muestra solo los campos del modo elegido: <div data-modo="x">.
+const modos = (sel) => document.querySelectorAll('[data-modo]').forEach(e => e.hidden = e.dataset.modo !== $(sel).value);
+
 function filas(rows) {
   return '<table class="detail">' + rows.map(([a, b, cls]) =>
     `<tr${cls ? ` class="${cls}"` : ''}><td>${a}</td><td>${b}</td></tr>`).join('') + '</table>';
@@ -19,7 +24,7 @@ function filas(rows) {
 
 // Recuerda lo que escribió la persona (solo en su navegador) y recalcula al cambiar algo.
 function conectar(calcular) {
-  const campos = document.querySelectorAll('.calc input, .calc select');
+  const campos = document.querySelectorAll('.calc input, .calc select, .calc textarea');
   const clave = 'calc:' + location.pathname;
   try {
     const guardado = JSON.parse(localStorage.getItem(clave) || '{}');

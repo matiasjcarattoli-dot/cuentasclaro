@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de IVA: agregar o quitar el IVA de un precio | Cuentas Claras</title>
+<meta name="description" content="Calculá el IVA de un precio en Argentina: agregá o sacá el IVA del 21 %, 10,5 % o 27 % y mirá el neto y el impuesto al instante.">
+<meta property="og:title" content="Calculadora de IVA: agregar o quitar el IVA de un precio | Cuentas Claras">
+<meta property="og:description" content="Calculá el IVA de un precio en Argentina: agregá o sacá el IVA del 21 %, 10,5 % o 27 % y mirá el neto y el impuesto al instante.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/iva/">
+<meta property="og:url" content="https://cuentasclaro.com/iva/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Por qué no puedo restarle el 21 % al precio final?", "acceptedAnswer": {"@type": "Answer", "text": "Porque el IVA se calcula sobre el precio neto, no sobre el final. Restarle el 21 % a $121.000 da $95.590, pero el neto real es $100.000. Hay que dividir por 1,21."}}, {"@type": "Question", "name": "¿Qué es el IVA discriminado?", "acceptedAnswer": {"@type": "Answer", "text": "Es cuando la factura muestra por separado el precio neto y el IVA. Lo usan los responsables inscriptos para computar el crédito fiscal."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo y sueldo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>IVA</nav>
+<h1>Calculadora de IVA</h1>
+<p class="lead">Sumale el IVA a un precio sin impuestos, o sacáselo a un precio final para saber el neto.</p>
+<div class="card calc">
+<div class="row">
+<label>Monto ($)<input id="monto" type="number" inputmode="decimal" min="0" value="100000"></label>
+<label>Alícuota<select id="ali"><option value="21">21 % (general)</option><option value="10.5">10,5 % (reducida)</option><option value="27">27 % (servicios públicos a empresas)</option></select></label>
+</div>
+<label>¿Qué querés hacer?<select id="modo"><option value="sacar">El monto ya tiene IVA: quiero saber el neto</option><option value="agregar">El monto es sin IVA: quiero sumarle el IVA</option></select></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula el IVA?</h2>
+<ul>
+<li><strong>Para agregar el IVA:</strong> <em>precio final = neto × (1 + alícuota)</em>. Con 21 %: neto × 1,21.</li>
+<li><strong>Para sacar el IVA:</strong> <em>neto = precio final ÷ (1 + alícuota)</em>. Con 21 %: precio ÷ 1,21. Ojo: no es lo mismo que restarle el 21 % al precio final.</li>
+</ul>
+<h3>Las alícuotas de IVA en Argentina</h3>
+<ul>
+<li><strong>21 %:</strong> la tasa general, que se aplica a la mayoría de los productos y servicios.</li>
+<li><strong>10,5 %:</strong> tasa reducida para algunos alimentos, medicina prepaga, transporte, ciertos bienes de capital, entre otros.</li>
+<li><strong>27 %:</strong> para servicios como luz, gas, agua y telecomunicaciones cuando los contrata una empresa o un responsable inscripto.</li>
+</ul>
+<h3>Ejemplo</h3>
+<p>Si un producto cuesta $121.000 con IVA del 21 %, el precio neto es $121.000 ÷ 1,21 = <strong>$100.000</strong> y el IVA es <strong>$21.000</strong>.</p>
+</div>
+<div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Por qué no puedo restarle el 21 % al precio final?</summary><p>Porque el IVA se calcula sobre el precio neto, no sobre el final. Restarle el 21 % a $121.000 da $95.590, pero el neto real es $100.000. Hay que dividir por 1,21.</p></details><details><summary>¿Qué es el IVA discriminado?</summary><p>Es cuando la factura muestra por separado el precio neto y el IVA. Lo usan los responsables inscriptos para computar el crédito fiscal.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../cuotas/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6 14.5h4"/></svg></span><span class="tile-txt"><strong>¿Cuotas o contado?</strong><span>Qué conviene según la inflación.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../inflacion/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v7"/></svg></span><span class="tile-txt"><strong>Inflación acumulada</strong><span>Cuánto subieron los precios y cuánto vale hoy tu plata.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../alquiler/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5M10 20v-5.5h4V20"/></svg></span><span class="tile-txt"><strong>Aumento de alquiler</strong><span>Cuánto vas a pagar con la próxima actualización.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../porcentajes/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><span class="tile-txt"><strong>Porcentajes</strong><span>Descuentos, aumentos y variaciones al instante.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li></ul></div>
+<div><h3>El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const m = val('monto'), a = val('ali') / 100, agregar = $('#modo').value === 'agregar';
+  const neto = agregar ? m : m / (1 + a), iva = neto * a, final = neto + iva;
+  $('#res').innerHTML = `<div class="label">${agregar ? 'Precio final con IVA' : 'Precio neto (sin IVA)'}</div><div class="big">${$$(agregar ? final : neto)}</div>` + filas([
+    ['Precio neto', $$(neto)],
+    ['IVA (' + pct(a * 100) + ')', $$(iva)],
+    ['Precio final', $$(final), 'total'],
+  ]);
+});
+</script>
+</body>
+</html>
