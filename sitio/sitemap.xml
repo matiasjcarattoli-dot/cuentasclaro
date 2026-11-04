@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://cuentasclaro.com/</loc></url>
+  <url><loc>https://cuentasclaro.com/guias/</loc></url>
   <url><loc>https://cuentasclaro.com/sueldo-neto/</loc></url>
   <url><loc>https://cuentasclaro.com/aguinaldo/</loc></url>
   <url><loc>https://cuentasclaro.com/vacaciones/</loc></url>
@@ -17,4 +18,11 @@
   <url><loc>https://cuentasclaro.com/porcentajes/</loc></url>
   <url><loc>https://cuentasclaro.com/inflacion/</loc></url>
   <url><loc>https://cuentasclaro.com/alquiler/</loc></url>
+  <url><loc>https://cuentasclaro.com/monotributo/</loc></url>
+  <url><loc>https://cuentasclaro.com/empleada-domestica/</loc></url>
+  <url><loc>https://cuentasclaro.com/dias-habiles/</loc></url>
+  <url><loc>https://cuentasclaro.com/guias/feriados-2026/</loc></url>
+  <url><loc>https://cuentasclaro.com/guias/aguinaldo-diciembre-2026/</loc></url>
+  <url><loc>https://cuentasclaro.com/guias/como-calcular-indemnizacion/</loc></url>
+  <url><loc>https://cuentasclaro.com/guias/cuotas-o-contado/</loc></url>
 </urlset>

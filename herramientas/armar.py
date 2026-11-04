@@ -9,7 +9,7 @@ URLS = []
 
 # ---------- Catálogo: de acá salen la portada, el menú y las relacionadas ----------
 CATEGORIAS = [
-    ('trabajo', 'Trabajo y sueldo', 'Lo que cobrás, lo que te deben y tus derechos.'),
+    ('trabajo', 'Trabajo, sueldo e impuestos', 'Lo que cobrás, lo que te deben, monotributo y fechas.'),
     ('ahorro', 'Ahorro, inversión y préstamos', 'Hacé rendir tu plata y sabé cuánto te cuesta financiarte.'),
     ('compras', 'Compras, precios e inflación', 'Cuotas, IVA, porcentajes, alquiler y dólar.'),
 ]
@@ -20,6 +20,9 @@ CALCS = [
     ('vacaciones', 'Vacaciones', 'Días que te corresponden y cuánto te pagan.', 'sol', 'trabajo'),
     ('indemnizacion', 'Indemnización por despido', 'Tu liquidación final, rubro por rubro.', 'documento', 'trabajo'),
     ('horas-extra', 'Horas extra', 'Al 50 % y al 100 %, con el valor de tu hora.', 'reloj', 'trabajo'),
+    ('monotributo', 'Monotributo', 'En qué categoría estás y cuánto pagás por mes.', 'recibo', 'trabajo'),
+    ('empleada-domestica', 'Sueldo de empleada doméstica', 'Sueldo por hora o por mes según la categoría.', 'casa', 'trabajo'),
+    ('dias-habiles', 'Días hábiles', 'Días hábiles entre dos fechas, con los feriados.', 'calendario', 'trabajo'),
     ('plazo-fijo', 'Plazo fijo', 'Intereses, TEA y si le gana a la inflación.', 'banco', 'ahorro'),
     ('interes-compuesto', 'Interés compuesto y ahorro', 'Cuánto juntás ahorrando todos los meses.', 'grafico', 'ahorro'),
     ('prestamo', 'Préstamo personal', 'Cuota mensual, intereses y cuadro de pagos.', 'mano', 'ahorro'),
@@ -31,6 +34,13 @@ CALCS = [
     ('dolar', 'Dólar hoy', 'Cotizaciones y conversor pesos ⇄ dólares.', 'dolar', 'compras'),
 ]
 NOMBRES = {c[0]: c[1] for c in CALCS}
+GUIAS = [
+    # slug (dentro de guias/), título corto, descripción, calculadoras relacionadas
+    ('feriados-2026', 'Feriados 2026 en Argentina', 'Calendario completo, fines de semana largos y los que quedan en el año.', ['dias-habiles', 'vacaciones', 'horas-extra']),
+    ('aguinaldo-diciembre-2026', 'Aguinaldo de diciembre 2026', 'Cuándo se cobra, cómo se calcula y ejemplos con números.', ['aguinaldo', 'sueldo-neto', 'vacaciones']),
+    ('como-calcular-indemnizacion', 'Cómo calcular la indemnización por despido', 'Qué te corresponde rubro por rubro si te despiden sin causa.', ['indemnizacion', 'vacaciones', 'aguinaldo']),
+    ('cuotas-o-contado', '¿Conviene pagar en cuotas o de contado?', 'Cómo decidir con inflación, cuotas sin interés y descuentos.', ['cuotas', 'inflacion', 'prestamo']),
+]
 
 # Íconos de línea propios (24×24, trazo), así se ven igual en todos los dispositivos.
 P = {
@@ -51,6 +61,8 @@ P = {
     'calculadora': '<rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/>',
     'escudo': '<path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/>',
     'lupa': '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
+    'calendario': '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4M8 13.5h.01M12 13.5h.01M16 13.5h.01M8 17h.01M12 17h.01"/>',
+    'libro': '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7.5h8M8 11h6"/>',
     'rayo': '<path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/>',
 }
 def icono(nombre, cls='ico'):
@@ -63,7 +75,10 @@ def tarjeta(c, up):
             f'<span class="tile-txt"><strong>{html.escape(nombre)}</strong><span>{html.escape(desc)}</span></span>'
             f'<svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>')
 
-def page(path, title, desc, body, faq=None, script='', home=False, nombre=''):
+def tarjeta_guia(g, up):
+    return tarjeta((f'guias/{g[0]}', g[1], g[2], 'libro', ''), up)
+
+def page(path, title, desc, body, faq=None, script='', home=False, nombre='', relacionadas=None, articulo=False):
     depth = 0 if path == '' else path.count('/') + 1
     up = '../' * depth
     faq_html, ld = '', ''
@@ -75,7 +90,12 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre=''):
             'mainEntity': [{'@type': 'Question', 'name': q,
                             'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in faq]
         }, ensure_ascii=False) + '</script>'
-    crumb = '' if home else f'<nav class="crumb" aria-label="Ruta"><a href="{up}">Inicio</a><span>›</span>{html.escape(nombre)}</nav>'
+    medio = f'<a href="{up}guias/">Guías</a><span>›</span>' if path.startswith('guias/') else ''
+    if articulo:
+        ld += '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Article', 'headline': title,
+              'description': desc, 'inLanguage': 'es-AR', 'dateModified': '2026-11-04', 'mainEntityOfPage': DOMINIO + '/' + path + '/',
+              'publisher': {'@type': 'Organization', 'name': SITE}}, ensure_ascii=False) + '</script>'
+    crumb = '' if home else f'<nav class="crumb" aria-label="Ruta"><a href="{up}">Inicio</a><span>›</span>{medio}{html.escape(nombre)}</nav>'
     full_title = title if home else f'{title} | {SITE}'
     url = DOMINIO + '/' + (path + '/' if path else '')
     URLS.append(url)
@@ -83,13 +103,17 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre=''):
     # Calculadoras relacionadas (misma categoría primero)
     rel = ''
     actual = next((c for c in CALCS if c[0] == path), None)
-    if actual:
+    if relacionadas:
+        cs = [c for s2 in relacionadas for c in CALCS if c[0] == s2]
+        rel = '<section class="related"><h2>Calculadoras relacionadas</h2><div class="grid">' + ''.join(tarjeta(c, up) for c in cs) + '</div></section>'
+    elif actual:
         misma = [c for c in CALCS if c[4] == actual[4] and c[0] != path]
         otras = [c for c in CALCS if c[4] != actual[4]]
         elegidas = (misma + otras)[:4]
         rel = '<section class="related"><h2>Otras calculadoras</h2><div class="grid">' + ''.join(tarjeta(c, up) for c in elegidas) + '</div></section>'
 
-    menu = ''.join(f'<a href="{up}#{k}">{html.escape(n.split(",")[0])}</a>' for k, n, _ in CATEGORIAS)
+    menu = ''.join(f'<a href="{up}#{k}">{html.escape(n.split(",")[0])}</a>' for k, n, _ in CATEGORIAS) + f'<a href="{up}guias/">Guías</a>'
+    pie_guias = ''.join(f'<li><a href="{up}guias/{g[0]}/">{html.escape(g[1])}</a></li>' for g in GUIAS)
     pie_calcs = ''.join(f'<li><a href="{up}{c[0]}/">{html.escape(c[1])}</a></li>' for c in CALCS)
     doc = f'''<!doctype html>
 <html lang="es-AR">
@@ -127,7 +151,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre=''):
 <div><a class="logo" href="{up}"><span class="logo-mark">{icono('calculadora')}</span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
 <p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
 <div><h3>Calculadoras</h3><ul class="foot-list">{pie_calcs}</ul></div>
-<div><h3>El sitio</h3><ul><li><a href="{up}acerca/">Acerca de</a></li><li><a href="{up}privacidad/">Privacidad</a></li></ul></div>
+<div><h3>Guías</h3><ul>{pie_guias}</ul><h3 class="mt">El sitio</h3><ul><li><a href="{up}acerca/">Acerca de</a></li><li><a href="{up}privacidad/">Privacidad</a></li></ul></div>
 </div>
 <p class="legal">© <span data-anio></span> {SITE}. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
 </div></footer>
@@ -163,6 +187,7 @@ def portada():
 </div>
 <div class="ad"></div>
 <div id="calculadoras">{secciones}</div>
+<section class="cat" id="guias"><div class="cat-head"><h2>Guías</h2><p>Explicaciones claras de los temas que más se consultan.</p></div><div class="grid">{''.join(tarjeta_guia(g, '') for g in GUIAS)}</div></section>
 <p id="sin-resultados" class="note" hidden>No encontramos esa calculadora. Probá con otra palabra.</p>
 <section class="article home-text">
 <h2>Cuentas claras, sin vueltas</h2>
@@ -185,6 +210,10 @@ q.addEventListener('input', () => {
          body, home=True, script=script)
 
 portada()
+page('guias', 'Guías sobre sueldo, aguinaldo, feriados y finanzas personales',
+     'Guías claras sobre aguinaldo, indemnización, feriados, cuotas y más temas de plata y trabajo en Argentina.',
+     '<h1>Guías</h1><p class="lead">Explicaciones claras, con ejemplos, de los temas de plata y trabajo que más se consultan.</p><div class="grid">'
+     + ''.join(tarjeta_guia(g, '../') for g in GUIAS) + '</div>', nombre='Guías')
 exec(open(os.path.join(AQUI, 'paginas.py'), encoding='utf-8').read())
 
 # sitemap.xml y robots.txt

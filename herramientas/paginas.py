@@ -819,3 +819,342 @@ conectar(() => {
   ]);
 });
 ''')
+
+# ---------- MONOTRIBUTO ----------
+# Valores vigentes desde el 1/08/2026 (ARCA). Actualizar en febrero y agosto.
+MONO = [('A', 12009410.45, 49527.18, 49527.18), ('B', 17595182.74, 56379.08, 56379.08),
+        ('C', 24670494.31, 66020.12, 64530.58), ('D', 30628651.43, 84612.93, 82564.81),
+        ('E', 36028231.33, 119811.45, 108267.51), ('F', 45151659.41, 150784.21, 129930.65),
+        ('G', 53995798.87, 230312.94, 158815.05), ('H', 81924660.37, 522706.68, 317895.01),
+        ('I', 91699761.90, 963747.86, 474992.78), ('J', 105012519.20, 1167299.76, 580793.69),
+        ('K', 126610838.75, 1614446.04, 702103.24)]
+def _m(n): return f'{n:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
+tabla_mono = ''.join(f'<tr><td>{c}</td><td>$ {_m(t)}</td><td>$ {_m(s)}</td><td>$ {_m(v)}</td></tr>' for c, t, s, v in MONO)
+page('monotributo', 'Calculadora de monotributo 2026: categoría y cuota mensual',
+ 'Calculá en qué categoría del monotributo estás según tu facturación y cuánto pagás por mes. Valores de ARCA vigentes desde agosto de 2026.',
+ nombre='Monotributo', body=f'''
+<h1>Calculadora de monotributo</h1>
+<p class="lead">Poné cuánto facturás y te decimos en qué categoría te corresponde estar y cuánto pagás por mes.</p>
+<div class="card calc">
+<div class="row">
+<label>Facturación<input id="ing" type="number" inputmode="decimal" min="0" value="2000000"></label>
+<label>Período<select id="per"><option value="mes">Por mes (promedio)</option><option value="anio">Últimos 12 meses</option></select></label>
+</div>
+<label>Actividad<select id="act"><option value="s">Prestación de servicios</option><option value="v">Venta de cosas muebles</option></select></label>
+<div id="res" class="result"></div>
+<p class="note">Valores vigentes desde el 1 de agosto de 2026. La categoría también depende de la superficie, la energía consumida y el alquiler que pagás: si superás alguno de esos topes, te corresponde una categoría más alta.</p>
+</div>
+<div class="article">
+<h2>Tabla de categorías del monotributo (desde agosto 2026)</h2>
+<table class="detail big-table"><tr><th>Cat.</th><th>Facturación anual hasta</th><th>Cuota servicios</th><th>Cuota venta</th></tr>{tabla_mono}</table>
+<p class="note">La cuota incluye el impuesto integrado, el aporte jubilatorio (SIPA) y la obra social. Fuente: ARCA.</p>
+<h2>¿Cómo se elige la categoría?</h2>
+<p>Se toma lo que facturaste en los <strong>últimos 12 meses</strong> y se busca la primera categoría cuyo tope no superás. Además hay otros parámetros (superficie del local, energía eléctrica y alquileres) que pueden subirte de categoría.</p>
+<h3>Recategorización</h3>
+<p>Dos veces por año, en <strong>enero y julio</strong>, tenés que revisar tu facturación y recategorizarte si cambió. Las escalas se actualizan por inflación en <strong>febrero y agosto</strong>.</p>
+<h3>¿Qué pasa si supero la categoría K?</h3>
+<p>Quedás <strong>excluido del monotributo</strong> y pasás al régimen general (responsable inscripto), con IVA y Ganancias. Conviene consultarlo con un contador antes de llegar al tope.</p>
+</div>
+''', faq=[
+ ('¿Qué incluye la cuota del monotributo?', 'Tres conceptos: el impuesto integrado, el aporte al sistema jubilatorio (SIPA) y el aporte a la obra social. Si estás en relación de dependencia o sos jubilado, en algunos casos no pagás los aportes.'),
+ ('¿Cuándo vence el monotributo?', 'La cuota vence todos los meses, en general el día 20. Se puede pagar con débito automático, tarjeta, homebanking o con el código de pago de ARCA.'),
+ ('¿Cada cuánto cambian los valores?', 'Las escalas se actualizan dos veces por año según la inflación, en febrero y en agosto.'),
+], script='''
+const MONO = ''' + json.dumps([[c, t, s, v] for c, t, s, v in MONO]) + ''';
+conectar(() => {
+  const ing = val('ing'), anual = $('#per').value === 'mes' ? ing * 12 : ing, act = $('#act').value;
+  const cat = MONO.find(c => anual <= c[1]);
+  if (!cat) { $('#res').innerHTML = `<div class="label">Facturación anual de ${$$(anual)}</div><div class="big">Superás el monotributo</div><p class="note warn">El tope de la categoría K es ${$$(MONO[10][1])}. Te corresponde el régimen general: consultá con un contador.</p>`; return; }
+  const cuota = act === 's' ? cat[2] : cat[3], margen = cat[1] - anual;
+  $('#res').innerHTML = `<div class="label">Te corresponde la categoría</div><div class="big">${cat[0]}</div>` + filas([
+    ['Facturación anual', $$(anual)],
+    ['Tope de la categoría ' + cat[0], $$(cat[1])],
+    ['Te queda de margen', $$(margen)],
+    ['Cuota mensual', $$(cuota), 'total'],
+  ]);
+});
+''')
+
+# ---------- EMPLEADA DOMÉSTICA ----------
+# Mínimos de noviembre 2026 (aumento 1,6 %, CNTCP). Formato: [hora con retiro, hora sin retiro, mes con retiro, mes sin retiro]
+DOM = {'generales': ['Tareas generales', 4174.62, 4451.49, 512142.96, 562837.52],
+       'cuidado': ['Asistencia y cuidado de personas', 4451.49, 4923.50, 562837.52, 620420.85],
+       'especificas': ['Tareas específicas', 4700.21, 5098.84, 575394.53, 633782.08],
+       'caseros': ['Caseros (solo sin retiro)', None, 4451.49, None, 562837.52]}
+def _c(x): return '—' if x is None else '$ ' + _m(x)
+tabla_dom = ''.join(f'<tr><td>{v[0]}</td><td>{_c(v[1])}</td><td>{_c(v[2])}</td><td>{_c(v[3])}</td><td>{_c(v[4])}</td></tr>' for v in DOM.values())
+page('empleada-domestica', 'Calculadora de sueldo de empleada doméstica (noviembre 2026)',
+ 'Calculá el sueldo del personal de casas particulares por hora o por mes según la categoría, con antigüedad y zona desfavorable. Valores mínimos de noviembre 2026.',
+ nombre='Sueldo de empleada doméstica', body=f'''
+<h1>Sueldo de empleada doméstica</h1>
+<p class="lead">Calculá cuánto corresponde pagarle al personal de casas particulares según la categoría y las horas.</p>
+<div class="card calc">
+<div class="row">
+<label>Categoría<select id="cat"><option value="generales">Tareas generales</option><option value="cuidado">Cuidado de personas</option><option value="especificas">Tareas específicas</option><option value="caseros">Caseros</option></select></label>
+<label>Modalidad<select id="mod"><option value="con">Con retiro</option><option value="sin">Sin retiro</option></select></label>
+</div>
+<div class="row">
+<label>Forma de pago<select id="forma"><option value="hora">Por hora</option><option value="mes">Mensual (jornada completa)</option></select></label>
+<label>Horas por semana <small>si es por hora</small><input id="hs" type="number" inputmode="decimal" min="0" value="12"></label>
+</div>
+<div class="row">
+<label>Antigüedad (años) <small>+1 % por año</small><input id="ant" type="number" min="0" max="50" value="0"></label>
+<label>Valor hora acordado ($) <small>opcional, si pagás más del mínimo</small><input id="propio" type="number" inputmode="decimal" min="0" value="0"></label>
+</div>
+<label class="check"><input id="zona" type="checkbox"> Zona desfavorable (+30 %)</label>
+<div id="res" class="result"></div>
+<p class="note">Valores mínimos de noviembre de 2026. Son pisos: se puede pagar más. Confirmá los montos en la resolución oficial de la Comisión Nacional de Trabajo en Casas Particulares.</p>
+</div>
+<div class="article">
+<h2>Escala salarial de casas particulares (noviembre 2026)</h2>
+<table class="detail big-table"><tr><th>Categoría</th><th>Hora c/retiro</th><th>Hora s/retiro</th><th>Mes c/retiro</th><th>Mes s/retiro</th></tr>{tabla_dom}</table>
+<h2>¿Cómo se calcula?</h2>
+<ul>
+<li><strong>Por hora:</strong> valor hora × horas por semana × 4,33 (semanas promedio por mes).</li>
+<li><strong>Mensual:</strong> se usa el sueldo mensual de la escala, que corresponde a una jornada completa.</li>
+<li><strong>Antigüedad:</strong> se suma un 1 % del sueldo por cada año trabajado con el mismo empleador.</li>
+<li><strong>Zona desfavorable:</strong> en La Pampa, Río Negro, Chubut, Neuquén, Santa Cruz, Tierra del Fuego y el partido de Patagones se suma un 30 %.</li>
+</ul>
+<h3>Si hace varias tareas</h3>
+<p>Si la trabajadora hace tareas de distintas categorías (por ejemplo, limpieza y cuidado de chicos), corresponde pagarle toda la jornada con la categoría mejor paga.</p>
+<h3>Aportes y aguinaldo</h3>
+<p>Además del sueldo, el empleador paga los aportes y contribuciones en ARCA según las horas semanales, y corresponden aguinaldo, vacaciones y licencias como en cualquier trabajo registrado.</p>
+</div>
+''', faq=[
+ ('¿Qué es con retiro y sin retiro?', 'Con retiro: la trabajadora vuelve a su casa al terminar la jornada. Sin retiro: vive en el lugar de trabajo. La modalidad sin retiro tiene valores más altos.'),
+ ('¿La empleada doméstica cobra aguinaldo?', 'Sí. Cobra aguinaldo en junio y diciembre, igual que cualquier trabajador registrado: la mitad del mejor sueldo del semestre.'),
+ ('¿Cuánto se paga por hora a una empleada doméstica en noviembre 2026?', 'El mínimo para tareas generales con retiro es de alrededor de $4.175 por hora, según la escala de noviembre de 2026.'),
+], script='''
+const DOM = ''' + json.dumps(DOM, ensure_ascii=False) + ''';
+conectar(() => {
+  const d = DOM[$('#cat').value], sin = $('#mod').value === 'sin' || $('#cat').value === 'caseros', mes = $('#forma').value === 'mes';
+  const ant = Math.max(0, val('ant')), zona = $('#zona').checked, propio = val('propio'), hs = val('hs');
+  const hora = propio > 0 ? propio : d[sin ? 2 : 1];
+  const base = mes ? d[sin ? 4 : 3] : hora * hs * 52 / 12;
+  const adAnt = base * ant / 100, adZona = base * (zona ? .3 : 0), total = base + adAnt + adZona;
+  $('#res').innerHTML = `<div class="label">Sueldo mensual estimado</div><div class="big">${$$(total)}</div>` + filas([
+    ['Categoría', d[0] + (sin ? ', sin retiro' : ', con retiro')],
+    [mes ? 'Sueldo mensual de escala' : 'Valor hora × ' + num.format(hs) + ' h/semana', mes ? $$(base) : $$(hora) + ' → ' + $$(base)],
+    ...(ant ? [['Antigüedad (' + ant + ' %)', '+ ' + $$(adAnt)]] : []),
+    ...(zona ? [['Zona desfavorable (30 %)', '+ ' + $$(adZona)]] : []),
+    ['Total', $$(total), 'total'],
+  ]) + (mes ? '' : `<p class="note">Valor por semana: ${$$(hora * hs)}.</p>`);
+});
+''')
+
+# ---------- DÍAS HÁBILES ----------
+FERIADOS = {
+ # 2026 (feriados nacionales; Decreto 1103/2026 agregó el 9/11)
+ '2026-01-01': 'Año Nuevo', '2026-02-16': 'Carnaval', '2026-02-17': 'Carnaval', '2026-03-24': 'Día de la Memoria',
+ '2026-04-02': 'Malvinas / Jueves Santo', '2026-04-03': 'Viernes Santo', '2026-05-01': 'Día del Trabajador', '2026-05-25': 'Revolución de Mayo',
+ '2026-06-15': 'Paso a la Inmortalidad de Güemes', '2026-06-20': 'Día de la Bandera', '2026-07-09': 'Día de la Independencia',
+ '2026-08-17': 'Paso a la Inmortalidad de San Martín', '2026-10-12': 'Día de la Diversidad Cultural', '2026-11-09': 'Visita del Papa León XIV',
+ '2026-11-23': 'Día de la Soberanía Nacional', '2026-12-08': 'Inmaculada Concepción', '2026-12-25': 'Navidad',
+ # 2027 (según la ley de feriados; puede cambiar por decreto)
+ '2027-01-01': 'Año Nuevo', '2027-02-08': 'Carnaval', '2027-02-09': 'Carnaval', '2027-03-24': 'Día de la Memoria', '2027-03-26': 'Viernes Santo',
+ '2027-04-02': 'Malvinas', '2027-05-01': 'Día del Trabajador', '2027-05-25': 'Revolución de Mayo', '2027-06-21': 'Paso a la Inmortalidad de Güemes',
+ '2027-06-20': 'Día de la Bandera', '2027-07-09': 'Día de la Independencia', '2027-08-16': 'Paso a la Inmortalidad de San Martín',
+ '2027-10-11': 'Día de la Diversidad Cultural', '2027-11-20': 'Día de la Soberanía Nacional', '2027-12-08': 'Inmaculada Concepción', '2027-12-25': 'Navidad',
+}
+NO_LABORABLES = {'2026-03-23': 'Día no laborable con fines turísticos', '2026-07-10': 'Día no laborable con fines turísticos',
+                 '2026-12-07': 'Día no laborable con fines turísticos', '2027-03-25': 'Jueves Santo (no laborable)'}
+page('dias-habiles', 'Calculadora de días hábiles entre dos fechas (Argentina)',
+ 'Calculá cuántos días hábiles hay entre dos fechas en Argentina, descontando fines de semana y feriados nacionales 2026 y 2027. También suma días hábiles a una fecha.',
+ nombre='Días hábiles', body='''
+<h1>Calculadora de días hábiles</h1>
+<p class="lead">Contá los días hábiles entre dos fechas o averiguá qué fecha es dentro de X días hábiles, con los feriados de Argentina.</p>
+<div class="card calc">
+<label>¿Qué querés calcular?<select id="modo"><option value="entre">Días hábiles entre dos fechas</option><option value="sumar">Sumar días hábiles a una fecha</option></select></label>
+<div class="row">
+<label>Desde<input id="d0" type="date"></label>
+<div data-modo="entre"><label>Hasta<input id="d1" type="date"></label></div>
+<div data-modo="sumar"><label>Cantidad de días hábiles<input id="n" type="number" min="1" max="500" value="10"></label></div>
+</div>
+<label class="check"><input id="nolab" type="checkbox" checked> Contar los días no laborables (turísticos y Jueves Santo) como no hábiles</label>
+<div id="res" class="result"></div>
+<p class="note">Incluye los feriados nacionales de 2026 y 2027. Los feriados provinciales o locales no están incluidos.</p>
+</div>
+<div class="article">
+<h2>¿Qué es un día hábil?</h2>
+<p>En general, son los días de <strong>lunes a viernes que no son feriados</strong>. Los sábados, domingos y feriados nacionales no cuentan. Los <strong>días no laborables</strong> (como los "puentes" turísticos) son optativos para el empleador: en la administración pública no se trabaja, pero en el sector privado depende de cada empresa.</p>
+<h3>¿Para qué sirve?</h3>
+<ul>
+<li>Calcular plazos legales: por ejemplo, el pago de la liquidación final vence a los <strong>4 días hábiles</strong>.</li>
+<li>Saber cuándo llega una transferencia o un trámite que tarda "X días hábiles".</li>
+<li>Planificar entregas, vencimientos y vacaciones.</li>
+</ul>
+<p>Mirá también nuestra guía con el <a href="../guias/feriados-2026/">calendario completo de feriados 2026</a>.</p>
+</div>
+''', faq=[
+ ('¿El sábado es día hábil?', 'En la mayoría de los trámites y plazos no: se cuentan solo los días de lunes a viernes que no son feriados. Algunos plazos laborales sí consideran el sábado; revisá la norma que aplica en tu caso.'),
+ ('¿Los días no laborables son hábiles?', 'Para la administración pública no. En el sector privado, el empleador decide si se trabaja. Por eso la calculadora te deja elegir.'),
+], script='''
+const FER = ''' + json.dumps(FERIADOS, ensure_ascii=False) + ''', NOLAB = ''' + json.dumps(NO_LABORABLES, ensure_ascii=False) + ''';
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+if (!$('#d0').value) $('#d0').value = iso(hoy);
+if (!$('#d1').value) { const x = new Date(hoy); x.setMonth(x.getMonth() + 1); $('#d1').value = iso(x); }
+const fmt = d => d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+conectar(() => {
+  modos('#modo');
+  const nolab = $('#nolab').checked;
+  const libre = d => { const k = iso(d), w = d.getDay(); return w === 0 || w === 6 || FER[k] || (nolab && NOLAB[k]); };
+  const p = v => v ? new Date(v + 'T00:00:00') : null;
+  const a = p($('#d0').value);
+  if (!a) { $('#res').innerHTML = 'Elegí una fecha de inicio.'; return; }
+  if ($('#modo').value === 'entre') {
+    let b = p($('#d1').value); if (!b) { $('#res').innerHTML = 'Elegí la fecha final.'; return; }
+    let x = new Date(Math.min(a, b)), fin = new Date(Math.max(a, b)), hab = 0, tot = 0, fer = [];
+    while (x <= fin) { tot++; if (!libre(x)) hab++; else { const k = iso(x); if (FER[k] || (nolab && NOLAB[k])) fer.push(x.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) + ': ' + (FER[k] || NOLAB[k])); } x.setDate(x.getDate() + 1); }
+    $('#res').innerHTML = `<div class="label">Días hábiles (incluyendo ambas fechas)</div><div class="big">${hab}</div>` + filas([
+      ['Días corridos', tot], ['Fines de semana y feriados', tot - hab]]) + (fer.length ? `<p class="note">Feriados en el período: ${fer.join(' · ')}</p>` : '');
+  } else {
+    const n = Math.max(1, Math.round(val('n'))); let x = new Date(a), c = 0;
+    while (c < n) { x.setDate(x.getDate() + 1); if (!libre(x)) c++; }
+    $('#res').innerHTML = `<div class="label">${n} días hábiles después del ${a.toLocaleDateString('es-AR')}</div><div class="big">${x.toLocaleDateString('es-AR')}</div><p class="note">Es ${fmt(x)}.</p>`;
+  }
+});
+''')
+
+# =================== GUÍAS ===================
+def _rel(slug): return next(g[3] for g in GUIAS if g[0] == slug)
+def _filas_fer(lista):
+    return '<table class="detail big-table"><tr><th>Fecha</th><th>Feriado</th><th>Tipo</th></tr>' + ''.join(
+        f'<tr><td>{f}</td><td>{n}</td><td>{t}</td></tr>' for f, n, t in lista) + '</table>'
+
+page('guias/feriados-2026', 'Feriados 2026 en Argentina: calendario completo y fines de semana largos',
+ 'Todos los feriados 2026 en Argentina: inamovibles, trasladables, días no laborables, el feriado del 9 de noviembre por la visita del Papa y los fines de semana largos que quedan.',
+ nombre='Feriados 2026', articulo=True, relacionadas=_rel('feriados-2026'), body='<h1>Feriados 2026 en Argentina</h1>' + '''
+<p class="lead">El calendario completo de feriados nacionales y días no laborables de 2026, con los fines de semana largos que quedan en el año.</p>
+<p class="note">Actualizado el 4 de noviembre de 2026.</p>
+<h2>Lo que queda de 2026</h2>
+<ul>
+<li><strong>Lunes 9 de noviembre:</strong> feriado nacional por la visita del Papa León XIV (Decreto 1103/2026). Fin de semana largo del 7 al 9.</li>
+<li><strong>Martes 10 de noviembre:</strong> feriado solo en la Ciudad de Buenos Aires y en Córdoba.</li>
+<li><strong>Miércoles 11 de noviembre:</strong> feriado solo en la provincia de Buenos Aires.</li>
+<li><strong>Lunes 23 de noviembre:</strong> Día de la Soberanía Nacional (trasladado del viernes 20). Fin de semana largo del 21 al 23.</li>
+<li><strong>Lunes 7 de diciembre:</strong> día no laborable con fines turísticos.</li>
+<li><strong>Martes 8 de diciembre:</strong> Inmaculada Concepción. Con el puente, fin de semana largo de cuatro días, del 5 al 8.</li>
+<li><strong>Viernes 25 de diciembre:</strong> Navidad. Fin de semana largo del 25 al 27.</li>
+</ul>
+<h2>Calendario completo de feriados 2026</h2>
+''' + _filas_fer([
+ ('Jueves 1 de enero', 'Año Nuevo', 'Inamovible'), ('Lunes 16 y martes 17 de febrero', 'Carnaval', 'Inamovible'),
+ ('Lunes 23 de marzo', 'Puente turístico', 'No laborable'), ('Martes 24 de marzo', 'Día Nacional de la Memoria por la Verdad y la Justicia', 'Inamovible'),
+ ('Jueves 2 de abril', 'Día del Veterano y de los Caídos en Malvinas (y Jueves Santo)', 'Inamovible'), ('Viernes 3 de abril', 'Viernes Santo', 'Inamovible'),
+ ('Viernes 1 de mayo', 'Día del Trabajador', 'Inamovible'), ('Lunes 25 de mayo', 'Revolución de Mayo', 'Inamovible'),
+ ('Lunes 15 de junio', 'Paso a la Inmortalidad del Gral. Güemes (del 17/6)', 'Trasladable'), ('Sábado 20 de junio', 'Paso a la Inmortalidad del Gral. Belgrano', 'Inamovible'),
+ ('Jueves 9 de julio', 'Día de la Independencia', 'Inamovible'), ('Viernes 10 de julio', 'Puente turístico', 'No laborable'),
+ ('Lunes 17 de agosto', 'Paso a la Inmortalidad del Gral. San Martín', 'Trasladable'), ('Lunes 12 de octubre', 'Día del Respeto a la Diversidad Cultural', 'Trasladable'),
+ ('Lunes 9 de noviembre', 'Visita del Papa León XIV', 'Feriado nacional (Decreto 1103/2026)'), ('Lunes 23 de noviembre', 'Día de la Soberanía Nacional (del 20/11)', 'Trasladable'),
+ ('Lunes 7 de diciembre', 'Puente turístico', 'No laborable'), ('Martes 8 de diciembre', 'Inmaculada Concepción de María', 'Inamovible'),
+ ('Viernes 25 de diciembre', 'Navidad', 'Inamovible')]) + '''
+<h2>Feriado, día no laborable y puente: ¿qué diferencia hay?</h2>
+<ul>
+<li><strong>Feriado inamovible:</strong> se respeta en su fecha. No se trabaja, y si trabajás, te lo tienen que pagar doble.</li>
+<li><strong>Feriado trasladable:</strong> si cae martes o miércoles, pasa al lunes anterior; si cae jueves o viernes, al lunes siguiente.</li>
+<li><strong>Día no laborable (puente turístico):</strong> en el sector público no se trabaja; en el privado, decide el empleador. Si trabajás, cobrás el sueldo normal, sin recargo.</li>
+</ul>
+<h2>¿Cuánto me pagan si trabajo un feriado?</h2>
+<p>Si trabajás un feriado nacional, te corresponde cobrar ese día <strong>doble</strong>. Si es un día no laborable y el empleador decide que se trabaje, se paga como un día común.</p>
+<p>Para contar plazos que excluyen feriados, usá la <a href="../../dias-habiles/">calculadora de días hábiles</a>.</p>
+''', faq=[
+ ('¿El 9 de noviembre de 2026 es feriado?', 'Sí. El Decreto 1103/2026 lo declaró feriado nacional por la visita del Papa León XIV. El 10 es feriado solo en CABA y Córdoba, y el 11 solo en la provincia de Buenos Aires.'),
+ ('¿El 7 de diciembre de 2026 es feriado?', 'No: es un día no laborable con fines turísticos. En el sector privado decide el empleador.'),
+ ('¿Cuántos fines de semana largos quedan en 2026?', 'Desde noviembre quedan cuatro: del 7 al 9 de noviembre, del 21 al 23 de noviembre, del 5 al 8 de diciembre y del 25 al 27 de diciembre.'),
+])
+
+page('guias/aguinaldo-diciembre-2026', 'Aguinaldo diciembre 2026: cuándo se cobra y cómo calcularlo',
+ 'Cuándo se paga el aguinaldo de diciembre 2026, cómo se calcula el medio aguinaldo completo o proporcional, cuánto se descuenta y ejemplos con números.',
+ nombre='Aguinaldo de diciembre 2026', articulo=True, relacionadas=_rel('aguinaldo-diciembre-2026'), body='''
+<h1>Aguinaldo de diciembre 2026: cuándo se cobra y cuánto te toca</h1>
+<p class="lead">Todo lo que tenés que saber sobre la segunda cuota del aguinaldo: fecha de pago, cómo se calcula y ejemplos.</p>
+<p class="note">Actualizado el 4 de noviembre de 2026.</p>
+<h2>¿Cuándo se cobra el aguinaldo de diciembre 2026?</h2>
+<p>La segunda cuota del aguinaldo (o SAC, sueldo anual complementario) vence el <strong>viernes 18 de diciembre de 2026</strong>. Los empleadores tienen un plazo de gracia de <strong>4 días hábiles</strong>, así que el pago puede llegar hasta el <strong>jueves 24 de diciembre</strong>.</p>
+<h2>¿Cómo se calcula?</h2>
+<p>El aguinaldo es el <strong>50 % del mejor sueldo bruto</strong> que cobraste entre julio y diciembre. Se toma el sueldo con todos los conceptos remunerativos: básico, antigüedad, presentismo, horas extra y comisiones.</p>
+<h3>Ejemplo: aguinaldo completo</h3>
+<p>Si trabajaste todo el semestre y tu mejor sueldo bruto fue de $1.200.000, el aguinaldo bruto es de <strong>$600.000</strong>. Con los descuentos del 17 % (jubilación, PAMI y obra social), cobrás unos <strong>$498.000</strong> en mano.</p>
+<h3>Ejemplo: aguinaldo proporcional</h3>
+<p>Si entraste a trabajar el 1 de octubre, trabajaste 92 de los 184 días del semestre. Con un mejor sueldo de $1.000.000: $1.000.000 ÷ 2 × 92 ÷ 184 = <strong>$250.000</strong> brutos.</p>
+<p>Hacé tu cuenta exacta con la <a href="../../aguinaldo/">calculadora de aguinaldo</a>.</p>
+<h2>¿Quiénes cobran aguinaldo?</h2>
+<ul>
+<li>Todos los trabajadores en relación de dependencia registrados, del sector privado y público.</li>
+<li>El personal de casas particulares.</li>
+<li>Los jubilados y pensionados, que lo cobran junto con el haber de diciembre.</li>
+</ul>
+<p>Los monotributistas y autónomos no cobran aguinaldo, porque no tienen un empleador.</p>
+<h2>¿El aguinaldo paga Ganancias?</h2>
+<p>Sí: si tu sueldo supera el mínimo, el aguinaldo se suma a tus ingresos del año para el impuesto a las ganancias, y la retención puede aparecer en el recibo de diciembre.</p>
+''', faq=[
+ ('¿Hasta qué día me pueden pagar el aguinaldo de diciembre 2026?', 'Vence el 18 de diciembre, pero el empleador tiene 4 días hábiles más: el último día es el jueves 24 de diciembre de 2026.'),
+ ('¿Se puede pagar el aguinaldo en cuotas?', 'No, en principio debe pagarse completo. Solo algunos convenios o acuerdos homologados permiten otras modalidades.'),
+ ('Si me fui de la empresa, ¿cobro aguinaldo?', 'Sí, te corresponde el aguinaldo proporcional a los días trabajados en el semestre, que se paga con la liquidación final.'),
+])
+
+page('guias/como-calcular-indemnizacion', 'Cómo calcular la indemnización por despido sin causa paso a paso',
+ 'Guía para calcular la indemnización por despido sin causa en Argentina: antigüedad, preaviso, integración del mes, vacaciones y aguinaldo proporcional, con un ejemplo.',
+ nombre='Cómo calcular la indemnización', articulo=True, relacionadas=_rel('como-calcular-indemnizacion'), body='''
+<h1>Cómo calcular la indemnización por despido</h1>
+<p class="lead">Si te despidieron sin causa, esto es lo que te corresponde cobrar, explicado rubro por rubro y con un ejemplo.</p>
+<h2>1. Indemnización por antigüedad</h2>
+<p>Es <strong>un sueldo por cada año trabajado</strong>, o por cada fracción mayor a tres meses (art. 245 de la Ley de Contrato de Trabajo). Se toma la mejor remuneración mensual, normal y habitual del último año. Nunca puede ser menor a un sueldo.</p>
+<h2>2. Preaviso</h2>
+<p>Si no te avisaron del despido con anticipación, te deben el preaviso:</p>
+<ul>
+<li><strong>15 días</strong> si estabas en el período de prueba.</li>
+<li><strong>1 mes</strong> si tenías menos de 5 años de antigüedad.</li>
+<li><strong>2 meses</strong> si tenías 5 años o más.</li>
+</ul>
+<h2>3. Integración del mes de despido</h2>
+<p>Si te despidieron sin preaviso y no fue el último día del mes, te pagan los días que faltaban hasta fin de mes.</p>
+<h2>4. Lo que se cobra siempre</h2>
+<ul>
+<li>Los <strong>días trabajados</strong> del último mes.</li>
+<li>El <strong>aguinaldo proporcional</strong> del semestre.</li>
+<li>Las <strong>vacaciones no gozadas</strong> proporcionales, con su aguinaldo.</li>
+</ul>
+<h2>Ejemplo</h2>
+<p>Ana entró el 1 de marzo de 2021 y la despidieron sin causa ni preaviso el 15 de noviembre de 2026, con un sueldo de $1.000.000. Tiene 5 años y 8 meses de antigüedad, así que:</p>
+<ul>
+<li>Antigüedad: 6 sueldos (5 años + la fracción de 8 meses) = $6.000.000.</li>
+<li>Preaviso: 2 meses = $2.000.000.</li>
+<li>Integración: 15 días = $500.000.</li>
+<li>Más los días trabajados, el aguinaldo proporcional y las vacaciones.</li>
+</ul>
+<p>En total, Ana debería cobrar más de <strong>$10 millones</strong>. Hacé tu propio cálculo con la <a href="../../indemnizacion/">calculadora de indemnización</a>.</p>
+<h2>¿Cuándo me la tienen que pagar?</h2>
+<p>La liquidación final debe pagarse dentro de los <strong>4 días hábiles</strong> posteriores al despido. Antes de firmar cualquier acuerdo, consultá con un abogado laboralista o en el Ministerio de Trabajo.</p>
+<p class="warn">Las leyes laborales cambian. Esta guía es orientativa y no reemplaza el asesoramiento profesional.</p>
+''', faq=[
+ ('¿La indemnización paga impuestos?', 'La indemnización por antigüedad, el preaviso y la integración no llevan aportes ni pagan Ganancias. Los días trabajados, el aguinaldo y las vacaciones sí llevan aportes.'),
+ ('¿Me corresponde indemnización en el período de prueba?', 'No corresponde la indemnización por antigüedad, pero sí el preaviso de 15 días y los rubros que se cobran siempre.'),
+])
+
+page('guias/cuotas-o-contado', '¿Conviene pagar en cuotas o de contado? Cómo decidir con inflación',
+ 'Cómo saber si conviene pagar en cuotas o de contado en Argentina: cuotas sin interés, descuentos por efectivo, inflación y el valor actual de las cuotas, con ejemplos.',
+ nombre='¿Cuotas o contado?', articulo=True, relacionadas=_rel('cuotas-o-contado'), body='''
+<h1>¿Conviene pagar en cuotas o de contado?</h1>
+<p class="lead">Con inflación, pagar en cuotas puede salir más barato aunque tenga recargo. Te explicamos cómo hacer la cuenta.</p>
+<h2>La clave: lo que valen hoy tus cuotas</h2>
+<p>Una cuota de $100.000 que pagás dentro de seis meses no "pesa" lo mismo que $100.000 hoy, porque para entonces los precios (y en general los sueldos) subieron. Para comparar de forma justa hay que llevar las cuotas a <strong>valor de hoy</strong>, descontándoles la inflación esperada.</p>
+<h2>Tres casos típicos</h2>
+<h3>1. Cuotas sin interés y sin descuento de contado</h3>
+<p>Conviene casi siempre pagar en cuotas: pagás lo mismo, pero más adelante, con pesos que valen menos.</p>
+<h3>2. Cuotas sin interés, pero con descuento por pagar de contado</h3>
+<p>Depende del descuento y de la inflación. Ejemplo: un producto de $600.000 en 6 cuotas sin interés o $540.000 de contado (10 % de descuento). Con una inflación del 2 % mensual, las 6 cuotas de $100.000 valen hoy unos $560.000: <strong>conviene el contado</strong>, porque $540.000 es menos.</p>
+<h3>3. Cuotas con interés</h3>
+<p>Calculá la tasa de interés mensual que te cobran y comparala con la inflación que esperás. Si la tasa es <strong>menor</strong> que la inflación, las cuotas te convienen.</p>
+<p>Hacé tu cuenta con la <a href="../../cuotas/">calculadora de cuotas o contado</a>.</p>
+<h2>Ojo con esto</h2>
+<ul>
+<li><strong>Los costos de la tarjeta:</strong> a veces la cuota que te muestran no incluye impuestos, seguros o comisiones.</li>
+<li><strong>El pago mínimo:</strong> si después no podés pagar el total del resumen, los intereses de la tarjeta son muy altos y anulan cualquier ventaja.</li>
+<li><strong>La plata que no gastás:</strong> si pagás en cuotas, el dinero que te queda tiene que estar a salvo de la inflación (por ejemplo, en una cuenta remunerada o un plazo fijo). Si lo dejás quieto, la ventaja se achica.</li>
+</ul>
+''', faq=[
+ ('¿Qué son las cuotas sin interés?', 'Son cuotas que suman el mismo precio que el contado de lista. Pero si el comercio ofrece un descuento por pagar en efectivo, en realidad sí tienen un costo.'),
+ ('¿Qué inflación uso para comparar?', 'La que esperás para los próximos meses. Una referencia es el último dato mensual del INDEC o el Relevamiento de Expectativas de Mercado del BCRA.'),
+])
