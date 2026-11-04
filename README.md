@@ -30,6 +30,7 @@ cd sitio && python3 -m http.server 8000
 Están en `herramientas/paginas.py`:
 
 - `MONO` — categorías y cuotas del monotributo (ARCA las actualiza en **febrero y agosto**).
+- `JUB` — haber mínimo, máximo y bono de jubilados de ANSES (cambia **todos los meses**).
 - `DOM` — escala salarial de casas particulares (cambia casi **todos los meses**, CNTCP).
 - `FERIADOS` y `NO_LABORABLES` — feriados nacionales (cargados 2026 y 2027; revisar puentes y decretos cada año).
 - Guías con fecha (`guias/feriados-2026`, `guias/aguinaldo-diciembre-2026`): renovarlas cada año.

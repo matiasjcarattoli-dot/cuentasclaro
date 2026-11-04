@@ -135,7 +135,7 @@ page('vacaciones', 'Calculadora de vacaciones: días y pago según tu antigüeda
 ''', faq=[
  ('¿Las vacaciones son días hábiles o corridos?', 'Son días corridos (incluyen fines de semana y feriados), y deben empezar un lunes o el día hábil siguiente si ese lunes es feriado.'),
  ('¿Cuándo se pagan las vacaciones?', 'Al comenzar el período de vacaciones, junto con el aviso. El valor de cada día es el sueldo dividido 25.'),
- ('¿Entre qué fechas me pueden dar las vacaciones?', 'El empleador debe otorgarlas entre el 1 de octubre y el 30 de abril, y avisarte con al menos 45 días de anticipación.'),
+ ('¿Entre qué fechas me pueden dar las vacaciones?', 'En general entre el 1 de octubre y el 30 de abril, con aviso por escrito al menos 30 días antes (desde la Ley 27.802 de 2026). De común acuerdo se pueden tomar en otro momento del año.'),
 ], script='''
 $('#anio').value ||= new Date().getFullYear();
 conectar(() => {
@@ -379,7 +379,7 @@ page('indemnizacion', 'Calculadora de indemnización por despido sin causa (liqu
 <h1>Calculadora de indemnización por despido</h1>
 <p class="lead">Si te despidieron sin causa, calculá cuánto te corresponde cobrar en la liquidación final, rubro por rubro.</p>
 <div class="card calc">
-<label>Mejor sueldo bruto mensual del último año ($) <small>normal y habitual</small><input id="sueldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<label>Mejor sueldo bruto mensual del último año ($) <small>normal y habitual: sin aguinaldo, horas extra ni bonos extraordinarios</small><input id="sueldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
 <div class="row">
 <label>Fecha de ingreso<input id="ini" type="date" value="2021-03-01"></label>
 <label>Fecha de despido<input id="fin" type="date"></label>
@@ -393,7 +393,7 @@ page('indemnizacion', 'Calculadora de indemnización por despido sin causa (liqu
 <h3>1. Indemnización por antigüedad (art. 245 LCT)</h3>
 <p>Un sueldo por cada año trabajado o fracción mayor a 3 meses, tomando la mejor remuneración mensual, normal y habitual del último año. Nunca puede ser menor a un sueldo. Si tu convenio tiene tope, la base se limita, pero según la jurisprudencia de la Corte (fallo Vizzoti) no puede quedar por debajo del 67 % de tu sueldo real.</p>
 <h3>2. Preaviso omitido (art. 231 y 232)</h3>
-<p>Si no te avisaron con anticipación, te deben el preaviso: 15 días durante el período de prueba, 1 mes si tenés menos de 5 años de antigüedad y 2 meses si tenés más.</p>
+<p>Si no te avisaron con anticipación, te deben el preaviso: 1 mes si tenés menos de 5 años de antigüedad y 2 meses si tenés más. Desde la Ley 27.802 (2026), durante el período de prueba ya no corresponde preaviso.</p>
 <h3>3. Integración del mes de despido (art. 233)</h3>
 <p>Si el despido sin preaviso no fue el último día del mes, te pagan los días que faltan hasta fin de mes.</p>
 <h3>4. Rubros que se cobran siempre</h3>
@@ -403,7 +403,9 @@ page('indemnizacion', 'Calculadora de indemnización por despido sin causa (liqu
 <li>Las <strong>vacaciones no gozadas</strong> proporcionales, con su aguinaldo.</li>
 </ul>
 <h3>Período de prueba</h3>
-<p>Durante el período de prueba (en general los primeros 6 meses) no corresponde la indemnización por antigüedad, pero sí el preaviso de 15 días y los rubros que se cobran siempre.</p>
+<p>Durante el período de prueba (en general los primeros 6 meses) no corresponde la indemnización por antigüedad ni, desde la Ley 27.802, el preaviso. Sí se cobran los días trabajados, el aguinaldo y las vacaciones proporcionales.</p>
+<h3>La reforma laboral de 2026</h3>
+<p>La Ley 27.802 de Modernización Laboral (marzo de 2026) mantuvo la indemnización de un sueldo por año, incorporó a la ley el piso del 67 % para el tope y aclaró que la base no incluye pagos no mensuales como el aguinaldo, ni horas extra ni bonificaciones extraordinarias. Algunos puntos están en discusión judicial y hay reglas de transición según la fecha del contrato.</p>
 <p class="warn">Las leyes laborales cambian. Esta calculadora sirve como referencia; ante un despido, consultá con un abogado laboralista o en el Ministerio de Trabajo antes de firmar.</p>
 </div>
 ''', faq=[
@@ -425,10 +427,10 @@ conectar(() => {
   const aniosInd = prueba ? 0 : Math.max(1, anios + (resto > 3 ? 1 : 0));
   const base = tope > 0 ? Math.max(Math.min(sueldo, tope), sueldo * .67) : sueldo;
   const ind = base * aniosInd;
-  const mesesPre = prueba ? .5 : anios >= 5 ? 2 : 1;
+  const mesesPre = prueba ? 0 : anios >= 5 ? 2 : 1;
   const preav = conPreaviso ? 0 : sueldo * mesesPre;
   const finMes = new Date(fin.getFullYear(), fin.getMonth() + 1, 0).getDate();
-  const integ = conPreaviso ? 0 : sueldo / 30 * (finMes - fin.getDate());
+  const integ = conPreaviso || prueba ? 0 : sueldo / 30 * (finMes - fin.getDate());
   const trab = sueldo / 30 * Math.min(30, fin.getDate());
   const semIni = new Date(fin.getFullYear(), fin.getMonth() < 6 ? 0 : 6, 1);
   const semFin = new Date(fin.getFullYear(), fin.getMonth() < 6 ? 5 : 11, fin.getMonth() < 6 ? 30 : 31);
@@ -444,7 +446,7 @@ conectar(() => {
   $('#res').innerHTML = `<div class="label">Total estimado a cobrar (bruto)</div><div class="big">${$$(total)}</div>` + filas([
     ['Antigüedad', ant + (prueba ? ' (período de prueba)' : '')],
     ['Indemnización por antigüedad (' + aniosInd + ' × ' + $$(base) + ')', $$(ind)],
-    ['Preaviso' + (conPreaviso ? ' (otorgado)' : ' (' + (mesesPre === .5 ? '15 días' : mesesPre + (mesesPre === 1 ? ' mes' : ' meses')) + ')'), $$(preav)],
+    ['Preaviso' + (prueba ? ' (no corresponde en período de prueba)' : conPreaviso ? ' (otorgado)' : ' (' + mesesPre + (mesesPre === 1 ? ' mes' : ' meses') + ')'), $$(preav)],
     ['Integración del mes de despido', $$(integ)],
     ['Días trabajados del mes', $$(trab)],
     ['Aguinaldo proporcional', $$(sac)],
@@ -1104,7 +1106,7 @@ page('guias/como-calcular-indemnizacion', 'Cómo calcular la indemnización por 
 <h2>2. Preaviso</h2>
 <p>Si no te avisaron del despido con anticipación, te deben el preaviso:</p>
 <ul>
-<li><strong>15 días</strong> si estabas en el período de prueba.</li>
+<li><strong>Nada</strong> si estabas en el período de prueba (desde la Ley 27.802 de 2026).</li>
 <li><strong>1 mes</strong> si tenías menos de 5 años de antigüedad.</li>
 <li><strong>2 meses</strong> si tenías 5 años o más.</li>
 </ul>
@@ -1127,10 +1129,12 @@ page('guias/como-calcular-indemnizacion', 'Cómo calcular la indemnización por 
 <p>En total, Ana debería cobrar más de <strong>$10 millones</strong>. Hacé tu propio cálculo con la <a href="../../indemnizacion/">calculadora de indemnización</a>.</p>
 <h2>¿Cuándo me la tienen que pagar?</h2>
 <p>La liquidación final debe pagarse dentro de los <strong>4 días hábiles</strong> posteriores al despido. Antes de firmar cualquier acuerdo, consultá con un abogado laboralista o en el Ministerio de Trabajo.</p>
+<h2>¿Qué cambió con la reforma laboral de 2026?</h2>
+<p>La <strong>Ley 27.802 de Modernización Laboral</strong> (publicada el 6 de marzo de 2026) mantuvo el cálculo de un sueldo por año, pero aclaró que la base es solo la remuneración <strong>mensual, normal y habitual</strong>: no entran el aguinaldo, las vacaciones, las horas extra ni los bonos extraordinarios. También incorporó a la ley el piso del 67 % para el tope, eliminó el preaviso durante el período de prueba y creó el Fondo de Asistencia Laboral, que no reemplaza tu indemnización. Algunos artículos, como el pago en cuotas, fueron cuestionados en la Justicia.</p>
 <p class="warn">Las leyes laborales cambian. Esta guía es orientativa y no reemplaza el asesoramiento profesional.</p>
 ''', faq=[
  ('¿La indemnización paga impuestos?', 'La indemnización por antigüedad, el preaviso y la integración no llevan aportes ni pagan Ganancias. Los días trabajados, el aguinaldo y las vacaciones sí llevan aportes.'),
- ('¿Me corresponde indemnización en el período de prueba?', 'No corresponde la indemnización por antigüedad, pero sí el preaviso de 15 días y los rubros que se cobran siempre.'),
+ ('¿Me corresponde indemnización en el período de prueba?', 'No corresponde la indemnización por antigüedad y, desde la Ley 27.802 de 2026, tampoco el preaviso. Sí cobrás los días trabajados, el aguinaldo y las vacaciones proporcionales.'),
 ])
 
 page('guias/cuotas-o-contado', '¿Conviene pagar en cuotas o de contado? Cómo decidir con inflación',
@@ -1594,16 +1598,18 @@ page('guias/vacaciones-cuantos-dias', 'Vacaciones: cuántos días te corresponde
 <p>Para tener las vacaciones completas tenés que haber trabajado, como mínimo, la <strong>mitad de los días hábiles</strong> del año. Si no llegás, te corresponde <strong>1 día de vacaciones cada 20 días trabajados</strong>.</p>
 <h2>¿Cuándo se toman?</h2>
 <ul>
-<li>El empleador las tiene que otorgar entre el <strong>1 de octubre y el 30 de abril</strong>.</li>
-<li>Te tiene que avisar la fecha con al menos <strong>45 días de anticipación</strong>, por escrito.</li>
+<li>En general se otorgan entre el <strong>1 de octubre y el 30 de abril</strong>. De común acuerdo, se pueden tomar en otro momento del año.</li>
+<li>Te tienen que avisar la fecha con al menos <strong>30 días de anticipación</strong>, por escrito (antes eran 45; lo cambió la Ley 27.802 de 2026).</li>
+<li>Se pueden <strong>fraccionar</strong> de común acuerdo, en tramos de al menos 7 días.</li>
+<li>Si la empresa organiza las vacaciones por turnos, al menos una vez cada 3 años te tienen que tocar en verano.</li>
 <li>Tienen que empezar un lunes, o el día hábil siguiente si ese lunes es feriado.</li>
 </ul>
 <h2>¿Cómo se pagan?</h2>
 <p>Se pagan <strong>antes de empezar</strong> a tomarlas. Para los mensualizados, cada día vale el sueldo dividido 25 (no por 30): esa diferencia es el <strong>plus vacacional</strong>. Las vacaciones no se pueden cambiar por dinero, salvo cuando termina la relación laboral y quedaron días sin tomar.</p>
 <p>Calculá tus días y el pago con la <a href="../../vacaciones/">calculadora de vacaciones</a>.</p>
 ''', faq=[
- ('¿Me pueden dar las vacaciones en invierno?', 'El período legal es del 1 de octubre al 30 de abril. Fuera de ese período, solo con acuerdo o si el convenio o una autorización lo permiten.'),
- ('¿Puedo fraccionar las vacaciones?', 'La ley prevé que se gocen de forma continua, pero en la práctica se pueden acordar divisiones. Revisá tu convenio colectivo.'),
+ ('¿Me pueden dar las vacaciones en invierno?', 'El período general es del 1 de octubre al 30 de abril, pero desde la reforma de 2026 se pueden tomar en otro momento si hay acuerdo entre vos y el empleador.'),
+ ('¿Puedo fraccionar las vacaciones?', 'Sí: desde la Ley 27.802 de 2026, de común acuerdo se pueden dividir en tramos de al menos 7 días corridos.'),
 ])
 
 page('guias/recategorizacion-monotributo', 'Recategorización del monotributo: cuándo y cómo hacerla',
@@ -1634,4 +1640,184 @@ page('guias/recategorizacion-monotributo', 'Recategorización del monotributo: c
 ''', faq=[
  ('¿Qué pasa si facturé menos?', 'Podés recategorizarte a una categoría más baja y pagar una cuota menor. No es obligatorio, pero te conviene.'),
  ('¿Cuántas veces al año me recategorizo?', 'Dos: en enero y en julio, mirando lo facturado en los últimos 12 meses.'),
+])
+
+# ---------- JUBILACIÓN ----------
+# Valores de ANSES de noviembre 2026 (movilidad 1,93 %, Res. ANSES 304/2026; bono Decreto 1296/2026). Actualizar todos los meses.
+JUB = {'mes': 'noviembre de 2026', 'minimo': 444158.46, 'maximo': 2988765.82, 'bono': 70000, 'aumento': 1.93}
+page('jubilacion', 'Calculadora de jubilación: haber, bono de ANSES y aguinaldo (noviembre 2026)',
+ 'Calculá cuánto cobra un jubilado de ANSES con el bono de $70.000, el aumento por movilidad y el medio aguinaldo de diciembre. Valores de noviembre de 2026.',
+ nombre='Jubilación, bono y aguinaldo', body=f'''
+<h1>Calculadora de jubilación, bono y aguinaldo</h1>
+<p class="lead">Poné tu haber de ANSES y te decimos cuánto te corresponde de bono, cuánto cobrás en total y cuánto vas a cobrar de aguinaldo.</p>
+<div class="card calc">
+<label>Haber bruto mensual ($) <small>lo que figura en tu recibo, sin el bono</small><input id="haber" type="number" inputmode="decimal" min="0" value="{JUB['minimo']}"></label>
+<label>Aumento del mes próximo (%) <small>opcional, cuando ANSES lo anuncie</small><input id="aum" type="number" inputmode="decimal" step="0.01" value="0"></label>
+<div id="res" class="result"></div>
+<p class="note">Valores de {JUB['mes']}: haber mínimo $ 444.158,46, haber máximo $ 2.988.765,82 y bono de hasta $ 70.000. Confirmá los montos en ANSES.</p>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula el bono para jubilados?</h2>
+<p>Quienes cobran la <strong>jubilación mínima o menos</strong> reciben el bono completo de $70.000. Quienes cobran un poco más reciben un bono <strong>proporcional</strong>, para que nadie quede por debajo de la mínima más el bono: en {JUB['mes']}, $ 514.158,46. Si tu haber supera ese monto, no cobrás bono.</p>
+<h2>¿Cómo aumentan las jubilaciones?</h2>
+<p>Desde 2024, los haberes se actualizan <strong>todos los meses según la inflación</strong> (IPC del INDEC), con dos meses de desfase. Por ejemplo, el aumento de noviembre de 2026 ({str(JUB['aumento']).replace('.', ',')} %) corresponde a la inflación de septiembre.</p>
+<h2>Aguinaldo de jubilados</h2>
+<p>El medio aguinaldo equivale al <strong>50 % del haber más alto</strong> del semestre. Se paga junto con el haber de junio y el de diciembre. El bono <strong>no</strong> se tiene en cuenta para calcularlo.</p>
+<h3>Descuentos</h3>
+<p>ANSES descuenta del haber el aporte al PAMI y, si corresponde, otras retenciones. El bono no tiene descuentos. Esta calculadora muestra montos brutos.</p>
+</div>
+''', faq=[
+ ('¿Cuánto cobra un jubilado de la mínima en noviembre de 2026?', 'El haber mínimo es de $444.158,46 y, con el bono de $70.000, el total es de $514.158,46.'),
+ ('¿El bono de $70.000 se cobra con el aguinaldo?', 'El bono se paga aparte y no forma parte del cálculo del aguinaldo, que es el 50 % del mejor haber del semestre.'),
+ ('¿Cuándo se cobra el aguinaldo de los jubilados?', 'Junto con el haber de diciembre, según el calendario de pagos de ANSES que va por terminación de DNI.'),
+], script='''
+const JUB = ''' + json.dumps(JUB) + ''';
+conectar(() => {
+  const haber = val('haber'), aum = val('aum') / 100;
+  const bono = Math.max(0, Math.min(JUB.bono, JUB.minimo + JUB.bono - haber));
+  const nuevo = haber * (1 + aum), sac = Math.max(haber, nuevo) / 2;
+  $('#res').innerHTML = `<div class="label">Total a cobrar este mes</div><div class="big">${$$(haber + bono)}</div>` + filas([
+    ['Haber', $$(haber)],
+    ['Bono', bono > 0 ? '+ ' + $$(bono) : 'No corresponde'],
+    ...(aum ? [['Haber con el aumento (' + pct(aum * 100) + ')', $$(nuevo)]] : []),
+    ['Medio aguinaldo estimado', $$(sac), 'total'],
+  ]) + (haber > JUB.maximo ? '<p class="note warn">El haber supera el máximo de ANSES. Revisá el monto.</p>' : '');
+});
+''')
+
+# ---------- PLAZO FIJO UVA ----------
+page('plazo-fijo-uva', 'Calculadora de plazo fijo UVA: cuánto rinde y si conviene',
+ 'Simulá un plazo fijo UVA: capital ajustado por inflación más la tasa adicional, y comparalo con un plazo fijo tradicional para ver cuál conviene.',
+ nombre='Plazo fijo UVA', body='''
+<h1>Calculadora de plazo fijo UVA</h1>
+<p class="lead">Simulá cuánto ganás con un plazo fijo UVA, que ajusta por inflación, y comparalo con un plazo fijo tradicional.</p>
+<div class="card calc">
+<div class="row">
+<label>Monto a invertir ($)<input id="cap" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<label>Plazo (días) <small>mínimo 90</small><input id="dias" type="number" min="90" max="1095" value="90"></label>
+</div>
+<div class="row">
+<label>Inflación mensual esperada (%)<input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+<label>Tasa adicional UVA (TNA %) <small>la que ofrezca tu banco</small><input id="tnauva" type="number" inputmode="decimal" step="0.1" value="1"></label>
+</div>
+<label>TNA del plazo fijo tradicional (%) <small>para comparar</small><input id="tna" type="number" inputmode="decimal" step="0.1" value="30"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo funciona el plazo fijo UVA?</h2>
+<p>El capital se convierte a <strong>UVA</strong> (Unidad de Valor Adquisitivo), una unidad que publica el Banco Central y que sube todos los días siguiendo la inflación. Al vencimiento, tus UVA se vuelven a pasar a pesos al valor de ese día, y además el banco te paga una <strong>tasa adicional</strong> (en general baja, alrededor del 1 % anual).</p>
+<p><em>Monto final ≈ capital × (UVA final ÷ UVA inicial) × (1 + tasa adicional × días ÷ 365)</em></p>
+<h3>¿Cuándo conviene?</h3>
+<ul>
+<li><strong>Conviene el UVA</strong> si creés que la inflación de los próximos meses va a ser mayor que la tasa del plazo fijo tradicional.</li>
+<li><strong>Conviene el tradicional</strong> si la tasa fija le gana a la inflación que esperás.</li>
+</ul>
+<p>El UVA te protege de una suba inesperada de la inflación; el tradicional te asegura un monto fijo en pesos.</p>
+<h3>Cosas a tener en cuenta</h3>
+<ul>
+<li>El plazo mínimo es de <strong>90 días</strong>. Algunos bancos ofrecen UVA precancelables, que se pueden retirar antes a una tasa menor.</li>
+<li>La UVA sigue a la inflación con <strong>cierto rezago</strong> (alrededor de un mes y medio), así que en los primeros meses refleja la inflación pasada.</li>
+<li>Si la inflación fuera negativa, el banco garantiza que no cobrás menos de lo que invertiste.</li>
+</ul>
+</div>
+''', faq=[
+ ('¿Qué es la UVA?', 'Es la Unidad de Valor Adquisitivo, que publica el BCRA y se actualiza a diario por el índice CER, que sigue a la inflación.'),
+ ('¿Cuál es el plazo mínimo de un plazo fijo UVA?', 'El plazo mínimo es de 90 días. Algunos bancos ofrecen la opción precancelable, que permite retirar antes con una tasa menor.'),
+], script='''
+conectar(() => {
+  const cap = val('cap'), dias = Math.max(90, Math.round(val('dias'))), inf = val('inf') / 100, tu = val('tnauva') / 100, tna = val('tna') / 100;
+  const ajuste = Math.pow(1 + inf, dias / 30), capAj = cap * ajuste, intUva = capAj * tu * dias / 365;
+  const uva = capAj + intUva, trad = cap * (1 + tna * dias / 365), dif = uva - trad;
+  $('#res').innerHTML = `<div class="label">Cobrarías al vencimiento (estimado)</div><div class="big">${$$(uva)}</div>` + filas([
+    ['Ajuste por inflación', '+ ' + $$(capAj - cap)],
+    ['Interés adicional (' + pct(tu * 100) + ' TNA)', '+ ' + $$(intUva)],
+    ['Ganancia total', $$(uva - cap), 'total'],
+    ['Con plazo fijo tradicional (' + pct(tna * 100) + ' TNA)', $$(trad)],
+  ]) + `<p class="note ${dif < 0 ? 'warn' : ''}">${dif >= 0 ? '✓ Con esa inflación conviene el UVA' : '⚠ Con esa inflación conviene el tradicional'}: diferencia de ${$$(Math.abs(dif))}.</p>`;
+});
+''')
+
+# ---------- GUÍA: QUÉ HACER SI TE DESPIDEN ----------
+page('guias/que-hacer-si-me-despiden', 'Qué hacer si te despiden: los pasos para cobrar todo',
+ 'Guía paso a paso si te despiden en Argentina: qué firmar y qué no, cuándo te tienen que pagar, el certificado de trabajo, el seguro de desempleo y a dónde reclamar.',
+ nombre='Qué hacer si te despiden', articulo=True, relacionadas=_rel('que-hacer-si-me-despiden'), body='''
+<h1>Qué hacer si te despiden</h1>
+<p class="lead">Un despido es un mal momento, pero hay pasos concretos para que cobres todo lo que te corresponde.</p>
+<h2>1. No firmes nada sin leerlo</h2>
+<p>Nunca firmes una <strong>renuncia</strong> si te están despidiendo: si renunciás, perdés la indemnización. Si te dan un papel para firmar, podés poner "recibí copia" con la fecha, que solo prueba que te lo entregaron, no que estás de acuerdo.</p>
+<h2>2. Pedí que el despido sea por escrito</h2>
+<p>El despido tiene que comunicarse <strong>por escrito</strong> (carta documento o telegrama) e indicar si es con causa o sin causa. Si te lo dicen solo de palabra, podés intimar a tu empleador por <strong>telegrama laboral</strong>, que es gratuito para los trabajadores en el Correo Argentino.</p>
+<h2>3. Calculá lo que te corresponde</h2>
+<p>Si es sin causa, te corresponde la indemnización por antigüedad, el preaviso (si no te avisaron), la integración del mes, los días trabajados, el aguinaldo y las vacaciones proporcionales. Hacé la cuenta con la <a href="../../indemnizacion/">calculadora de indemnización</a> antes de ir a cobrar.</p>
+<h2>4. La liquidación final</h2>
+<p>Te la tienen que pagar dentro de los <strong>4 días hábiles</strong> desde el despido. Revisá el recibo rubro por rubro. Si no estás de acuerdo con los montos, podés cobrar y firmar "en disconformidad" o "a cuenta de mayor cantidad", para poder reclamar la diferencia después.</p>
+<h2>5. El certificado de trabajo</h2>
+<p>El empleador te tiene que entregar el <strong>certificado de trabajo</strong> (art. 80 de la LCT), con tus fechas, tareas, sueldos y aportes. Lo vas a necesitar para el seguro de desempleo y para tu próximo trabajo.</p>
+<h2>6. Pedí el seguro de desempleo</h2>
+<p>Si te despidieron sin causa y tenés suficientes meses de aportes, podés pedir la <strong>prestación por desempleo</strong> en ANSES. Hay un plazo para hacerlo desde el despido, así que no lo dejes para último momento.</p>
+<h2>7. Si no te pagan o te pagan menos</h2>
+<p>Podés reclamar en el <strong>Ministerio de Trabajo</strong> de tu jurisdicción o, en la Ciudad de Buenos Aires, en el <strong>SECLO</strong> (conciliación obligatoria antes de un juicio). Un abogado laboralista te puede asesorar; muchos cobran solo si ganás, y los colegios de abogados suelen tener consultorios gratuitos.</p>
+<p class="warn">Esta guía es orientativa y no reemplaza el asesoramiento de un abogado laboralista.</p>
+''', faq=[
+ ('¿Me pueden despedir sin pagarme nada?', 'Solo si el despido es con justa causa y la causa está probada, o durante el período de prueba (en ese caso igual cobrás días trabajados, aguinaldo y vacaciones proporcionales). Si discutís la causa, se puede reclamar.'),
+ ('¿Tengo que firmar el recibo de la liquidación final?', 'Podés firmarlo para cobrar, pero si no estás de acuerdo con los montos escribí "en disconformidad" o "a cuenta de mayor cantidad" antes de tu firma.'),
+])
+
+# ---------- GUÍA: LICENCIAS ----------
+page('guias/licencias-por-ley', 'Licencias laborales por ley en Argentina: cuántos días te corresponden',
+ 'Licencias especiales de la Ley de Contrato de Trabajo: matrimonio, nacimiento, fallecimiento de un familiar, exámenes, maternidad, enfermedad y vacaciones. Cuántos días son y cómo se pagan.',
+ nombre='Licencias por ley', articulo=True, relacionadas=_rel('licencias-por-ley'), body='''
+<h1>Licencias laborales por ley</h1>
+<p class="lead">Cuántos días te corresponden por casamiento, nacimiento de un hijo, exámenes, enfermedad y otras situaciones.</p>
+<h2>Licencias especiales (art. 158 de la LCT)</h2>
+<table class="detail big-table"><tr><th>Motivo</th><th>Días</th></tr>
+<tr><td>Nacimiento de un hijo (otro progenitor)</td><td>2 días corridos</td></tr>
+<tr><td>Matrimonio</td><td>10 días corridos</td></tr>
+<tr><td>Fallecimiento del cónyuge o conviviente, hijos o padres</td><td>3 días corridos</td></tr>
+<tr><td>Fallecimiento de un hermano</td><td>1 día</td></tr>
+<tr><td>Examen en la secundaria o la universidad</td><td>2 días corridos por examen, hasta 10 por año</td></tr></table>
+<p>Son <strong>licencias pagas</strong>: cobrás el sueldo normal. Muchos convenios colectivos dan más días; revisá el tuyo. Para las licencias por examen, la ley exige presentar el comprobante de que rendiste.</p>
+<h2>Licencia por maternidad</h2>
+<p>Son <strong>90 días</strong>: en general 45 antes y 45 después del parto, aunque se puede pedir tomar 30 antes y 60 después. Durante la licencia no cobrás sueldo del empleador sino una <strong>asignación de ANSES</strong> equivalente.</p>
+<h2>Enfermedad o accidente inculpable</h2>
+<p>Si te enfermás o te accidentás fuera del trabajo, seguís cobrando tu sueldo durante:</p>
+<ul>
+<li><strong>3 meses</strong> por año si tenés menos de 5 años de antigüedad.</li>
+<li><strong>6 meses</strong> si tenés 5 años o más.</li>
+<li>El doble (<strong>6 y 12 meses</strong>) si tenés cargas de familia.</li>
+</ul>
+<p>Tenés que avisarle al empleador y presentar el certificado médico. Si el accidente o la enfermedad es por el trabajo, lo cubre la ART.</p>
+<h2>Vacaciones</h2>
+<p>Entre 14 y 35 días corridos por año según tu antigüedad. Mirá la guía de <a href="../vacaciones-cuantos-dias/">vacaciones</a>.</p>
+<p class="note">Guía orientativa basada en la Ley de Contrato de Trabajo. La reforma laboral de 2026 (Ley 27.802) cambió otros puntos, como las vacaciones; revisá tu convenio colectivo y, ante dudas, consultá en el Ministerio de Trabajo.</p>
+''', faq=[
+ ('¿Cuántos días de licencia tengo por casamiento?', 'La Ley de Contrato de Trabajo da 10 días corridos de licencia paga por matrimonio. Algunos convenios dan más.'),
+ ('¿Cuántos días de licencia por paternidad hay en Argentina?', 'La ley general da 2 días corridos por nacimiento de un hijo. Muchos convenios y empresas otorgan más.'),
+])
+
+# ---------- GUÍA: CÓMO PEDIR UN AUMENTO ----------
+page('guias/como-pedir-un-aumento', 'Cómo pedir un aumento de sueldo: cuándo, cuánto y cómo',
+ 'Consejos prácticos para pedir un aumento de sueldo en Argentina: cómo calcular cuánto perdiste con la inflación, qué porcentaje pedir, cuándo hacerlo y qué decir.',
+ nombre='Cómo pedir un aumento', articulo=True, relacionadas=_rel('como-pedir-un-aumento'), body='''
+<h1>Cómo pedir un aumento de sueldo</h1>
+<p class="lead">Con inflación, pedir un aumento no es un capricho: es mantener lo que ganás. Así podés prepararte para que salga bien.</p>
+<h2>1. Hacé la cuenta: ¿cuánto perdiste?</h2>
+<p>Compará tu último aumento con la inflación desde ese momento. Si en el último año tu sueldo subió 15 % y la inflación fue 25 %, perdiste alrededor de un <strong>8 % de poder de compra</strong>. Calculalo con la <a href="../../inflacion/">calculadora de inflación</a>, que te dice si tu sueldo le ganó o perdió.</p>
+<h2>2. Averiguá cuánto se paga en el mercado</h2>
+<p>Mirá avisos de empleo para tu puesto, encuestas salariales y la escala de tu convenio colectivo. Si sabés que el mercado paga más, tenés un argumento concreto.</p>
+<h2>3. Juntá tus logros</h2>
+<p>Anotá qué resultados lograste: proyectos que terminaste, clientes, ahorros que generaste, tareas nuevas que tomaste. Con números, mejor. El argumento más fuerte es "esto es lo que aporto", no "lo necesito".</p>
+<h2>4. Elegí el momento</h2>
+<ul>
+<li>Después de un buen resultado o de terminar un proyecto.</li>
+<li>Antes de que se definan los presupuestos del año (en muchas empresas, hacia fin de año).</li>
+<li>En una reunión pedida para eso, no en un pasillo.</li>
+</ul>
+<h2>5. Pedí una cifra concreta</h2>
+<p>Llevá un número, no un "lo que puedan". Hablá siempre de <strong>sueldo bruto</strong>: si sabés cuánto querés en mano, pasalo a bruto con la <a href="../../sueldo-bruto/">calculadora de bruto desde el neto</a>. Pedí un poco más de lo que esperás para tener margen.</p>
+<h2>6. Si te dicen que no</h2>
+<p>Preguntá qué tendrías que lograr para que sea posible y cuándo lo pueden revisar. Pedí que quede por escrito. Si no hay respuesta, puede ser una señal para buscar otras opciones.</p>
+''', faq=[
+ ('¿Cuánto aumento tengo que pedir?', 'Como mínimo, lo que te haga recuperar la inflación desde tu último aumento. Si además asumiste más responsabilidades o el mercado paga más, sumalo como argumento.'),
+ ('¿Cada cuánto se puede pedir un aumento?', 'No hay una regla, pero con inflación es razonable revisarlo al menos una o dos veces por año, además de los aumentos de convenio.'),
 ])
