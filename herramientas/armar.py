@@ -24,9 +24,11 @@ CALCS = [
     ('monotributo', 'Monotributo', 'En qué categoría estás y cuánto pagás por mes.', 'recibo', 'trabajo'),
     ('empleada-domestica', 'Sueldo de empleada doméstica', 'Sueldo por hora o por mes según la categoría.', 'casa', 'trabajo'),
     ('dias-habiles', 'Días hábiles', 'Días hábiles entre dos fechas, con los feriados.', 'calendario', 'trabajo'),
+    ('jubilacion', 'Jubilación, bono y aguinaldo', 'Haber, bono de ANSES y medio aguinaldo de jubilados.', 'regalo', 'trabajo'),
     ('sueldo-bruto', 'Sueldo bruto desde el neto', 'Cuánto tiene que ser el bruto para cobrar X en mano.', 'billete', 'trabajo'),
     ('precio-de-venta', 'Precio de venta', 'Para emprendedores: costo, ganancia, comisiones e IVA.', 'etiqueta', 'trabajo'),
     ('plazo-fijo', 'Plazo fijo', 'Intereses, TEA y si le gana a la inflación.', 'banco', 'ahorro'),
+    ('plazo-fijo-uva', 'Plazo fijo UVA', 'Cuánto rinde ajustado por inflación y si conviene.', 'banco', 'ahorro'),
     ('interes-compuesto', 'Interés compuesto y ahorro', 'Cuánto juntás ahorrando todos los meses.', 'grafico', 'ahorro'),
     ('prestamo', 'Préstamo personal', 'Cuota mensual, intereses y cuadro de pagos.', 'mano', 'ahorro'),
     ('ahorro-objetivo', 'Meta de ahorro', 'Cuánto ahorrar por mes para llegar a tu objetivo.', 'objetivo', 'ahorro'),
@@ -52,6 +54,9 @@ GUIAS = [
     ('sueldo-bruto-y-neto', 'Sueldo bruto y neto: diferencias', 'Qué te descuentan del sueldo y cómo leer tu recibo.', ['sueldo-neto', 'sueldo-bruto', 'aguinaldo']),
     ('tna-tea-cft', 'TNA, TEA, TEM y CFT explicados', 'Qué significa cada tasa y cómo compararlas.', ['tasas', 'plazo-fijo', 'prestamo']),
     ('vacaciones-cuantos-dias', 'Vacaciones: cuántos días te corresponden', 'Días por antigüedad, cuándo se toman y cómo se pagan.', ['vacaciones', 'dias-habiles', 'aguinaldo']),
+    ('que-hacer-si-me-despiden', 'Qué hacer si te despiden', 'Los pasos para cobrar todo lo que te corresponde.', ['indemnizacion', 'vacaciones', 'dias-habiles']),
+    ('licencias-por-ley', 'Licencias laborales por ley', 'Días por matrimonio, nacimiento, examen, enfermedad y más.', ['vacaciones', 'dias-habiles', 'sueldo-neto']),
+    ('como-pedir-un-aumento', 'Cómo pedir un aumento de sueldo', 'Cuándo, cuánto y cómo pedirlo, con números.', ['inflacion', 'sueldo-bruto', 'sueldo-neto']),
     ('recategorizacion-monotributo', 'Recategorización del monotributo', 'Cuándo y cómo recategorizarte, paso a paso.', ['monotributo', 'precio-de-venta', 'iva']),
 ]
 

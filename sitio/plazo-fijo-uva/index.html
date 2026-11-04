@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de plazo fijo UVA: cuánto rinde y si conviene | Cuentas Claras</title>
+<meta name="description" content="Simulá un plazo fijo UVA: capital ajustado por inflación más la tasa adicional, y comparalo con un plazo fijo tradicional para ver cuál conviene.">
+<meta property="og:title" content="Calculadora de plazo fijo UVA: cuánto rinde y si conviene | Cuentas Claras">
+<meta property="og:description" content="Simulá un plazo fijo UVA: capital ajustado por inflación más la tasa adicional, y comparalo con un plazo fijo tradicional para ver cuál conviene.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/plazo-fijo-uva/">
+<meta property="og:url" content="https://cuentasclaro.com/plazo-fijo-uva/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta property="og:image" content="https://cuentasclaro.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué es la UVA?", "acceptedAnswer": {"@type": "Answer", "text": "Es la Unidad de Valor Adquisitivo, que publica el BCRA y se actualiza a diario por el índice CER, que sigue a la inflación."}}, {"@type": "Question", "name": "¿Cuál es el plazo mínimo de un plazo fijo UVA?", "acceptedAnswer": {"@type": "Answer", "text": "El plazo mínimo es de 90 días. Algunos bancos ofrecen la opción precancelable, que permite retirar antes con una tasa menor."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a><a href="../#utiles">Herramientas para el día a día</a><a href="../guias/">Guías</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Plazo fijo UVA</nav>
+<h1>Calculadora de plazo fijo UVA</h1>
+<p class="lead">Simulá cuánto ganás con un plazo fijo UVA, que ajusta por inflación, y comparalo con un plazo fijo tradicional.</p>
+<div class="card calc">
+<div class="row">
+<label>Monto a invertir ($)<input id="cap" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<label>Plazo (días) <small>mínimo 90</small><input id="dias" type="number" min="90" max="1095" value="90"></label>
+</div>
+<div class="row">
+<label>Inflación mensual esperada (%)<input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+<label>Tasa adicional UVA (TNA %) <small>la que ofrezca tu banco</small><input id="tnauva" type="number" inputmode="decimal" step="0.1" value="1"></label>
+</div>
+<label>TNA del plazo fijo tradicional (%) <small>para comparar</small><input id="tna" type="number" inputmode="decimal" step="0.1" value="30"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo funciona el plazo fijo UVA?</h2>
+<p>El capital se convierte a <strong>UVA</strong> (Unidad de Valor Adquisitivo), una unidad que publica el Banco Central y que sube todos los días siguiendo la inflación. Al vencimiento, tus UVA se vuelven a pasar a pesos al valor de ese día, y además el banco te paga una <strong>tasa adicional</strong> (en general baja, alrededor del 1 % anual).</p>
+<p><em>Monto final ≈ capital × (UVA final ÷ UVA inicial) × (1 + tasa adicional × días ÷ 365)</em></p>
+<h3>¿Cuándo conviene?</h3>
+<ul>
+<li><strong>Conviene el UVA</strong> si creés que la inflación de los próximos meses va a ser mayor que la tasa del plazo fijo tradicional.</li>
+<li><strong>Conviene el tradicional</strong> si la tasa fija le gana a la inflación que esperás.</li>
+</ul>
+<p>El UVA te protege de una suba inesperada de la inflación; el tradicional te asegura un monto fijo en pesos.</p>
+<h3>Cosas a tener en cuenta</h3>
+<ul>
+<li>El plazo mínimo es de <strong>90 días</strong>. Algunos bancos ofrecen UVA precancelables, que se pueden retirar antes a una tasa menor.</li>
+<li>La UVA sigue a la inflación con <strong>cierto rezago</strong> (alrededor de un mes y medio), así que en los primeros meses refleja la inflación pasada.</li>
+<li>Si la inflación fuera negativa, el banco garantiza que no cobrás menos de lo que invertiste.</li>
+</ul>
+</div>
+<div class="share"><span>¿Te sirvió? Compartilo</span><a class="btn wa" href="https://wa.me/?text=Calculadora%20de%20plazo%20fijo%20UVA%20https%3A//cuentasclaro.com/plazo-fijo-uva/" target="_blank" rel="noopener">WhatsApp</a><button class="btn" type="button" data-compartir data-url="https://cuentasclaro.com/plazo-fijo-uva/" data-titulo="Calculadora de plazo fijo UVA: cuánto rinde y si conviene"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/></svg>Compartir</button></div><div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Qué es la UVA?</summary><p>Es la Unidad de Valor Adquisitivo, que publica el BCRA y se actualiza a diario por el índice CER, que sigue a la inflación.</p></details><details><summary>¿Cuál es el plazo mínimo de un plazo fijo UVA?</summary><p>El plazo mínimo es de 90 días. Algunos bancos ofrecen la opción precancelable, que permite retirar antes con una tasa menor.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../plazo-fijo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9.5 10v8M14.5 10v8M19.5 10v8M3 20.5h18"/></svg></span><span class="tile-txt"><strong>Plazo fijo</strong><span>Intereses, TEA y si le gana a la inflación.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../interes-compuesto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span class="tile-txt"><strong>Interés compuesto y ahorro</strong><span>Cuánto juntás ahorrando todos los meses.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../prestamo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15.5h3l3.5 2.5h5a1.5 1.5 0 0 0 0-3H11"/><path d="M6 15.5V20H3M14.5 15l4-2.5a1.5 1.5 0 0 1 2 2.2L15 19.5H9.5"/><circle cx="14" cy="7" r="3"/></svg></span><span class="tile-txt"><strong>Préstamo personal</strong><span>Cuota mensual, intereses y cuadro de pagos.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../ahorro-objetivo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span><span class="tile-txt"><strong>Meta de ahorro</strong><span>Cuánto ahorrar por mes para llegar a tu objetivo.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../monotributo/">Monotributo</a></li><li><a href="../empleada-domestica/">Sueldo de empleada doméstica</a></li><li><a href="../dias-habiles/">Días hábiles</a></li><li><a href="../jubilacion/">Jubilación, bono y aguinaldo</a></li><li><a href="../sueldo-bruto/">Sueldo bruto desde el neto</a></li><li><a href="../precio-de-venta/">Precio de venta</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../plazo-fijo-uva/">Plazo fijo UVA</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../ahorro-objetivo/">Meta de ahorro</a></li><li><a href="../tasas/">Conversor de tasas</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li><li><a href="../costo-viaje/">Costo de un viaje en auto</a></li><li><a href="../dividir-gastos/">Dividir gastos</a></li><li><a href="../horas-trabajadas/">Horas trabajadas</a></li><li><a href="../regla-de-tres/">Regla de tres</a></li></ul></div>
+<div><h3>Guías</h3><ul><li><a href="../guias/feriados-2026/">Feriados 2026 en Argentina</a></li><li><a href="../guias/aguinaldo-diciembre-2026/">Aguinaldo de diciembre 2026</a></li><li><a href="../guias/como-calcular-indemnizacion/">Cómo calcular la indemnización por despido</a></li><li><a href="../guias/cuotas-o-contado/">¿Conviene pagar en cuotas o de contado?</a></li><li><a href="../guias/sueldo-bruto-y-neto/">Sueldo bruto y neto: diferencias</a></li><li><a href="../guias/tna-tea-cft/">TNA, TEA, TEM y CFT explicados</a></li><li><a href="../guias/vacaciones-cuantos-dias/">Vacaciones: cuántos días te corresponden</a></li><li><a href="../guias/que-hacer-si-me-despiden/">Qué hacer si te despiden</a></li><li><a href="../guias/licencias-por-ley/">Licencias laborales por ley</a></li><li><a href="../guias/como-pedir-un-aumento/">Cómo pedir un aumento de sueldo</a></li><li><a href="../guias/recategorizacion-monotributo/">Recategorización del monotributo</a></li></ul><h3 class="mt">El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const cap = val('cap'), dias = Math.max(90, Math.round(val('dias'))), inf = val('inf') / 100, tu = val('tnauva') / 100, tna = val('tna') / 100;
+  const ajuste = Math.pow(1 + inf, dias / 30), capAj = cap * ajuste, intUva = capAj * tu * dias / 365;
+  const uva = capAj + intUva, trad = cap * (1 + tna * dias / 365), dif = uva - trad;
+  $('#res').innerHTML = `<div class="label">Cobrarías al vencimiento (estimado)</div><div class="big">${$$(uva)}</div>` + filas([
+    ['Ajuste por inflación', '+ ' + $$(capAj - cap)],
+    ['Interés adicional (' + pct(tu * 100) + ' TNA)', '+ ' + $$(intUva)],
+    ['Ganancia total', $$(uva - cap), 'total'],
+    ['Con plazo fijo tradicional (' + pct(tna * 100) + ' TNA)', $$(trad)],
+  ]) + `<p class="note ${dif < 0 ? 'warn' : ''}">${dif >= 0 ? '✓ Con esa inflación conviene el UVA' : '⚠ Con esa inflación conviene el tradicional'}: diferencia de ${$$(Math.abs(dif))}.</p>`;
+});
+</script>
+</body>
+</html>
