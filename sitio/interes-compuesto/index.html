@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de interés compuesto y ahorro mensual | Cuentas Claras</title>
+<meta name="description" content="Calculá cuánto juntás con interés compuesto: capital inicial, aporte mensual, tasa anual y plazo. Con el valor real descontando la inflación.">
+<meta property="og:title" content="Calculadora de interés compuesto y ahorro mensual | Cuentas Claras">
+<meta property="og:description" content="Calculá cuánto juntás con interés compuesto: capital inicial, aporte mensual, tasa anual y plazo. Con el valor real descontando la inflación.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/interes-compuesto/">
+<meta property="og:url" content="https://cuentasclaro.com/interes-compuesto/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué diferencia hay entre interés simple y compuesto?", "acceptedAnswer": {"@type": "Answer", "text": "Con interés simple solo ganás sobre el capital inicial. Con interés compuesto los intereses se reinvierten y también generan intereses, por eso el monto crece más rápido."}}, {"@type": "Question", "name": "¿Qué tasa pongo?", "acceptedAnswer": {"@type": "Answer", "text": "Usá la tasa efectiva anual (TEA) del instrumento en el que vas a invertir. Si solo tenés la TNA de un plazo fijo, usá la calculadora de plazo fijo para pasarla a TEA."}}, {"@type": "Question", "name": "¿Los aportes se hacen al principio o al final del mes?", "acceptedAnswer": {"@type": "Answer", "text": "Esta calculadora supone que aportás al final de cada mes, que es el caso más común cuando se ahorra parte del sueldo."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo y sueldo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Interés compuesto</nav>
+<h1>Calculadora de interés compuesto</h1>
+<p class="lead">Descubrí cuánto podés juntar si ahorrás todos los meses y reinvertís lo que ganás.</p>
+<div class="card calc">
+<div class="row">
+<label>Capital inicial ($)<input id="cap" type="number" inputmode="decimal" min="0" value="500000"></label>
+<label>Aporte mensual ($)<input id="apo" type="number" inputmode="decimal" min="0" value="100000"></label>
+</div>
+<div class="row">
+<label>Rendimiento anual (%) <small>tasa efectiva anual</small><input id="tasa" type="number" inputmode="decimal" step="0.1" value="35"></label>
+<label>Plazo (años)<input id="anios" type="number" min="1" max="50" value="5"></label>
+</div>
+<label>Inflación anual esperada (%) <small>opcional, para ver el valor real</small><input id="inf" type="number" inputmode="decimal" step="0.1" value="25"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Qué es el interés compuesto?</h2>
+<p>Es ganar intereses sobre los intereses. Cada mes, lo que ganaste se suma a tu capital y el mes siguiente también genera rendimiento. Por eso, con el tiempo, el crecimiento se acelera: el mismo ahorro rinde mucho más a 10 años que a 2.</p>
+<h3>La fórmula</h3>
+<p><em>Monto final = capital × (1 + i)<sup>n</sup> + aporte × ((1 + i)<sup>n</sup> − 1) ÷ i</em>, donde <em>i</em> es la tasa mensual y <em>n</em> la cantidad de meses. La tasa mensual sale de la anual: <em>i = (1 + TEA)<sup>1/12</sup> − 1</em>.</p>
+<h3>Valor nominal y valor real</h3>
+<p>Con inflación, los pesos del futuro compran menos. Por eso te mostramos también el <strong>valor real</strong>: cuánto representaría ese monto en pesos de hoy. Si el rendimiento es menor que la inflación, aunque tengas más pesos, tu ahorro pierde poder de compra.</p>
+<h3>¿Dónde se consigue ese rendimiento?</h3>
+<p>Depende del instrumento: plazos fijos, fondos comunes de inversión, cuentas remuneradas, bonos o acciones. Cuanto mayor es el rendimiento esperado, en general mayor es el riesgo.</p>
+</div>
+<div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Qué diferencia hay entre interés simple y compuesto?</summary><p>Con interés simple solo ganás sobre el capital inicial. Con interés compuesto los intereses se reinvierten y también generan intereses, por eso el monto crece más rápido.</p></details><details><summary>¿Qué tasa pongo?</summary><p>Usá la tasa efectiva anual (TEA) del instrumento en el que vas a invertir. Si solo tenés la TNA de un plazo fijo, usá la calculadora de plazo fijo para pasarla a TEA.</p></details><details><summary>¿Los aportes se hacen al principio o al final del mes?</summary><p>Esta calculadora supone que aportás al final de cada mes, que es el caso más común cuando se ahorra parte del sueldo.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../plazo-fijo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9.5 10v8M14.5 10v8M19.5 10v8M3 20.5h18"/></svg></span><span class="tile-txt"><strong>Plazo fijo</strong><span>Intereses, TEA y si le gana a la inflación.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../prestamo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15.5h3l3.5 2.5h5a1.5 1.5 0 0 0 0-3H11"/><path d="M6 15.5V20H3M14.5 15l4-2.5a1.5 1.5 0 0 1 2 2.2L15 19.5H9.5"/><circle cx="14" cy="7" r="3"/></svg></span><span class="tile-txt"><strong>Préstamo personal</strong><span>Cuota mensual, intereses y cuadro de pagos.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../sueldo-neto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/></svg></span><span class="tile-txt"><strong>Sueldo neto</strong><span>Cuánto cobrás en mano a partir del bruto.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../aguinaldo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20h14v-7.5M12 8.5V20M12 8.5c-1.5-3-5.5-3.5-5.5-1S10 8.5 12 8.5zm0 0c1.5-3 5.5-3.5 5.5-1S14 8.5 12 8.5z"/></svg></span><span class="tile-txt"><strong>Aguinaldo (SAC)</strong><span>Completo o proporcional, con fechas de pago.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li></ul></div>
+<div><h3>El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const cap = val('cap'), apo = val('apo'), tea = val('tasa') / 100, anios = Math.max(1, Math.min(50, Math.round(val('anios')))), inf = val('inf') / 100;
+  const i = Math.pow(1 + tea, 1 / 12) - 1, n = anios * 12;
+  const fv = m => cap * Math.pow(1 + i, m) + (i ? apo * (Math.pow(1 + i, m) - 1) / i : apo * m);
+  const total = fv(n), aportado = cap + apo * n, real = total / Math.pow(1 + inf, anios);
+  let tabla = '<details class="tabla"><summary>Ver año por año</summary><table class="detail"><tr><th>Año</th><th>Aportado</th><th>Total</th></tr>';
+  for (let a = 1; a <= anios; a++) tabla += `<tr><td>${a}</td><td>${$$(cap + apo * a * 12)}</td><td>${$$(fv(a * 12))}</td></tr>`;
+  tabla += '</table></details>';
+  $('#res').innerHTML = `<div class="label">En ${anios} ${anios === 1 ? 'año' : 'años'} tendrías</div><div class="big">${$$(total)}</div>` + filas([
+    ['Total aportado', $$(aportado)],
+    ['Intereses ganados', '+ ' + $$(total - aportado)],
+    ['Tasa mensual equivalente', pct(i * 100)],
+    ['Valor real (en pesos de hoy)', $$(real), 'total'],
+  ]) + tabla;
+});
+</script>
+</body>
+</html>
