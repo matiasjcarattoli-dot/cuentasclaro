@@ -1,4 +1,4 @@
-import json, os, html
+import json, os, html, urllib.parse
 # Genera las páginas de sitio/ a partir de paginas.py.  Uso: python3 herramientas/armar.py
 AQUI = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.join(AQUI, '..', 'sitio')
@@ -12,6 +12,7 @@ CATEGORIAS = [
     ('trabajo', 'Trabajo, sueldo e impuestos', 'Lo que cobrás, lo que te deben, monotributo y fechas.'),
     ('ahorro', 'Ahorro, inversión y préstamos', 'Hacé rendir tu plata y sabé cuánto te cuesta financiarte.'),
     ('compras', 'Compras, precios e inflación', 'Cuotas, IVA, porcentajes, alquiler y dólar.'),
+    ('utiles', 'Herramientas para el día a día', 'Viajes, gastos compartidos, horas y cuentas rápidas.'),
 ]
 CALCS = [
     # slug, nombre corto, descripción de la tarjeta, ícono, categoría
@@ -23,15 +24,23 @@ CALCS = [
     ('monotributo', 'Monotributo', 'En qué categoría estás y cuánto pagás por mes.', 'recibo', 'trabajo'),
     ('empleada-domestica', 'Sueldo de empleada doméstica', 'Sueldo por hora o por mes según la categoría.', 'casa', 'trabajo'),
     ('dias-habiles', 'Días hábiles', 'Días hábiles entre dos fechas, con los feriados.', 'calendario', 'trabajo'),
+    ('sueldo-bruto', 'Sueldo bruto desde el neto', 'Cuánto tiene que ser el bruto para cobrar X en mano.', 'billete', 'trabajo'),
+    ('precio-de-venta', 'Precio de venta', 'Para emprendedores: costo, ganancia, comisiones e IVA.', 'etiqueta', 'trabajo'),
     ('plazo-fijo', 'Plazo fijo', 'Intereses, TEA y si le gana a la inflación.', 'banco', 'ahorro'),
     ('interes-compuesto', 'Interés compuesto y ahorro', 'Cuánto juntás ahorrando todos los meses.', 'grafico', 'ahorro'),
     ('prestamo', 'Préstamo personal', 'Cuota mensual, intereses y cuadro de pagos.', 'mano', 'ahorro'),
+    ('ahorro-objetivo', 'Meta de ahorro', 'Cuánto ahorrar por mes para llegar a tu objetivo.', 'objetivo', 'ahorro'),
+    ('tasas', 'Conversor de tasas', 'Pasá de TNA a TEA y a tasa mensual (TEM).', 'grafico', 'ahorro'),
     ('cuotas', '¿Cuotas o contado?', 'Qué conviene según la inflación.', 'tarjeta', 'compras'),
     ('inflacion', 'Inflación acumulada', 'Cuánto subieron los precios y cuánto vale hoy tu plata.', 'termometro', 'compras'),
     ('alquiler', 'Aumento de alquiler', 'Cuánto vas a pagar con la próxima actualización.', 'casa', 'compras'),
     ('iva', 'IVA', 'Agregá o sacá el IVA de un precio (21 %, 10,5 %, 27 %).', 'recibo', 'compras'),
     ('porcentajes', 'Porcentajes', 'Descuentos, aumentos y variaciones al instante.', 'porcentaje', 'compras'),
     ('dolar', 'Dólar hoy', 'Cotizaciones y conversor pesos ⇄ dólares.', 'dolar', 'compras'),
+    ('costo-viaje', 'Costo de un viaje en auto', 'Nafta y peajes, y cuánto pone cada uno.', 'auto', 'utiles'),
+    ('dividir-gastos', 'Dividir gastos', 'Quién le debe a quién después de una salida o viaje.', 'personas', 'utiles'),
+    ('horas-trabajadas', 'Horas trabajadas', 'Sumá tus horarios de entrada y salida.', 'reloj', 'utiles'),
+    ('regla-de-tres', 'Regla de tres', 'Simple directa e inversa, al instante.', 'cambio', 'utiles'),
 ]
 NOMBRES = {c[0]: c[1] for c in CALCS}
 GUIAS = [
@@ -40,6 +49,10 @@ GUIAS = [
     ('aguinaldo-diciembre-2026', 'Aguinaldo de diciembre 2026', 'Cuándo se cobra, cómo se calcula y ejemplos con números.', ['aguinaldo', 'sueldo-neto', 'vacaciones']),
     ('como-calcular-indemnizacion', 'Cómo calcular la indemnización por despido', 'Qué te corresponde rubro por rubro si te despiden sin causa.', ['indemnizacion', 'vacaciones', 'aguinaldo']),
     ('cuotas-o-contado', '¿Conviene pagar en cuotas o de contado?', 'Cómo decidir con inflación, cuotas sin interés y descuentos.', ['cuotas', 'inflacion', 'prestamo']),
+    ('sueldo-bruto-y-neto', 'Sueldo bruto y neto: diferencias', 'Qué te descuentan del sueldo y cómo leer tu recibo.', ['sueldo-neto', 'sueldo-bruto', 'aguinaldo']),
+    ('tna-tea-cft', 'TNA, TEA, TEM y CFT explicados', 'Qué significa cada tasa y cómo compararlas.', ['tasas', 'plazo-fijo', 'prestamo']),
+    ('vacaciones-cuantos-dias', 'Vacaciones: cuántos días te corresponden', 'Días por antigüedad, cuándo se toman y cómo se pagan.', ['vacaciones', 'dias-habiles', 'aguinaldo']),
+    ('recategorizacion-monotributo', 'Recategorización del monotributo', 'Cuándo y cómo recategorizarte, paso a paso.', ['monotributo', 'precio-de-venta', 'iva']),
 ]
 
 # Íconos de línea propios (24×24, trazo), así se ven igual en todos los dispositivos.
@@ -63,6 +76,12 @@ P = {
     'lupa': '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
     'calendario': '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4M8 13.5h.01M12 13.5h.01M16 13.5h.01M8 17h.01M12 17h.01"/>',
     'libro': '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7.5h8M8 11h6"/>',
+    'etiqueta': '<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.4 6.4a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.5"/>',
+    'auto': '<path d="M5 16.5H3.5v-4l2-5h13l2 5v4H19"/><path d="M3.5 12.5h17M9 16.5h6"/><circle cx="7" cy="16.5" r="2"/><circle cx="17" cy="16.5" r="2"/>',
+    'personas': '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2c2.8 0 5 2.3 5 5.3"/>',
+    'cambio': '<path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5"/>',
+    'objetivo': '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+    'compartir': '<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/>',
     'rayo': '<path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/>',
 }
 def icono(nombre, cls='ico'):
@@ -112,6 +131,11 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
         elegidas = (misma + otras)[:4]
         rel = '<section class="related"><h2>Otras calculadoras</h2><div class="grid">' + ''.join(tarjeta(c, up) for c in elegidas) + '</div></section>'
 
+    texto = urllib.parse.quote(f'{title.split(":")[0]} {url}')
+    compartir = ('' if path in ('privacidad', 'acerca', 'guias') else
+        f'<div class="share"><span>¿Te sirvió? Compartilo</span>'
+        f'<a class="btn wa" href="https://wa.me/?text={texto}" target="_blank" rel="noopener">WhatsApp</a>'
+        f'<button class="btn" type="button" data-compartir data-url="{url}" data-titulo="{html.escape(title)}">{icono("compartir")}Compartir</button></div>')
     menu = ''.join(f'<a href="{up}#{k}">{html.escape(n.split(",")[0])}</a>' for k, n, _ in CATEGORIAS) + f'<a href="{up}guias/">Guías</a>'
     pie_guias = ''.join(f'<li><a href="{up}guias/{g[0]}/">{html.escape(g[1])}</a></li>' for g in GUIAS)
     pie_calcs = ''.join(f'<li><a href="{up}{c[0]}/">{html.escape(c[1])}</a></li>' for c in CALCS)
@@ -129,6 +153,10 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
 <meta property="og:url" content="{url}">
 <meta property="og:locale" content="es_AR">
 <meta property="og:site_name" content="{SITE}">
+<meta property="og:image" content="{DOMINIO}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0b7a5c">
 <link rel="icon" href="{up}icono.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -144,7 +172,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
 <nav class="menu">{menu}</nav>
 </div></header>
 <main>
-{body if home else f'<div class="wrap page">{crumb}{body}<div class="ad"></div>{faq_html}{rel}</div>'}
+{body if home else f'<div class="wrap page">{crumb}{body}{compartir}<div class="ad"></div>{faq_html}{rel}</div>'}
 </main>
 <footer class="bottom"><div class="wrap">
 <div class="foot-grid">

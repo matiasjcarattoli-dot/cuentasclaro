@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversor de tasas: TNA a TEA y a tasa mensual (TEM) | Cuentas Claras</title>
+<meta name="description" content="Convertí tasas de interés al instante: de TNA a TEA, de TEA a TNA y a tasa efectiva mensual (TEM), para plazos fijos, préstamos y billeteras virtuales.">
+<meta property="og:title" content="Conversor de tasas: TNA a TEA y a tasa mensual (TEM) | Cuentas Claras">
+<meta property="og:description" content="Convertí tasas de interés al instante: de TNA a TEA, de TEA a TNA y a tasa efectiva mensual (TEM), para plazos fijos, préstamos y billeteras virtuales.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/tasas/">
+<meta property="og:url" content="https://cuentasclaro.com/tasas/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta property="og:image" content="https://cuentasclaro.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cómo paso de TNA a tasa mensual?", "acceptedAnswer": {"@type": "Answer", "text": "Para un plazo fijo a 30 días: tasa mensual = TNA × 30 ÷ 365. Una TNA del 30 % equivale a un 2,47 % mensual."}}, {"@type": "Question", "name": "¿Por qué la TEA es mayor que la TNA?", "acceptedAnswer": {"@type": "Answer", "text": "Porque supone que reinvertís los intereses y ganás intereses sobre los intereses (interés compuesto)."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a><a href="../#utiles">Herramientas para el día a día</a><a href="../guias/">Guías</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Conversor de tasas</nav>
+<h1>Conversor de tasas: TNA, TEA y TEM</h1>
+<p class="lead">Pasá cualquier tasa a las otras para comparar plazos fijos, cuentas remuneradas y préstamos.</p>
+<div class="card calc">
+<div class="row">
+<label>Tasa (%)<input id="t" type="number" inputmode="decimal" step="0.01" value="30"></label>
+<label>Tipo de tasa<select id="tipo"><option value="tna">TNA (nominal anual)</option><option value="tea">TEA (efectiva anual)</option><option value="tem">TEM (efectiva mensual)</option></select></label>
+</div>
+<label>Período de capitalización (días) <small>30 para plazos fijos mensuales, 1 para cuentas que pagan a diario</small><input id="d" type="number" min="1" max="365" value="30"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Qué es cada tasa?</h2>
+<ul>
+<li><strong>TNA (tasa nominal anual):</strong> es la que publican los bancos. No considera que los intereses se reinvierten.</li>
+<li><strong>TEA (tasa efectiva anual):</strong> lo que ganarías o pagarías en un año reinvirtiendo los intereses. Es la que sirve para comparar.</li>
+<li><strong>TEM (tasa efectiva mensual):</strong> lo que ganás o pagás en un mes. Sirve para comparar con la inflación mensual.</li>
+</ul>
+<h3>Las fórmulas</h3>
+<p><em>Tasa del período = TNA × días ÷ 365</em> · <em>TEA = (1 + tasa del período)<sup>365/días</sup> − 1</em></p>
+<p>Por eso una cuenta que paga intereses todos los días tiene una TEA más alta que un plazo fijo a 30 días con la misma TNA.</p>
+<p>¿Querés entenderlo mejor? Leé la guía <a href="../guias/tna-tea-cft/">TNA, TEA, TEM y CFT explicados</a>.</p>
+</div>
+<div class="share"><span>¿Te sirvió? Compartilo</span><a class="btn wa" href="https://wa.me/?text=Conversor%20de%20tasas%20https%3A//cuentasclaro.com/tasas/" target="_blank" rel="noopener">WhatsApp</a><button class="btn" type="button" data-compartir data-url="https://cuentasclaro.com/tasas/" data-titulo="Conversor de tasas: TNA a TEA y a tasa mensual (TEM)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/></svg>Compartir</button></div><div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Cómo paso de TNA a tasa mensual?</summary><p>Para un plazo fijo a 30 días: tasa mensual = TNA × 30 ÷ 365. Una TNA del 30 % equivale a un 2,47 % mensual.</p></details><details><summary>¿Por qué la TEA es mayor que la TNA?</summary><p>Porque supone que reinvertís los intereses y ganás intereses sobre los intereses (interés compuesto).</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../plazo-fijo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9.5 10v8M14.5 10v8M19.5 10v8M3 20.5h18"/></svg></span><span class="tile-txt"><strong>Plazo fijo</strong><span>Intereses, TEA y si le gana a la inflación.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../interes-compuesto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span class="tile-txt"><strong>Interés compuesto y ahorro</strong><span>Cuánto juntás ahorrando todos los meses.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../prestamo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15.5h3l3.5 2.5h5a1.5 1.5 0 0 0 0-3H11"/><path d="M6 15.5V20H3M14.5 15l4-2.5a1.5 1.5 0 0 1 2 2.2L15 19.5H9.5"/><circle cx="14" cy="7" r="3"/></svg></span><span class="tile-txt"><strong>Préstamo personal</strong><span>Cuota mensual, intereses y cuadro de pagos.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../ahorro-objetivo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span><span class="tile-txt"><strong>Meta de ahorro</strong><span>Cuánto ahorrar por mes para llegar a tu objetivo.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../monotributo/">Monotributo</a></li><li><a href="../empleada-domestica/">Sueldo de empleada doméstica</a></li><li><a href="../dias-habiles/">Días hábiles</a></li><li><a href="../sueldo-bruto/">Sueldo bruto desde el neto</a></li><li><a href="../precio-de-venta/">Precio de venta</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../ahorro-objetivo/">Meta de ahorro</a></li><li><a href="../tasas/">Conversor de tasas</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li><li><a href="../costo-viaje/">Costo de un viaje en auto</a></li><li><a href="../dividir-gastos/">Dividir gastos</a></li><li><a href="../horas-trabajadas/">Horas trabajadas</a></li><li><a href="../regla-de-tres/">Regla de tres</a></li></ul></div>
+<div><h3>Guías</h3><ul><li><a href="../guias/feriados-2026/">Feriados 2026 en Argentina</a></li><li><a href="../guias/aguinaldo-diciembre-2026/">Aguinaldo de diciembre 2026</a></li><li><a href="../guias/como-calcular-indemnizacion/">Cómo calcular la indemnización por despido</a></li><li><a href="../guias/cuotas-o-contado/">¿Conviene pagar en cuotas o de contado?</a></li><li><a href="../guias/sueldo-bruto-y-neto/">Sueldo bruto y neto: diferencias</a></li><li><a href="../guias/tna-tea-cft/">TNA, TEA, TEM y CFT explicados</a></li><li><a href="../guias/vacaciones-cuantos-dias/">Vacaciones: cuántos días te corresponden</a></li><li><a href="../guias/recategorizacion-monotributo/">Recategorización del monotributo</a></li></ul><h3 class="mt">El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const t = val('t') / 100, tipo = $('#tipo').value, d = Math.max(1, Math.min(365, Math.round(val('d'))));
+  let per;
+  if (tipo === 'tna') per = t * d / 365;
+  else if (tipo === 'tea') per = Math.pow(1 + t, d / 365) - 1;
+  else per = Math.pow(1 + t, d / 30) - 1;
+  const tna = per * 365 / d * 100, tea = (Math.pow(1 + per, 365 / d) - 1) * 100, tem = (Math.pow(1 + per, 30 / d) - 1) * 100, ted = (Math.pow(1 + per, 1 / d) - 1) * 100;
+  $('#res').innerHTML = `<div class="label">Tasa efectiva anual (TEA)</div><div class="big">${pct(tea)}</div>` + filas([
+    ['TNA', pct(tna)], ['TEM (mensual)', pct(tem)], ['Tasa diaria', num.format(ted.toFixed(4)) + ' %'], ['TEA', pct(tea), 'total'],
+  ]);
+});
+</script>
+</body>
+</html>

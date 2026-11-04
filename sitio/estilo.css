@@ -211,3 +211,13 @@ footer.bottom .logo-txt b { font-weight: inherit; color: var(--accent); }
 .big-table { display: block; overflow-x: auto; }
 .big-table td, .big-table th { white-space: normal !important; vertical-align: top; padding-right: 10px; }
 .big-table td:last-child, .big-table th:last-child { padding-right: 0; }
+
+/* ===== Compartir ===== */
+.share { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 28px 0 8px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.share > span { flex: 1 1 160px; font-weight: 600; font-size: 15px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 14px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); text-decoration: none; cursor: pointer; }
+.btn svg { width: 16px; height: 16px; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.wa { background: #1f9d55; border-color: #1f9d55; color: #fff; }
+.btn.wa:hover { background: #188046; color: #fff; }
+.split-out li { margin: 4px 0; }

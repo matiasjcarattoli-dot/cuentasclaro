@@ -46,3 +46,13 @@ function conectar(calcular) {
 }
 
 document.querySelectorAll('[data-anio]').forEach(e => e.textContent = new Date().getFullYear());
+
+// Botón compartir: usa el menú nativo del celular o copia el link.
+document.querySelectorAll('[data-compartir]').forEach(b => b.addEventListener('click', async () => {
+  const url = b.dataset.url, title = b.dataset.titulo;
+  try {
+    if (navigator.share) { await navigator.share({ title, url }); return; }
+    await navigator.clipboard.writeText(url);
+    const t = b.lastChild.textContent; b.lastChild.textContent = '¡Link copiado!'; setTimeout(() => b.lastChild.textContent = t, 2000);
+  } catch (e) {}
+}));
