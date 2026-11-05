@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de crédito hipotecario UVA: cuota e ingreso necesario | Cuentas Claras</title>
+<meta name="description" content="Simulá un crédito hipotecario UVA: cuota inicial, cuánto tenés que ganar para que te lo den, cuánto sube la cuota con la inflación y el total a pagar.">
+<meta property="og:title" content="Simulador de crédito hipotecario UVA: cuota e ingreso necesario | Cuentas Claras">
+<meta property="og:description" content="Simulá un crédito hipotecario UVA: cuota inicial, cuánto tenés que ganar para que te lo den, cuánto sube la cuota con la inflación y el total a pagar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/credito-hipotecario-uva/">
+<meta property="og:url" content="https://cuentasclaro.com/credito-hipotecario-uva/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta property="og:image" content="https://cuentasclaro.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuánto tengo que ganar para un crédito hipotecario UVA?", "acceptedAnswer": {"@type": "Answer", "text": "Depende del monto, el plazo y la tasa. Como referencia, el ingreso del hogar tiene que ser unas 3 a 4 veces la cuota inicial, según la relación que exija cada banco."}}, {"@type": "Question", "name": "¿La cuota de un crédito UVA sube todos los meses?", "acceptedAnswer": {"@type": "Answer", "text": "Sí: la cantidad de UVA es fija, pero el valor de la UVA en pesos sube con la inflación, así que la cuota en pesos también sube."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a><a href="../#utiles">Herramientas para el día a día</a><a href="../guias/">Guías</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Crédito hipotecario UVA</nav>
+<h1>Simulador de crédito hipotecario UVA</h1>
+<p class="lead">Calculá la cuota inicial de un crédito hipotecario UVA, el ingreso que te piden y cómo puede evolucionar la cuota.</p>
+<div class="card calc">
+<div class="row">
+<label>Monto del crédito ($)<input id="monto" type="number" inputmode="decimal" min="0" value="80000000"></label>
+<label>Plazo (años)<input id="anios" type="number" min="1" max="40" value="20"></label>
+</div>
+<div class="row">
+<label>Tasa anual (TNA %) <small>la que ofrece el banco, sobre UVA</small><input id="tna" type="number" inputmode="decimal" step="0.1" min="0" value="4.5"></label>
+<label>Relación cuota-ingreso (%) <small>la que exige el banco, suele ser 25 % a 35 %</small><input id="rel" type="number" min="1" max="100" value="25"></label>
+</div>
+<label>Inflación mensual esperada (%) <small>para estimar cómo sube la cuota</small><input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+<div id="res" class="result"></div>
+<p class="note">Simulación orientativa: no incluye seguros, gastos de escritura ni comisiones. Cada banco tiene sus propias condiciones.</p>
+</div>
+<div class="article">
+<h2>¿Cómo funciona un crédito UVA?</h2>
+<p>El monto que te prestan se convierte a <strong>UVA</strong>, una unidad que sube todos los días con la inflación. Vos devolvés una cantidad fija de UVA por mes (sistema francés), pero como cada UVA vale más pesos con el tiempo, <strong>la cuota en pesos va subiendo</strong> al ritmo de la inflación.</p>
+<p>A cambio, la tasa de interés es baja (en general, de un dígito anual), y la cuota inicial es mucho menor que en un crédito a tasa fija.</p>
+<h3>¿Cuánto tengo que ganar?</h3>
+<p>Los bancos piden que la cuota no supere un porcentaje de los ingresos del hogar, en general entre el <strong>25 % y el 35 %</strong>. Por eso el ingreso necesario es la cuota dividida por ese porcentaje.</p>
+<h3>El riesgo principal</h3>
+<p>Si tu sueldo sube <strong>menos que la inflación</strong> durante mucho tiempo, la cuota va a pesar cada vez más en tu presupuesto. Antes de tomar un crédito UVA, dejá margen y averiguá si el banco ofrece opciones de extensión de plazo cuando la cuota supera cierto porcentaje del sueldo.</p>
+<p>Leé más en la guía <a href="../guias/credito-hipotecario-uva/">Cómo funciona el crédito hipotecario UVA</a>.</p>
+</div>
+<div class="share"><span>¿Te sirvió? Compartilo</span><a class="btn wa" href="https://wa.me/?text=Simulador%20de%20cr%C3%A9dito%20hipotecario%20UVA%20https%3A//cuentasclaro.com/credito-hipotecario-uva/" target="_blank" rel="noopener">WhatsApp</a><button class="btn" type="button" data-compartir data-url="https://cuentasclaro.com/credito-hipotecario-uva/" data-titulo="Simulador de crédito hipotecario UVA: cuota e ingreso necesario"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/></svg>Compartir</button></div><div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Cuánto tengo que ganar para un crédito hipotecario UVA?</summary><p>Depende del monto, el plazo y la tasa. Como referencia, el ingreso del hogar tiene que ser unas 3 a 4 veces la cuota inicial, según la relación que exija cada banco.</p></details><details><summary>¿La cuota de un crédito UVA sube todos los meses?</summary><p>Sí: la cantidad de UVA es fija, pero el valor de la UVA en pesos sube con la inflación, así que la cuota en pesos también sube.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../plazo-fijo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9.5 10v8M14.5 10v8M19.5 10v8M3 20.5h18"/></svg></span><span class="tile-txt"><strong>Plazo fijo</strong><span>Intereses, TEA y si le gana a la inflación.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../plazo-fijo-uva/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9.5 10v8M14.5 10v8M19.5 10v8M3 20.5h18"/></svg></span><span class="tile-txt"><strong>Plazo fijo UVA</strong><span>Cuánto rinde ajustado por inflación y si conviene.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../cuenta-remunerada/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/></svg></span><span class="tile-txt"><strong>Cuenta remunerada</strong><span>Cuánto te rinde la plata en una billetera virtual.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../interes-compuesto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span class="tile-txt"><strong>Interés compuesto y ahorro</strong><span>Cuánto juntás ahorrando todos los meses.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../monotributo/">Monotributo</a></li><li><a href="../empleada-domestica/">Sueldo de empleada doméstica</a></li><li><a href="../dias-habiles/">Días hábiles</a></li><li><a href="../jubilacion/">Jubilación, bono y aguinaldo</a></li><li><a href="../sueldo-por-hora/">Sueldo por hora</a></li><li><a href="../sueldo-bruto/">Sueldo bruto desde el neto</a></li><li><a href="../precio-de-venta/">Precio de venta</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../plazo-fijo-uva/">Plazo fijo UVA</a></li><li><a href="../cuenta-remunerada/">Cuenta remunerada</a></li><li><a href="../credito-hipotecario-uva/">Crédito hipotecario UVA</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../ahorro-objetivo/">Meta de ahorro</a></li><li><a href="../tasas/">Conversor de tasas</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li><li><a href="../costo-viaje/">Costo de un viaje en auto</a></li><li><a href="../dividir-gastos/">Dividir gastos</a></li><li><a href="../horas-trabajadas/">Horas trabajadas</a></li><li><a href="../edad/">Calcular edad</a></li><li><a href="../dias-entre-fechas/">Días entre fechas</a></li><li><a href="../consumo-electrico/">Consumo eléctrico</a></li><li><a href="../regla-de-tres/">Regla de tres</a></li></ul></div>
+<div><h3>Guías</h3><ul><li><a href="../guias/feriados-2026/">Feriados 2026 en Argentina</a></li><li><a href="../guias/aguinaldo-diciembre-2026/">Aguinaldo de diciembre 2026</a></li><li><a href="../guias/como-calcular-indemnizacion/">Cómo calcular la indemnización por despido</a></li><li><a href="../guias/cuotas-o-contado/">¿Conviene pagar en cuotas o de contado?</a></li><li><a href="../guias/sueldo-bruto-y-neto/">Sueldo bruto y neto: diferencias</a></li><li><a href="../guias/tna-tea-cft/">TNA, TEA, TEM y CFT explicados</a></li><li><a href="../guias/vacaciones-cuantos-dias/">Vacaciones: cuántos días te corresponden</a></li><li><a href="../guias/que-hacer-si-me-despiden/">Qué hacer si te despiden</a></li><li><a href="../guias/licencias-por-ley/">Licencias laborales por ley</a></li><li><a href="../guias/como-pedir-un-aumento/">Cómo pedir un aumento de sueldo</a></li><li><a href="../guias/credito-hipotecario-uva/">Cómo funciona el crédito hipotecario UVA</a></li><li><a href="../guias/donde-tener-los-ahorros/">Dónde tener tus ahorros en pesos</a></li><li><a href="../guias/resumen-tarjeta-de-credito/">Cómo leer el resumen de la tarjeta</a></li><li><a href="../guias/recategorizacion-monotributo/">Recategorización del monotributo</a></li></ul><h3 class="mt">El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+conectar(() => {
+  const M = val('monto'), n = Math.max(1, Math.round(val('anios'))) * 12, i = val('tna') / 100 / 12, rel = Math.max(1, val('rel')) / 100, inf = val('inf') / 100;
+  const cuota = i ? M * i / (1 - Math.pow(1 + i, -n)) : M / n;
+  const c12 = cuota * Math.pow(1 + inf, 12), c60 = cuota * Math.pow(1 + inf, 60);
+  $('#res').innerHTML = `<div class="label">Cuota inicial</div><div class="big">${$$(cuota)}</div>` + filas([
+    ['Ingreso mínimo del hogar (' + pct(rel * 100) + ')', $$(cuota / rel), 'total'],
+    ['Cantidad de cuotas', n],
+    ['Cuota en 1 año (con ' + pct(inf * 100) + ' mensual)', $$(c12)],
+    ['Cuota en 5 años', $$(c60)],
+    ['Total a devolver, en pesos de hoy', $$(cuota * n)],
+  ]) + '<p class="note">"En pesos de hoy" significa sin contar la inflación: es lo que pagarías si los precios no subieran.</p>';
+});
+</script>
+</body>
+</html>

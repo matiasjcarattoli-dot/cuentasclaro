@@ -1821,3 +1821,393 @@ page('guias/como-pedir-un-aumento', 'Cómo pedir un aumento de sueldo: cuándo, 
  ('¿Cuánto aumento tengo que pedir?', 'Como mínimo, lo que te haga recuperar la inflación desde tu último aumento. Si además asumiste más responsabilidades o el mercado paga más, sumalo como argumento.'),
  ('¿Cada cuánto se puede pedir un aumento?', 'No hay una regla, pero con inflación es razonable revisarlo al menos una o dos veces por año, además de los aumentos de convenio.'),
 ])
+
+# ---------- SUELDO POR HORA ----------
+page('sueldo-por-hora', 'Calculadora de sueldo por hora: de mensual a hora y al revés',
+ 'Calculá cuánto ganás por hora, por día y por semana a partir de tu sueldo mensual, o cuánto cobrarías por mes con un valor hora.',
+ nombre='Sueldo por hora', body='''
+<h1>Calculadora de sueldo por hora</h1>
+<p class="lead">Pasá tu sueldo mensual a valor hora, o al revés, para comparar trabajos o presupuestar.</p>
+<div class="card calc">
+<label>¿Qué tenés?<select id="modo"><option value="mes">Un sueldo mensual</option><option value="hora">Un valor por hora</option></select></label>
+<div class="row">
+<div data-modo="mes"><label>Sueldo mensual ($)<input id="mes" type="number" inputmode="decimal" min="0" value="1000000"></label></div>
+<div data-modo="hora"><label>Valor por hora ($)<input id="hora" type="number" inputmode="decimal" min="0" value="6000"></label></div>
+<label>Horas por semana<input id="hs" type="number" inputmode="decimal" min="1" max="100" value="45"></label>
+</div>
+<label>Días que trabajás por semana<input id="dias" type="number" min="1" max="7" value="5"></label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula el sueldo por hora?</h2>
+<p>Un mes tiene en promedio <strong>4,33 semanas</strong> (52 semanas ÷ 12 meses). Entonces:</p>
+<p><em>Valor hora = sueldo mensual ÷ (horas por semana × 4,33)</em></p>
+<p>Con un sueldo de $1.000.000 y 45 horas semanales, trabajás unas 195 horas por mes: cada hora vale unos <strong>$5.128</strong>.</p>
+<h3>Para comparar trabajos</h3>
+<p>Dos sueldos iguales no valen lo mismo si uno pide 40 horas por semana y otro 48. Pasar todo a valor hora te muestra cuál paga mejor tu tiempo. Sumá también el tiempo de viaje si es muy distinto.</p>
+<h3>Para freelancers</h3>
+<p>Si trabajás por tu cuenta, al valor hora sumale lo que no cobrás cuando no trabajás (vacaciones, días sin clientes) y tus costos: monotributo, equipos, internet. Un valor hora "de empleado" suele quedarse corto.</p>
+</div>
+''', faq=[
+ ('¿Cuántas horas tiene un mes de trabajo?', 'Depende de tu jornada: con 40 horas semanales son unas 173 horas por mes; con 45, unas 195; con 48, unas 208.'),
+ ('¿El valor hora es bruto o neto?', 'Es el mismo tipo de monto que cargues: si ponés tu sueldo bruto, el valor hora es bruto; si ponés el neto, es neto.'),
+], script='''
+conectar(() => {
+  modos('#modo');
+  const hs = Math.max(1, val('hs')), dias = Math.max(1, Math.min(7, Math.round(val('dias')))), hm = hs * 52 / 12;
+  const porMes = $('#modo').value === 'mes', mes = porMes ? val('mes') : val('hora') * hm, hora = mes / hm;
+  $('#res').innerHTML = `<div class="label">${porMes ? 'Ganás por hora' : 'Ganarías por mes'}</div><div class="big">${$$(porMes ? hora : mes)}</div>` + filas([
+    ['Horas por mes', num.format(hm) + ' h'],
+    ['Por hora', $$(hora)],
+    ['Por día (' + num.format(hs / dias) + ' h)', $$(hora * hs / dias)],
+    ['Por semana', $$(hora * hs)],
+    ['Por mes', $$(mes), 'total'],
+    ['Por año (12 meses + aguinaldo)', $$(mes * 13)],
+  ]);
+});
+''')
+
+# ---------- CUENTA REMUNERADA ----------
+page('cuenta-remunerada', 'Calculadora de cuenta remunerada: cuánto rinde tu plata por día',
+ 'Calculá cuánto te rinde la plata en una cuenta remunerada o billetera virtual (Mercado Pago, Ualá, Naranja X y otras) por día, por mes y por año según la TNA.',
+ nombre='Cuenta remunerada', body='''
+<h1>¿Cuánto rinde mi plata en una cuenta remunerada?</h1>
+<p class="lead">Poné tu saldo y la tasa que te paga tu billetera o banco, y te decimos cuánto ganás por día, por mes y por año.</p>
+<div class="card calc">
+<div class="row">
+<label>Saldo ($)<input id="saldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<label>TNA (%) <small>la que muestra tu app</small><input id="tna" type="number" inputmode="decimal" step="0.1" min="0" value="28"></label>
+</div>
+<div class="row">
+<label>Tope de saldo que remunera ($) <small>opcional, 0 = sin tope</small><input id="tope" type="number" inputmode="decimal" min="0" value="0"></label>
+<label>Inflación mensual esperada (%) <small>opcional</small><input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+</div>
+<div id="res" class="result"></div>
+<p class="note">Las tasas de las billeteras cambian seguido: usá la que figura hoy en tu app.</p>
+</div>
+<div class="article">
+<h2>¿Cómo funcionan las cuentas remuneradas?</h2>
+<p>Las billeteras virtuales y algunos bancos pagan intereses <strong>todos los días</strong> por el saldo que dejás en la cuenta. Como los intereses de hoy se suman al saldo y mañana también rinden, la ganancia real es un poco mayor que la que indica la TNA.</p>
+<p><em>Ganancia por día = saldo × TNA ÷ 365</em></p>
+<h3>Ventajas</h3>
+<ul>
+<li>La plata está <strong>disponible siempre</strong>: la podés usar o transferir cuando quieras.</li>
+<li>No hay plazo mínimo, como en el plazo fijo.</li>
+</ul>
+<h3>Cosas a tener en cuenta</h3>
+<ul>
+<li>Muchas billeteras tienen un <strong>tope de saldo</strong>: por encima, el dinero no rinde o rinde menos.</li>
+<li>En las billeteras, en general la plata se invierte en un <strong>fondo común de inversión</strong> de bajo riesgo, que no tiene la garantía de depósitos de los bancos.</li>
+<li>La tasa cambia casi todas las semanas.</li>
+</ul>
+<p>Si no vas a necesitar la plata por un tiempo, compará con un <a href="../plazo-fijo/">plazo fijo</a>.</p>
+</div>
+''', faq=[
+ ('¿Cuánto rinde $1.000.000 en Mercado Pago?', 'Depende de la tasa del día. Con una TNA del 28 %, rinden unos $767 por día y unos $23.300 por mes. Cargá la tasa actual en la calculadora para ver el número exacto.'),
+ ('¿Conviene más la cuenta remunerada o el plazo fijo?', 'El plazo fijo suele pagar una tasa algo más alta a cambio de inmovilizar la plata 30 días o más. La cuenta remunerada paga un poco menos pero te deja usar el dinero cuando quieras.'),
+], script='''
+conectar(() => {
+  const saldo = val('saldo'), tna = val('tna') / 100, tope = val('tope'), inf = val('inf') / 100;
+  const base = tope > 0 ? Math.min(saldo, tope) : saldo, d = tna / 365;
+  const dia = base * d, mes = base * (Math.pow(1 + d, 30) - 1), anio = base * (Math.pow(1 + d, 365) - 1);
+  const tem = (Math.pow(1 + d, 30) - 1) * 100, tea = (Math.pow(1 + d, 365) - 1) * 100;
+  let comp = '';
+  if (inf) { const r = ((1 + tem / 100) / (1 + inf) - 1) * 100; comp = `<p class="note ${r < 0 ? 'warn' : ''}">${r >= 0 ? '✓ Le gana a la inflación' : '⚠ Pierde contra la inflación'}: ${pct(r)} real por mes.</p>`; }
+  $('#res').innerHTML = `<div class="label">Ganás por mes (30 días)</div><div class="big">${$$(mes)}</div>` + filas([
+    ['Por día', $$(dia)],
+    ['Por mes', $$(mes)],
+    ['Por año (reinvirtiendo)', $$(anio), 'total'],
+    ['Tasa mensual efectiva', pct(tem)],
+    ['TEA', pct(tea)],
+    ...(tope > 0 && saldo > tope ? [['Saldo que no rinde', $$(saldo - tope)]] : []),
+  ]) + comp;
+});
+''')
+
+# ---------- CRÉDITO HIPOTECARIO UVA ----------
+page('credito-hipotecario-uva', 'Simulador de crédito hipotecario UVA: cuota e ingreso necesario',
+ 'Simulá un crédito hipotecario UVA: cuota inicial, cuánto tenés que ganar para que te lo den, cuánto sube la cuota con la inflación y el total a pagar.',
+ nombre='Crédito hipotecario UVA', body='''
+<h1>Simulador de crédito hipotecario UVA</h1>
+<p class="lead">Calculá la cuota inicial de un crédito hipotecario UVA, el ingreso que te piden y cómo puede evolucionar la cuota.</p>
+<div class="card calc">
+<div class="row">
+<label>Monto del crédito ($)<input id="monto" type="number" inputmode="decimal" min="0" value="80000000"></label>
+<label>Plazo (años)<input id="anios" type="number" min="1" max="40" value="20"></label>
+</div>
+<div class="row">
+<label>Tasa anual (TNA %) <small>la que ofrece el banco, sobre UVA</small><input id="tna" type="number" inputmode="decimal" step="0.1" min="0" value="4.5"></label>
+<label>Relación cuota-ingreso (%) <small>la que exige el banco, suele ser 25 % a 35 %</small><input id="rel" type="number" min="1" max="100" value="25"></label>
+</div>
+<label>Inflación mensual esperada (%) <small>para estimar cómo sube la cuota</small><input id="inf" type="number" inputmode="decimal" step="0.1" value="2"></label>
+<div id="res" class="result"></div>
+<p class="note">Simulación orientativa: no incluye seguros, gastos de escritura ni comisiones. Cada banco tiene sus propias condiciones.</p>
+</div>
+<div class="article">
+<h2>¿Cómo funciona un crédito UVA?</h2>
+<p>El monto que te prestan se convierte a <strong>UVA</strong>, una unidad que sube todos los días con la inflación. Vos devolvés una cantidad fija de UVA por mes (sistema francés), pero como cada UVA vale más pesos con el tiempo, <strong>la cuota en pesos va subiendo</strong> al ritmo de la inflación.</p>
+<p>A cambio, la tasa de interés es baja (en general, de un dígito anual), y la cuota inicial es mucho menor que en un crédito a tasa fija.</p>
+<h3>¿Cuánto tengo que ganar?</h3>
+<p>Los bancos piden que la cuota no supere un porcentaje de los ingresos del hogar, en general entre el <strong>25 % y el 35 %</strong>. Por eso el ingreso necesario es la cuota dividida por ese porcentaje.</p>
+<h3>El riesgo principal</h3>
+<p>Si tu sueldo sube <strong>menos que la inflación</strong> durante mucho tiempo, la cuota va a pesar cada vez más en tu presupuesto. Antes de tomar un crédito UVA, dejá margen y averiguá si el banco ofrece opciones de extensión de plazo cuando la cuota supera cierto porcentaje del sueldo.</p>
+<p>Leé más en la guía <a href="../guias/credito-hipotecario-uva/">Cómo funciona el crédito hipotecario UVA</a>.</p>
+</div>
+''', faq=[
+ ('¿Cuánto tengo que ganar para un crédito hipotecario UVA?', 'Depende del monto, el plazo y la tasa. Como referencia, el ingreso del hogar tiene que ser unas 3 a 4 veces la cuota inicial, según la relación que exija cada banco.'),
+ ('¿La cuota de un crédito UVA sube todos los meses?', 'Sí: la cantidad de UVA es fija, pero el valor de la UVA en pesos sube con la inflación, así que la cuota en pesos también sube.'),
+], script='''
+conectar(() => {
+  const M = val('monto'), n = Math.max(1, Math.round(val('anios'))) * 12, i = val('tna') / 100 / 12, rel = Math.max(1, val('rel')) / 100, inf = val('inf') / 100;
+  const cuota = i ? M * i / (1 - Math.pow(1 + i, -n)) : M / n;
+  const c12 = cuota * Math.pow(1 + inf, 12), c60 = cuota * Math.pow(1 + inf, 60);
+  $('#res').innerHTML = `<div class="label">Cuota inicial</div><div class="big">${$$(cuota)}</div>` + filas([
+    ['Ingreso mínimo del hogar (' + pct(rel * 100) + ')', $$(cuota / rel), 'total'],
+    ['Cantidad de cuotas', n],
+    ['Cuota en 1 año (con ' + pct(inf * 100) + ' mensual)', $$(c12)],
+    ['Cuota en 5 años', $$(c60)],
+    ['Total a devolver, en pesos de hoy', $$(cuota * n)],
+  ]) + '<p class="note">"En pesos de hoy" significa sin contar la inflación: es lo que pagarías si los precios no subieran.</p>';
+});
+''')
+
+# ---------- CALCULAR EDAD ----------
+page('edad', 'Calcular edad exacta: años, meses y días',
+ 'Calculá tu edad exacta en años, meses y días a partir de tu fecha de nacimiento, cuántos días viviste y cuánto falta para tu próximo cumpleaños.',
+ nombre='Calcular edad', body='''
+<h1>Calcular edad</h1>
+<p class="lead">Poné una fecha de nacimiento y te decimos la edad exacta, cuántos días pasaron y cuánto falta para el próximo cumpleaños.</p>
+<div class="card calc">
+<div class="row">
+<label>Fecha de nacimiento<input id="nac" type="date" value="1995-06-15"></label>
+<label>Calcular al día <small>por defecto, hoy</small><input id="ref" type="date"></label>
+</div>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Para qué sirve?</h2>
+<ul>
+<li>Saber la edad exacta para un trámite, una jubilación o un seguro.</li>
+<li>Calcular la edad que tenía alguien en una fecha determinada.</li>
+<li>Saber cuántos días faltan para un cumpleaños.</li>
+</ul>
+<h3>¿Cómo se calcula?</h3>
+<p>Se cuentan los años completos desde la fecha de nacimiento, después los meses completos y por último los días que sobran. Los años bisiestos se tienen en cuenta automáticamente.</p>
+</div>
+''', faq=[
+ ('¿Cómo calculo mi edad exacta?', 'Restá el año de nacimiento al año actual y, si todavía no pasó tu cumpleaños este año, restá uno más. La calculadora además te da los meses y días.'),
+ ('¿Qué pasa si nací un 29 de febrero?', 'En los años que no son bisiestos, se suele considerar que el cumpleaños es el 1 de marzo (o el 28 de febrero, según el uso).'),
+], script='''
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+if (!$('#ref').value) $('#ref').value = iso(new Date());
+conectar(() => {
+  const p = v => v ? new Date(v + 'T00:00:00') : null, a = p($('#nac').value), b = p($('#ref').value) || new Date();
+  if (!a || b < a) { $('#res').innerHTML = 'Revisá las fechas.'; return; }
+  let y = b.getFullYear() - a.getFullYear(), m = b.getMonth() - a.getMonth(), d = b.getDate() - a.getDate();
+  if (d < 0) { m--; d += new Date(b.getFullYear(), b.getMonth(), 0).getDate(); }
+  if (m < 0) { y--; m += 12; }
+  const dias = Math.round((b - a) / 864e5);
+  let prox = new Date(b.getFullYear(), a.getMonth(), a.getDate()); if (prox < b) prox = new Date(b.getFullYear() + 1, a.getMonth(), a.getDate());
+  const falta = Math.round((prox - b) / 864e5);
+  $('#res').innerHTML = `<div class="label">Edad</div><div class="big">${y} ${y === 1 ? 'año' : 'años'}</div>` + filas([
+    ['Exacta', `${y} años, ${m} ${m === 1 ? 'mes' : 'meses'} y ${d} ${d === 1 ? 'día' : 'días'}`],
+    ['Días vividos', num.format(dias)],
+    ['Semanas', num.format(Math.floor(dias / 7))],
+    ['Próximo cumpleaños', falta === 0 ? '¡Hoy!' : `en ${falta} ${falta === 1 ? 'día' : 'días'} (cumple ${y + 1})`],
+    ['Día en que nació', a.toLocaleDateString('es-AR', { weekday: 'long' })],
+  ]);
+});
+''')
+
+# ---------- DÍAS ENTRE FECHAS ----------
+page('dias-entre-fechas', 'Calculadora de días entre fechas y sumar días a una fecha',
+ 'Calculá cuántos días corridos, semanas y meses hay entre dos fechas, o qué fecha es si sumás o restás días. Rápido y gratis.',
+ nombre='Días entre fechas', body='''
+<h1>Días entre fechas</h1>
+<p class="lead">Contá los días corridos entre dos fechas, o averiguá qué fecha es dentro de X días.</p>
+<div class="card calc">
+<label>¿Qué querés calcular?<select id="modo"><option value="entre">Días entre dos fechas</option><option value="sumar">Sumar o restar días a una fecha</option></select></label>
+<div class="row">
+<label>Fecha<input id="d0" type="date"></label>
+<div data-modo="entre"><label>Hasta<input id="d1" type="date"></label></div>
+<div data-modo="sumar"><label>Días <small>negativo para restar</small><input id="n" type="number" value="90"></label></div>
+</div>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Para qué sirve?</h2>
+<ul>
+<li>Saber cuántos días faltan para un viaje, un vencimiento o un evento.</li>
+<li>Calcular la fecha en que termina un plazo de 30, 60 o 90 días corridos.</li>
+<li>Contar cuántos días duró algo.</li>
+</ul>
+<p>Si el plazo es en <strong>días hábiles</strong> (sin fines de semana ni feriados), usá la <a href="../dias-habiles/">calculadora de días hábiles</a>.</p>
+</div>
+''', faq=[
+ ('¿Se cuentan el primer y el último día?', 'La calculadora muestra la diferencia entre las dos fechas (sin contar el primer día). Si necesitás incluir los dos extremos, sumale 1.'),
+], script='''
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const hoy = new Date(); if (!$('#d0').value) $('#d0').value = iso(hoy);
+if (!$('#d1').value) $('#d1').value = iso(new Date(hoy.getFullYear(), 11, 31));
+conectar(() => {
+  modos('#modo');
+  const p = v => v ? new Date(v + 'T00:00:00') : null, a = p($('#d0').value);
+  if (!a) { $('#res').innerHTML = 'Elegí una fecha.'; return; }
+  if ($('#modo').value === 'entre') {
+    const b = p($('#d1').value); if (!b) { $('#res').innerHTML = 'Elegí la otra fecha.'; return; }
+    const d = Math.round((b - a) / 864e5), ad = Math.abs(d);
+    $('#res').innerHTML = `<div class="label">Diferencia</div><div class="big">${num.format(ad)} ${ad === 1 ? 'día' : 'días'}</div>` + filas([
+      ['Semanas', num.format(Math.floor(ad / 7)) + ' y ' + (ad % 7) + ' días'], ['Meses (aprox.)', num.format(ad / 30.44)], ['Incluyendo ambos días', num.format(ad + 1)]]);
+  } else {
+    const x = new Date(a); x.setDate(x.getDate() + Math.round(val('n')));
+    $('#res').innerHTML = `<div class="label">La fecha es</div><div class="big">${x.toLocaleDateString('es-AR')}</div><p class="note">${x.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>`;
+  }
+});
+''')
+
+# ---------- CONSUMO ELÉCTRICO ----------
+APARATOS = [('Aire acondicionado 3000 frigorías (frío)', 1200), ('Aire acondicionado 2250 frigorías (frío)', 900), ('Estufa eléctrica / caloventor', 2000),
+            ('Heladera con freezer', 150), ('Lavarropas', 500), ('Termotanque eléctrico', 1500), ('Pava eléctrica', 2000), ('Microondas', 1000),
+            ('Plancha', 1200), ('Televisor LED 50"', 100), ('Computadora de escritorio', 200), ('Notebook', 60), ('Ventilador de pie', 60), ('Lámpara LED', 9)]
+opciones = ''.join(f'<option value="{w}">{n} (~{w} W)</option>' for n, w in APARATOS)
+page('consumo-electrico', 'Calculadora de consumo eléctrico: cuánto gasta cada electrodoméstico',
+ 'Calculá cuánto consume de luz un aire acondicionado, una estufa, la heladera u otro electrodoméstico, en kWh y en pesos por mes.',
+ nombre='Consumo eléctrico', body=f'''
+<h1>¿Cuánto gasta de luz un electrodoméstico?</h1>
+<p class="lead">Elegí el aparato y cuánto lo usás, y te decimos cuántos kWh consume y cuánto te cuesta por mes.</p>
+<div class="card calc">
+<label>Electrodoméstico<select id="ap"><option value="0">Otro (cargá la potencia)</option>{opciones}</select></label>
+<div class="row">
+<label>Potencia (W) <small>figura en la etiqueta del aparato</small><input id="w" type="number" inputmode="decimal" min="0" value="1200"></label>
+<label>Horas de uso por día<input id="h" type="number" inputmode="decimal" min="0" max="24" step="0.5" value="6"></label>
+</div>
+<div class="row">
+<label>Días de uso por mes<input id="d" type="number" min="1" max="31" value="30"></label>
+<label>Precio del kWh ($) <small>dividí el total de energía de tu factura por los kWh</small><input id="precio" type="number" inputmode="decimal" min="0" value="150"></label>
+</div>
+<div id="res" class="result"></div>
+<p class="note">Las potencias son valores aproximados. Los aparatos con termostato (aire, heladera, estufa) no funcionan a máxima potencia todo el tiempo, así que el consumo real suele ser menor.</p>
+</div>
+<div class="article">
+<h2>¿Cómo se calcula el consumo?</h2>
+<p><em>Consumo (kWh) = potencia (W) × horas de uso ÷ 1.000</em>. Un aire acondicionado de 1.200 W usado 6 horas consume 7,2 kWh por día, unos 216 kWh por mes.</p>
+<h3>¿Cuánto vale el kWh?</h3>
+<p>Depende de tu distribuidora, tu provincia, tu nivel de subsidio y cuánto consumís. Para sacarlo, mirá tu factura: dividí el importe del cargo variable (energía) por los kWh consumidos. Recordá que la factura además tiene un cargo fijo e impuestos.</p>
+<h3>Consejos para gastar menos</h3>
+<ul>
+<li>Poné el aire acondicionado en <strong>24 °C</strong>: cada grado menos aumenta bastante el consumo.</li>
+<li>Elegí aparatos con <strong>etiqueta de eficiencia A</strong> o mejor, y aires "inverter".</li>
+<li>Las estufas eléctricas y los termotanques son de los aparatos que más gastan.</li>
+<li>Desenchufá lo que no usás: muchos aparatos consumen en modo espera.</li>
+</ul>
+</div>
+''', faq=[
+ ('¿Cuánto gasta un aire acondicionado por mes?', 'Un equipo de 3000 frigorías usado 6 horas por día consume alrededor de 200 kWh por mes. Multiplicalo por el precio del kWh de tu factura para saber el costo.'),
+ ('¿Qué consume más, el aire o la estufa eléctrica?', 'En general, la estufa eléctrica o el caloventor, que consumen unos 2.000 W. Un aire acondicionado frío-calor inverter es más eficiente para calefaccionar.'),
+], script='''
+$('#ap').addEventListener('change', () => { if (+$('#ap').value) { $('#w').value = $('#ap').value; $('#w').dispatchEvent(new Event('input')); } });
+conectar(() => {
+  const w = val('w'), h = Math.min(24, val('h')), d = val('d'), precio = val('precio');
+  const kd = w * h / 1000, km = kd * d;
+  $('#res').innerHTML = `<div class="label">Costo por mes (energía)</div><div class="big">${$$(km * precio)}</div>` + filas([
+    ['Consumo por día', num.format(kd) + ' kWh'],
+    ['Consumo por mes', num.format(km) + ' kWh', 'total'],
+    ['Costo por día', $$(kd * precio)],
+    ['Costo por hora de uso', $$(w / 1000 * precio)],
+  ]);
+});
+''')
+
+# =================== GUÍAS ===================
+page('guias/credito-hipotecario-uva', 'Cómo funciona el crédito hipotecario UVA: cuota, requisitos y riesgos',
+ 'Qué es un crédito hipotecario UVA, cómo se calcula la cuota, cuánto tenés que ganar, qué gastos tiene y cuáles son sus riesgos, explicado en simple.',
+ nombre='Crédito hipotecario UVA', articulo=True, relacionadas=_rel('credito-hipotecario-uva'), body='''
+<h1>Cómo funciona el crédito hipotecario UVA</h1>
+<p class="lead">La forma más común de comprar una vivienda con crédito en Argentina, explicada paso a paso.</p>
+<h2>¿Qué es la UVA?</h2>
+<p>La <strong>Unidad de Valor Adquisitivo</strong> es una unidad que publica el Banco Central y que sube todos los días siguiendo la inflación (a través del índice CER). Si los precios suben un 2 % en un mes, la UVA también sube alrededor de un 2 %, con algo de rezago.</p>
+<h2>¿Cómo se calcula la cuota?</h2>
+<ol>
+<li>El monto que te prestan se pasa a UVA al valor del día en que se otorga el crédito.</li>
+<li>Se calcula una cuota fija <strong>en UVA</strong>, con el sistema francés y una tasa baja (en general, de un dígito anual).</li>
+<li>Cada mes, la cuota en UVA se pasa a pesos al valor de ese día. Por eso <strong>la cuota en pesos sube con la inflación</strong>.</li>
+</ol>
+<p>Simulá tu caso con la <a href="../../credito-hipotecario-uva/">calculadora de crédito hipotecario UVA</a>.</p>
+<h2>¿Qué piden los bancos?</h2>
+<ul>
+<li><strong>Ingresos demostrables:</strong> que la cuota no supere entre el 25 % y el 35 % del ingreso del hogar.</li>
+<li><strong>Antigüedad laboral</strong> y buen historial crediticio.</li>
+<li>Un <strong>ahorro previo</strong>: en general financian hasta el 75 % u 80 % del valor de la vivienda, así que necesitás el resto más los gastos.</li>
+</ul>
+<h2>Los gastos que no tenés que olvidar</h2>
+<p>Además del anticipo, hay que pagar la escritura, la tasación, los seguros, el sellado (según la provincia) y, si hay, la comisión inmobiliaria. En total pueden sumar un porcentaje importante del valor de la propiedad: pedí el detalle antes de firmar.</p>
+<h2>Ventajas y riesgos</h2>
+<ul>
+<li><strong>Ventaja:</strong> la cuota inicial es mucho más baja que en un crédito a tasa fija, y en general se parece a un alquiler.</li>
+<li><strong>Riesgo:</strong> si los sueldos suben menos que la inflación durante un tiempo largo, la cuota pesa cada vez más. Conviene no tomar el máximo que te ofrecen y dejar margen.</li>
+</ul>
+<p class="note">Guía orientativa. Las condiciones cambian según el banco y el momento.</p>
+''', faq=[
+ ('¿Cuánto financian los bancos en un crédito hipotecario UVA?', 'En general, hasta el 75 % u 80 % del valor de la vivienda. El resto y los gastos de escritura los tenés que poner vos.'),
+ ('¿Se puede cancelar antes un crédito UVA?', 'Sí. Podés hacer pagos anticipados parciales o totales; consultá si el banco cobra comisión.'),
+])
+
+page('guias/donde-tener-los-ahorros', 'Dónde tener los ahorros en pesos: cuenta remunerada, plazo fijo, UVA y fondos',
+ 'Comparación de las opciones más comunes para ahorrar en pesos en Argentina: cuenta remunerada, plazo fijo tradicional, plazo fijo UVA y fondos comunes de inversión.',
+ nombre='Dónde tener tus ahorros', articulo=True, relacionadas=_rel('donde-tener-los-ahorros'), body='''
+<h1>Dónde tener tus ahorros en pesos</h1>
+<p class="lead">Las opciones más comunes y simples para que tus pesos no pierdan valor, comparadas.</p>
+<h2>Comparación rápida</h2>
+<table class="detail big-table"><tr><th>Opción</th><th>Disponibilidad</th><th>Rendimiento</th><th>Riesgo</th></tr>
+<tr><td>Cuenta remunerada / billetera</td><td>Inmediata</td><td>Tasa variable, algo menor</td><td>Bajo</td></tr>
+<tr><td>Plazo fijo tradicional</td><td>Desde 30 días</td><td>Tasa fija conocida</td><td>Bajo (garantía de depósitos)</td></tr>
+<tr><td>Plazo fijo UVA</td><td>Desde 90 días</td><td>Inflación + tasa adicional</td><td>Bajo</td></tr>
+<tr><td>Fondo común money market</td><td>Inmediata o 24 h</td><td>Similar a cuenta remunerada</td><td>Bajo</td></tr>
+<tr><td>Fondos de renta fija / bonos</td><td>24 a 72 h</td><td>Puede ser mayor</td><td>Medio</td></tr></table>
+<h2>¿Cuál elijo?</h2>
+<ul>
+<li><strong>Para el fondo de emergencia o la plata del mes:</strong> una cuenta remunerada o un money market, que podés usar en cualquier momento.</li>
+<li><strong>Si no vas a necesitar la plata por un mes o más:</strong> un plazo fijo, que suele pagar algo más.</li>
+<li><strong>Si te preocupa que la inflación suba:</strong> el plazo fijo UVA te protege, a cambio de inmovilizar la plata 90 días.</li>
+<li><strong>Para plazos largos y si aceptás algo de riesgo:</strong> fondos de renta fija o bonos, mejor con asesoramiento.</li>
+</ul>
+<h2>La regla de oro: compará con la inflación</h2>
+<p>Lo importante no es cuántos pesos ganás, sino si tu plata compra más o menos cosas al final. Compará siempre la <strong>tasa mensual</strong> con la <strong>inflación mensual</strong>. Usá el <a href="../../tasas/">conversor de tasas</a> para pasar la TNA a tasa mensual.</p>
+<p class="note">Esta guía es informativa y no es una recomendación de inversión. Antes de invertir, informate sobre cada producto y sus riesgos.</p>
+''', faq=[
+ ('¿Los plazos fijos tienen garantía?', 'Sí, los depósitos en bancos argentinos tienen una garantía de SEDESA hasta un monto por persona y por banco. Las cuentas remuneradas de billeteras que invierten en fondos no tienen esa garantía.'),
+ ('¿Qué es un fondo money market?', 'Es un fondo común de inversión que invierte en instrumentos de muy corto plazo y bajo riesgo. Muchas billeteras virtuales invierten el saldo de sus usuarios en este tipo de fondos.'),
+])
+
+page('guias/resumen-tarjeta-de-credito', 'Cómo leer el resumen de la tarjeta de crédito: pago mínimo, intereses y fechas',
+ 'Qué significa cada parte del resumen de la tarjeta de crédito: fecha de cierre y vencimiento, pago mínimo, intereses, CFT y cómo evitar pagar de más.',
+ nombre='Resumen de la tarjeta', articulo=True, relacionadas=_rel('resumen-tarjeta-de-credito'), body='''
+<h1>Cómo leer el resumen de la tarjeta de crédito</h1>
+<p class="lead">Lo que significa cada número del resumen y cómo evitar los intereses más caros.</p>
+<h2>Las fechas clave</h2>
+<ul>
+<li><strong>Fecha de cierre:</strong> el último día en que las compras entran en este resumen. Lo que compres después pasa al resumen siguiente.</li>
+<li><strong>Fecha de vencimiento:</strong> el último día para pagar sin intereses ni recargos.</li>
+<li><strong>Próximo cierre y vencimiento:</strong> te sirven para planificar compras. Comprar justo después del cierre te da casi dos meses hasta que tenés que pagar.</li>
+</ul>
+<h2>Pago total y pago mínimo</h2>
+<p>El <strong>pago total</strong> cancela todo lo que debés y no genera intereses. El <strong>pago mínimo</strong> es lo menos que podés pagar para no estar en mora, pero sobre todo lo que no pagaste se cobran <strong>intereses de financiación</strong>, que son de los más caros del sistema.</p>
+<p class="warn">Pagar el mínimo todos los meses hace que una deuda chica se vuelva grande. Si podés, pagá el total; si no, pagá lo más que puedas.</p>
+<h2>Otros conceptos del resumen</h2>
+<ul>
+<li><strong>Intereses de financiación:</strong> se cobran sobre el saldo que no pagaste.</li>
+<li><strong>Intereses punitorios:</strong> se suman si no pagás ni el mínimo antes del vencimiento.</li>
+<li><strong>Cuotas:</strong> figuran como "cuota 3/6", por ejemplo. Cada mes se suma la cuota correspondiente.</li>
+<li><strong>Impuestos y percepciones:</strong> en compras en dólares o en el exterior pueden sumarse percepciones que después, en algunos casos, se pueden recuperar.</li>
+<li><strong>TNA, TEA y CFT:</strong> el resumen informa las tasas de financiación. El CFT es el costo total, el que importa. Leé la <a href="../tna-tea-cft/">guía de tasas</a>.</li>
+</ul>
+<h2>Consejos</h2>
+<ol>
+<li>Anotá tus cuotas pendientes para saber cuánto vas a pagar los próximos meses.</li>
+<li>Activá el débito automático del pago total si podés.</li>
+<li>Antes de financiar una compra grande, fijate si conviene pagar en cuotas o de contado con la <a href="../../cuotas/">calculadora de cuotas</a>.</li>
+</ol>
+''', faq=[
+ ('¿Qué pasa si pago el mínimo de la tarjeta?', 'No entrás en mora, pero sobre el saldo que no pagaste te cobran intereses de financiación (más IVA), y ese saldo se suma al próximo resumen.'),
+ ('¿Cuándo conviene comprar con tarjeta?', 'Justo después de la fecha de cierre: la compra entra en el resumen siguiente y tenés más tiempo hasta el vencimiento.'),
+])

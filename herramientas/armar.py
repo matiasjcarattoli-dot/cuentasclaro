@@ -25,10 +25,13 @@ CALCS = [
     ('empleada-domestica', 'Sueldo de empleada doméstica', 'Sueldo por hora o por mes según la categoría.', 'casa', 'trabajo'),
     ('dias-habiles', 'Días hábiles', 'Días hábiles entre dos fechas, con los feriados.', 'calendario', 'trabajo'),
     ('jubilacion', 'Jubilación, bono y aguinaldo', 'Haber, bono de ANSES y medio aguinaldo de jubilados.', 'regalo', 'trabajo'),
+    ('sueldo-por-hora', 'Sueldo por hora', 'Cuánto ganás por hora, por día y por semana.', 'reloj', 'trabajo'),
     ('sueldo-bruto', 'Sueldo bruto desde el neto', 'Cuánto tiene que ser el bruto para cobrar X en mano.', 'billete', 'trabajo'),
     ('precio-de-venta', 'Precio de venta', 'Para emprendedores: costo, ganancia, comisiones e IVA.', 'etiqueta', 'trabajo'),
     ('plazo-fijo', 'Plazo fijo', 'Intereses, TEA y si le gana a la inflación.', 'banco', 'ahorro'),
     ('plazo-fijo-uva', 'Plazo fijo UVA', 'Cuánto rinde ajustado por inflación y si conviene.', 'banco', 'ahorro'),
+    ('cuenta-remunerada', 'Cuenta remunerada', 'Cuánto te rinde la plata en una billetera virtual.', 'billete', 'ahorro'),
+    ('credito-hipotecario-uva', 'Crédito hipotecario UVA', 'Cuota inicial, ingreso necesario y cómo sube.', 'casa', 'ahorro'),
     ('interes-compuesto', 'Interés compuesto y ahorro', 'Cuánto juntás ahorrando todos los meses.', 'grafico', 'ahorro'),
     ('prestamo', 'Préstamo personal', 'Cuota mensual, intereses y cuadro de pagos.', 'mano', 'ahorro'),
     ('ahorro-objetivo', 'Meta de ahorro', 'Cuánto ahorrar por mes para llegar a tu objetivo.', 'objetivo', 'ahorro'),
@@ -42,6 +45,9 @@ CALCS = [
     ('costo-viaje', 'Costo de un viaje en auto', 'Nafta y peajes, y cuánto pone cada uno.', 'auto', 'utiles'),
     ('dividir-gastos', 'Dividir gastos', 'Quién le debe a quién después de una salida o viaje.', 'personas', 'utiles'),
     ('horas-trabajadas', 'Horas trabajadas', 'Sumá tus horarios de entrada y salida.', 'reloj', 'utiles'),
+    ('edad', 'Calcular edad', 'Años, meses y días exactos, y tu próximo cumpleaños.', 'regalo', 'utiles'),
+    ('dias-entre-fechas', 'Días entre fechas', 'Días corridos entre dos fechas o sumar días.', 'calendario', 'utiles'),
+    ('consumo-electrico', 'Consumo eléctrico', 'Cuánto gasta de luz cada electrodoméstico.', 'rayo', 'utiles'),
     ('regla-de-tres', 'Regla de tres', 'Simple directa e inversa, al instante.', 'cambio', 'utiles'),
 ]
 NOMBRES = {c[0]: c[1] for c in CALCS}
@@ -57,6 +63,9 @@ GUIAS = [
     ('que-hacer-si-me-despiden', 'Qué hacer si te despiden', 'Los pasos para cobrar todo lo que te corresponde.', ['indemnizacion', 'vacaciones', 'dias-habiles']),
     ('licencias-por-ley', 'Licencias laborales por ley', 'Días por matrimonio, nacimiento, examen, enfermedad y más.', ['vacaciones', 'dias-habiles', 'sueldo-neto']),
     ('como-pedir-un-aumento', 'Cómo pedir un aumento de sueldo', 'Cuándo, cuánto y cómo pedirlo, con números.', ['inflacion', 'sueldo-bruto', 'sueldo-neto']),
+    ('credito-hipotecario-uva', 'Cómo funciona el crédito hipotecario UVA', 'Qué es, cómo sube la cuota y qué riesgos tiene.', ['credito-hipotecario-uva', 'inflacion', 'ahorro-objetivo']),
+    ('donde-tener-los-ahorros', 'Dónde tener tus ahorros en pesos', 'Cuenta remunerada, plazo fijo, UVA y fondos: diferencias.', ['cuenta-remunerada', 'plazo-fijo', 'plazo-fijo-uva']),
+    ('resumen-tarjeta-de-credito', 'Cómo leer el resumen de la tarjeta', 'Pago mínimo, intereses, cierre y vencimiento explicados.', ['cuotas', 'prestamo', 'tasas']),
     ('recategorizacion-monotributo', 'Recategorización del monotributo', 'Cuándo y cómo recategorizarte, paso a paso.', ['monotributo', 'precio-de-venta', 'iva']),
 ]
 
