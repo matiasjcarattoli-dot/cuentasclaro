@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de liquidación final por renuncia | Cuentas Claras</title>
+<meta name="description" content="Calculá cuánto cobrás si renunciás a tu trabajo: días trabajados, aguinaldo proporcional y vacaciones no gozadas. Con el plazo de pago y cómo renunciar.">
+<meta property="og:title" content="Calculadora de liquidación final por renuncia | Cuentas Claras">
+<meta property="og:description" content="Calculá cuánto cobrás si renunciás a tu trabajo: días trabajados, aguinaldo proporcional y vacaciones no gozadas. Con el plazo de pago y cómo renunciar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://cuentasclaro.com/liquidacion-renuncia/">
+<meta property="og:url" content="https://cuentasclaro.com/liquidacion-renuncia/">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Cuentas Claras">
+<meta property="og:image" content="https://cuentasclaro.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b7a5c">
+<link rel="icon" href="../icono.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../estilo.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1125850479848811" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Si renuncio me pagan las vacaciones?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, te pagan las vacaciones no gozadas proporcionales a lo que trabajaste en el año, más el aguinaldo sobre ese monto."}}, {"@type": "Question", "name": "¿Si renuncio cobro el aguinaldo?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, el aguinaldo proporcional a los días trabajados en el semestre."}}, {"@type": "Question", "name": "¿Cuánto preaviso tengo que dar si renuncio?", "acceptedAnswer": {"@type": "Answer", "text": "La Ley de Contrato de Trabajo pide 15 días de preaviso al trabajador que renuncia."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://cuentasclaro.com/"}, {"@type": "ListItem", "position": 2, "name": "Liquidación por renuncia", "item": "https://cuentasclaro.com/liquidacion-renuncia/"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Calculadora de liquidación final por renuncia", "description": "Calculá cuánto cobrás si renunciás a tu trabajo: días trabajados, aguinaldo proporcional y vacaciones no gozadas. Con el plazo de pago y cómo renunciar.", "url": "https://cuentasclaro.com/liquidacion-renuncia/", "applicationCategory": "FinanceApplication", "operatingSystem": "Web", "inLanguage": "es-AR", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "ARS"}}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<nav class="menu"><a href="../#trabajo">Trabajo</a><a href="../#ahorro">Ahorro</a><a href="../#compras">Compras</a><a href="../#utiles">Herramientas para el día a día</a><a href="../guias/">Guías</a></nav>
+</div></header>
+<main>
+<div class="wrap page"><nav class="crumb" aria-label="Ruta"><a href="../">Inicio</a><span>›</span>Liquidación por renuncia</nav>
+<h1>Calculadora de liquidación por renuncia</h1>
+<p class="lead">Si renunciás, no cobrás indemnización, pero sí te deben varios rubros. Calculá tu liquidación final.</p>
+<div class="card calc">
+<label>Sueldo bruto mensual ($)<input id="sueldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>Fecha de ingreso<input id="ini" type="date" value="2022-03-01"></label>
+<label>Último día de trabajo<input id="fin" type="date"></label>
+</div>
+<label>Días de vacaciones de este año que ya te tomaste<input id="tomadas" type="number" min="0" max="35" value="0"></label>
+<label class="check"><input id="sinpre" type="checkbox"> No di los 15 días de preaviso</label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Qué cobro si renuncio?</h2>
+<p>Cuando renunciás no te corresponde indemnización por antigüedad, pero sí:</p>
+<ul>
+<li>Los <strong>días trabajados</strong> del último mes.</li>
+<li>El <strong>aguinaldo proporcional</strong> del semestre.</li>
+<li>Las <strong>vacaciones no gozadas</strong> del año, en proporción a lo trabajado, más su aguinaldo.</li>
+</ul>
+<h2>¿Cómo renunciar?</h2>
+<p>La renuncia tiene que ser <strong>por escrito</strong>: lo habitual es enviar un <strong>telegrama laboral</strong>, que es gratuito para el trabajador, o hacerla ante la autoridad administrativa del trabajo. Una renuncia de palabra o por mensaje puede traer problemas.</p>
+<h3>El preaviso del trabajador</h3>
+<p>Si renunciás, la ley te pide avisar con <strong>15 días de anticipación</strong>. Si no lo hacés, el empleador puede descontarte esos 15 días de la liquidación. La calculadora te deja marcarlo.</p>
+<h3>¿Cuándo me pagan?</h3>
+<p>La liquidación final se paga dentro de los <strong>4 días hábiles</strong> después del último día de trabajo. También te tienen que dar el certificado de trabajo.</p>
+<p>Si en vez de renunciar te despidieron, usá la <a href="../indemnizacion/">calculadora de indemnización</a>.</p>
+</div>
+<div class="share"><span>¿Te sirvió? Compartilo</span><a class="btn wa" href="https://wa.me/?text=Calculadora%20de%20liquidaci%C3%B3n%20final%20por%20renuncia%20https%3A//cuentasclaro.com/liquidacion-renuncia/" target="_blank" rel="noopener">WhatsApp</a><button class="btn" type="button" data-compartir data-url="https://cuentasclaro.com/liquidacion-renuncia/" data-titulo="Calculadora de liquidación final por renuncia"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/></svg>Compartir</button></div><div class="ad"></div><section class="faq"><h2>Preguntas frecuentes</h2><details><summary>¿Si renuncio me pagan las vacaciones?</summary><p>Sí, te pagan las vacaciones no gozadas proporcionales a lo que trabajaste en el año, más el aguinaldo sobre ese monto.</p></details><details><summary>¿Si renuncio cobro el aguinaldo?</summary><p>Sí, el aguinaldo proporcional a los días trabajados en el semestre.</p></details><details><summary>¿Cuánto preaviso tengo que dar si renuncio?</summary><p>La Ley de Contrato de Trabajo pide 15 días de preaviso al trabajador que renuncia.</p></details></section><section class="related"><h2>Otras calculadoras</h2><div class="grid"><a class="tile" href="../sueldo-neto/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/></svg></span><span class="tile-txt"><strong>Sueldo neto</strong><span>Cuánto cobrás en mano a partir del bruto.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../aguinaldo/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20h14v-7.5M12 8.5V20M12 8.5c-1.5-3-5.5-3.5-5.5-1S10 8.5 12 8.5zm0 0c1.5-3 5.5-3.5 5.5-1S14 8.5 12 8.5z"/></svg></span><span class="tile-txt"><strong>Aguinaldo (SAC)</strong><span>Completo o proporcional, con fechas de pago.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../vacaciones/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg></span><span class="tile-txt"><strong>Vacaciones</strong><span>Días que te corresponden y cuánto te pagan.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a class="tile" href="../indemnizacion/"><span class="tile-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span class="tile-txt"><strong>Indemnización por despido</strong><span>Tu liquidación final, rubro por rubro.</span></span><svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></section></div>
+</main>
+<footer class="bottom"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../"><span class="logo-mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx=".5"/><path d="M8.5 12.5h.01M12 12.5h.01M15.5 12.5h.01M8.5 15.5h.01M12 15.5h.01M15.5 15.5h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
+<p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
+<div><h3>Calculadoras</h3><ul class="foot-list"><li><a href="../sueldo-neto/">Sueldo neto</a></li><li><a href="../aguinaldo/">Aguinaldo (SAC)</a></li><li><a href="../vacaciones/">Vacaciones</a></li><li><a href="../indemnizacion/">Indemnización por despido</a></li><li><a href="../liquidacion-renuncia/">Liquidación por renuncia</a></li><li><a href="../horas-extra/">Horas extra</a></li><li><a href="../monotributo/">Monotributo</a></li><li><a href="../empleada-domestica/">Sueldo de empleada doméstica</a></li><li><a href="../dias-habiles/">Días hábiles</a></li><li><a href="../jubilacion/">Jubilación, bono y aguinaldo</a></li><li><a href="../sueldo-por-hora/">Sueldo por hora</a></li><li><a href="../sueldo-bruto/">Sueldo bruto desde el neto</a></li><li><a href="../precio-de-venta/">Precio de venta</a></li><li><a href="../plazo-fijo/">Plazo fijo</a></li><li><a href="../plazo-fijo-uva/">Plazo fijo UVA</a></li><li><a href="../cuenta-remunerada/">Cuenta remunerada</a></li><li><a href="../credito-hipotecario-uva/">Crédito hipotecario UVA</a></li><li><a href="../interes-compuesto/">Interés compuesto y ahorro</a></li><li><a href="../prestamo/">Préstamo personal</a></li><li><a href="../ahorro-objetivo/">Meta de ahorro</a></li><li><a href="../tasas/">Conversor de tasas</a></li><li><a href="../cuotas/">¿Cuotas o contado?</a></li><li><a href="../inflacion/">Inflación acumulada</a></li><li><a href="../alquiler/">Aumento de alquiler</a></li><li><a href="../promociones/">Promociones del súper</a></li><li><a href="../iva/">IVA</a></li><li><a href="../porcentajes/">Porcentajes</a></li><li><a href="../dolar/">Dólar hoy</a></li><li><a href="../costo-viaje/">Costo de un viaje en auto</a></li><li><a href="../dividir-gastos/">Dividir gastos</a></li><li><a href="../horas-trabajadas/">Horas trabajadas</a></li><li><a href="../edad/">Calcular edad</a></li><li><a href="../dias-entre-fechas/">Días entre fechas</a></li><li><a href="../consumo-electrico/">Consumo eléctrico</a></li><li><a href="../regla-de-tres/">Regla de tres</a></li></ul></div>
+<div><h3>Guías</h3><ul><li><a href="../guias/feriados-2026/">Feriados 2026 en Argentina</a></li><li><a href="../guias/aguinaldo-diciembre-2026/">Aguinaldo de diciembre 2026</a></li><li><a href="../guias/como-calcular-indemnizacion/">Cómo calcular la indemnización por despido</a></li><li><a href="../guias/cuotas-o-contado/">¿Conviene pagar en cuotas o de contado?</a></li><li><a href="../guias/sueldo-bruto-y-neto/">Sueldo bruto y neto: diferencias</a></li><li><a href="../guias/tna-tea-cft/">TNA, TEA, TEM y CFT explicados</a></li><li><a href="../guias/vacaciones-cuantos-dias/">Vacaciones: cuántos días te corresponden</a></li><li><a href="../guias/que-hacer-si-me-despiden/">Qué hacer si te despiden</a></li><li><a href="../guias/licencias-por-ley/">Licencias laborales por ley</a></li><li><a href="../guias/como-pedir-un-aumento/">Cómo pedir un aumento de sueldo</a></li><li><a href="../guias/credito-hipotecario-uva/">Cómo funciona el crédito hipotecario UVA</a></li><li><a href="../guias/donde-tener-los-ahorros/">Dónde tener tus ahorros en pesos</a></li><li><a href="../guias/resumen-tarjeta-de-credito/">Cómo leer el resumen de la tarjeta</a></li><li><a href="../guias/como-darse-de-alta-en-el-monotributo/">Cómo darse de alta en el monotributo</a></li><li><a href="../guias/recategorizacion-monotributo/">Recategorización del monotributo</a></li></ul><h3 class="mt">El sitio</h3><ul><li><a href="../acerca/">Acerca de</a></li><li><a href="../privacidad/">Privacidad</a></li></ul></div>
+</div>
+<p class="legal">© <span data-anio></span> Cuentas Claras. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
+</div></footer>
+<script src="../comun.js"></script>
+<script>
+$('#fin').value ||= new Date().toISOString().slice(0, 10);
+conectar(() => {
+  const sueldo = val('sueldo'), tomadas = Math.max(0, val('tomadas')), sinpre = $('#sinpre').checked;
+  const p = v => v ? new Date(v + 'T00:00:00') : null, ini = p($('#ini').value), fin = p($('#fin').value), dia = 864e5;
+  if (!ini || !fin || fin < ini) { $('#res').innerHTML = 'Revisá las fechas.'; return; }
+  let anios = fin.getFullYear() - ini.getFullYear(); if (new Date(fin.getFullYear(), ini.getMonth(), ini.getDate()) > fin) anios--;
+  const trab = sueldo / 30 * Math.min(30, fin.getDate());
+  const semIni = new Date(fin.getFullYear(), fin.getMonth() < 6 ? 0 : 6, 1), semFin = new Date(fin.getFullYear(), fin.getMonth() < 6 ? 5 : 11, fin.getMonth() < 6 ? 30 : 31);
+  const desde = ini > semIni ? ini : semIni;
+  const sac = sueldo / 2 * (Math.round((fin - desde) / dia) + 1) / (Math.round((semFin - semIni) / dia) + 1);
+  const diasAnio = anios < 5 ? 14 : anios < 10 ? 21 : anios < 20 ? 28 : 35;
+  const ia = new Date(fin.getFullYear(), 0, 1), dA = ini > ia ? ini : ia;
+  const diasVac = Math.max(0, diasAnio * (Math.round((fin - dA) / dia) + 1) / 365 - tomadas);
+  const vac = sueldo / 25 * diasVac, sacVac = vac / 12, desc = sinpre ? sueldo / 2 : 0;
+  const total = trab + sac + vac + sacVac - desc;
+  $('#res').innerHTML = `<div class="label">Liquidación final estimada (bruto)</div><div class="big">${$$(total)}</div>` + filas([
+    ['Días trabajados del mes', $$(trab)],
+    ['Aguinaldo proporcional', $$(sac)],
+    ['Vacaciones no gozadas (' + num.format(diasVac) + ' días)', $$(vac)],
+    ['Aguinaldo sobre vacaciones', $$(sacVac)],
+    ...(sinpre ? [['Descuento por falta de preaviso (15 días)', '− ' + $$(desc)]] : []),
+    ['Total', $$(total), 'total'],
+  ]) + '<p class="note">A estos montos se les descuentan los aportes (17 %).</p>';
+});
+</script>
+</body>
+</html>
