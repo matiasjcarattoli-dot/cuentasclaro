@@ -1,4 +1,5 @@
-import json, os, html, urllib.parse
+import json, os, html, urllib.parse, datetime
+HOY = datetime.date.today().isoformat()
 # Genera las páginas de sitio/ a partir de paginas.py.  Uso: python3 herramientas/armar.py
 AQUI = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.join(AQUI, '..', 'sitio')
@@ -20,6 +21,7 @@ CALCS = [
     ('aguinaldo', 'Aguinaldo (SAC)', 'Completo o proporcional, con fechas de pago.', 'regalo', 'trabajo'),
     ('vacaciones', 'Vacaciones', 'Días que te corresponden y cuánto te pagan.', 'sol', 'trabajo'),
     ('indemnizacion', 'Indemnización por despido', 'Tu liquidación final, rubro por rubro.', 'documento', 'trabajo'),
+    ('liquidacion-renuncia', 'Liquidación por renuncia', 'Lo que cobrás si renunciás: días, aguinaldo y vacaciones.', 'documento', 'trabajo'),
     ('horas-extra', 'Horas extra', 'Al 50 % y al 100 %, con el valor de tu hora.', 'reloj', 'trabajo'),
     ('monotributo', 'Monotributo', 'En qué categoría estás y cuánto pagás por mes.', 'recibo', 'trabajo'),
     ('empleada-domestica', 'Sueldo de empleada doméstica', 'Sueldo por hora o por mes según la categoría.', 'casa', 'trabajo'),
@@ -39,6 +41,7 @@ CALCS = [
     ('cuotas', '¿Cuotas o contado?', 'Qué conviene según la inflación.', 'tarjeta', 'compras'),
     ('inflacion', 'Inflación acumulada', 'Cuánto subieron los precios y cuánto vale hoy tu plata.', 'termometro', 'compras'),
     ('alquiler', 'Aumento de alquiler', 'Cuánto vas a pagar con la próxima actualización.', 'casa', 'compras'),
+    ('promociones', 'Promociones del súper', '2x1, 3x2 o segunda al 70 %: el descuento real.', 'etiqueta', 'compras'),
     ('iva', 'IVA', 'Agregá o sacá el IVA de un precio (21 %, 10,5 %, 27 %).', 'recibo', 'compras'),
     ('porcentajes', 'Porcentajes', 'Descuentos, aumentos y variaciones al instante.', 'porcentaje', 'compras'),
     ('dolar', 'Dólar hoy', 'Cotizaciones y conversor pesos ⇄ dólares.', 'dolar', 'compras'),
@@ -66,6 +69,7 @@ GUIAS = [
     ('credito-hipotecario-uva', 'Cómo funciona el crédito hipotecario UVA', 'Qué es, cómo sube la cuota y qué riesgos tiene.', ['credito-hipotecario-uva', 'inflacion', 'ahorro-objetivo']),
     ('donde-tener-los-ahorros', 'Dónde tener tus ahorros en pesos', 'Cuenta remunerada, plazo fijo, UVA y fondos: diferencias.', ['cuenta-remunerada', 'plazo-fijo', 'plazo-fijo-uva']),
     ('resumen-tarjeta-de-credito', 'Cómo leer el resumen de la tarjeta', 'Pago mínimo, intereses, cierre y vencimiento explicados.', ['cuotas', 'prestamo', 'tasas']),
+    ('como-darse-de-alta-en-el-monotributo', 'Cómo darse de alta en el monotributo', 'Qué necesitás y los pasos para inscribirte en ARCA.', ['monotributo', 'precio-de-venta', 'sueldo-por-hora']),
     ('recategorizacion-monotributo', 'Recategorización del monotributo', 'Cuándo y cómo recategorizarte, paso a paso.', ['monotributo', 'precio-de-venta', 'iva']),
 ]
 
@@ -112,8 +116,9 @@ def tarjeta_guia(g, up):
     return tarjeta((f'guias/{g[0]}', g[1], g[2], 'libro', ''), up)
 
 def page(path, title, desc, body, faq=None, script='', home=False, nombre='', relacionadas=None, articulo=False):
+    es404 = path == '404'
     depth = 0 if path == '' else path.count('/') + 1
-    up = '../' * depth
+    up = '/' if es404 else '../' * depth
     faq_html, ld = '', ''
     if faq:
         faq_html = '<section class="faq"><h2>Preguntas frecuentes</h2>' + ''.join(
@@ -126,12 +131,29 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
     medio = f'<a href="{up}guias/">Guías</a><span>›</span>' if path.startswith('guias/') else ''
     if articulo:
         ld += '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Article', 'headline': title,
-              'description': desc, 'inLanguage': 'es-AR', 'dateModified': '2026-11-04', 'mainEntityOfPage': DOMINIO + '/' + path + '/',
+              'description': desc, 'inLanguage': 'es-AR', 'dateModified': HOY, 'mainEntityOfPage': DOMINIO + '/' + path + '/',
               'publisher': {'@type': 'Organization', 'name': SITE}}, ensure_ascii=False) + '</script>'
+    ldj = lambda o: '<script type="application/ld+json">' + json.dumps(o, ensure_ascii=False) + '</script>'
+    if not home and not es404:
+        migas = [('Inicio', DOMINIO + '/')]
+        if path.startswith('guias/'):
+            migas.append(('Guías', DOMINIO + '/guias/'))
+        migas.append((nombre, DOMINIO + '/' + path + '/'))
+        ld += ldj({'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': u} for i, (n, u) in enumerate(migas)]})
+    calc = next((c for c in CALCS if c[0] == path), None)
+    if calc:
+        ld += ldj({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': title.split(':')[0], 'description': desc,
+                   'url': DOMINIO + '/' + path + '/', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'Web',
+                   'inLanguage': 'es-AR', 'isAccessibleForFree': True, 'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'ARS'}})
+    if home:
+        ld += ldj({'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE, 'url': DOMINIO + '/', 'inLanguage': 'es-AR'})
+        ld += ldj({'@context': 'https://schema.org', '@type': 'Organization', 'name': SITE, 'url': DOMINIO + '/', 'logo': DOMINIO + '/og.png'})
     crumb = '' if home else f'<nav class="crumb" aria-label="Ruta"><a href="{up}">Inicio</a><span>›</span>{medio}{html.escape(nombre)}</nav>'
     full_title = title if home else f'{title} | {SITE}'
     url = DOMINIO + '/' + (path + '/' if path else '')
-    URLS.append(url)
+    if not es404:
+        URLS.append(url)
 
     # Calculadoras relacionadas (misma categoría primero)
     rel = ''
@@ -146,7 +168,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
         rel = '<section class="related"><h2>Otras calculadoras</h2><div class="grid">' + ''.join(tarjeta(c, up) for c in elegidas) + '</div></section>'
 
     texto = urllib.parse.quote(f'{title.split(":")[0]} {url}')
-    compartir = ('' if path in ('privacidad', 'acerca', 'guias') else
+    compartir = ('' if path in ('privacidad', 'acerca', 'guias', '404') else
         f'<div class="share"><span>¿Te sirvió? Compartilo</span>'
         f'<a class="btn wa" href="https://wa.me/?text={texto}" target="_blank" rel="noopener">WhatsApp</a>'
         f'<button class="btn" type="button" data-compartir data-url="{url}" data-titulo="{html.escape(title)}">{icono("compartir")}Compartir</button></div>')
@@ -171,7 +193,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0b7a5c">
+<meta name="theme-color" content="#0b7a5c">{'<meta name="robots" content="noindex">' if es404 else ''}
 <link rel="icon" href="{up}icono.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -202,7 +224,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
 </body>
 </html>
 '''
-    out = os.path.join(BASE, path, 'index.html')
+    out = os.path.join(BASE, '404.html') if es404 else os.path.join(BASE, path, 'index.html')
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, 'w', encoding='utf-8') as f:
         f.write(doc)
@@ -258,10 +280,14 @@ page('guias', 'Guías sobre sueldo, aguinaldo, feriados y finanzas personales',
      + ''.join(tarjeta_guia(g, '../') for g in GUIAS) + '</div>', nombre='Guías')
 exec(open(os.path.join(AQUI, 'paginas.py'), encoding='utf-8').read())
 
+page('404', 'Página no encontrada', 'La página que buscás no existe o se movió.', nombre='Página no encontrada', body=
+     '<h1>No encontramos esa página</h1><p class="lead">Puede que la dirección esté mal escrita o que la página se haya movido. Probá con alguna de estas:</p>'
+     '<div class="grid">' + ''.join(tarjeta(c, '/') for c in CALCS[:8]) + '</div><p style="margin-top:20px"><a href="/">Ver todas las calculadoras</a></p>')
+
 # sitemap.xml y robots.txt
 with open(os.path.join(BASE, 'sitemap.xml'), 'w', encoding='utf-8') as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            + ''.join(f'  <url><loc>{u}</loc></url>\n' for u in URLS) + '</urlset>\n')
+            + ''.join(f'  <url><loc>{u}</loc><lastmod>{HOY}</lastmod></url>\n' for u in URLS) + '</urlset>\n')
 with open(os.path.join(BASE, 'robots.txt'), 'w', encoding='utf-8') as f:
     f.write(f'User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n')
 print(len(URLS), 'páginas generadas')

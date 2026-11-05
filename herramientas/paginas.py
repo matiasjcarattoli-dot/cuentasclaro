@@ -2211,3 +2211,163 @@ page('guias/resumen-tarjeta-de-credito', 'Cómo leer el resumen de la tarjeta de
  ('¿Qué pasa si pago el mínimo de la tarjeta?', 'No entrás en mora, pero sobre el saldo que no pagaste te cobran intereses de financiación (más IVA), y ese saldo se suma al próximo resumen.'),
  ('¿Cuándo conviene comprar con tarjeta?', 'Justo después de la fecha de cierre: la compra entra en el resumen siguiente y tenés más tiempo hasta el vencimiento.'),
 ])
+
+# ---------- LIQUIDACIÓN POR RENUNCIA ----------
+page('liquidacion-renuncia', 'Calculadora de liquidación final por renuncia',
+ 'Calculá cuánto cobrás si renunciás a tu trabajo: días trabajados, aguinaldo proporcional y vacaciones no gozadas. Con el plazo de pago y cómo renunciar.',
+ nombre='Liquidación por renuncia', body='''
+<h1>Calculadora de liquidación por renuncia</h1>
+<p class="lead">Si renunciás, no cobrás indemnización, pero sí te deben varios rubros. Calculá tu liquidación final.</p>
+<div class="card calc">
+<label>Sueldo bruto mensual ($)<input id="sueldo" type="number" inputmode="decimal" min="0" value="1000000"></label>
+<div class="row">
+<label>Fecha de ingreso<input id="ini" type="date" value="2022-03-01"></label>
+<label>Último día de trabajo<input id="fin" type="date"></label>
+</div>
+<label>Días de vacaciones de este año que ya te tomaste<input id="tomadas" type="number" min="0" max="35" value="0"></label>
+<label class="check"><input id="sinpre" type="checkbox"> No di los 15 días de preaviso</label>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Qué cobro si renuncio?</h2>
+<p>Cuando renunciás no te corresponde indemnización por antigüedad, pero sí:</p>
+<ul>
+<li>Los <strong>días trabajados</strong> del último mes.</li>
+<li>El <strong>aguinaldo proporcional</strong> del semestre.</li>
+<li>Las <strong>vacaciones no gozadas</strong> del año, en proporción a lo trabajado, más su aguinaldo.</li>
+</ul>
+<h2>¿Cómo renunciar?</h2>
+<p>La renuncia tiene que ser <strong>por escrito</strong>: lo habitual es enviar un <strong>telegrama laboral</strong>, que es gratuito para el trabajador, o hacerla ante la autoridad administrativa del trabajo. Una renuncia de palabra o por mensaje puede traer problemas.</p>
+<h3>El preaviso del trabajador</h3>
+<p>Si renunciás, la ley te pide avisar con <strong>15 días de anticipación</strong>. Si no lo hacés, el empleador puede descontarte esos 15 días de la liquidación. La calculadora te deja marcarlo.</p>
+<h3>¿Cuándo me pagan?</h3>
+<p>La liquidación final se paga dentro de los <strong>4 días hábiles</strong> después del último día de trabajo. También te tienen que dar el certificado de trabajo.</p>
+<p>Si en vez de renunciar te despidieron, usá la <a href="../indemnizacion/">calculadora de indemnización</a>.</p>
+</div>
+''', faq=[
+ ('¿Si renuncio me pagan las vacaciones?', 'Sí, te pagan las vacaciones no gozadas proporcionales a lo que trabajaste en el año, más el aguinaldo sobre ese monto.'),
+ ('¿Si renuncio cobro el aguinaldo?', 'Sí, el aguinaldo proporcional a los días trabajados en el semestre.'),
+ ('¿Cuánto preaviso tengo que dar si renuncio?', 'La Ley de Contrato de Trabajo pide 15 días de preaviso al trabajador que renuncia.'),
+], script='''
+$('#fin').value ||= new Date().toISOString().slice(0, 10);
+conectar(() => {
+  const sueldo = val('sueldo'), tomadas = Math.max(0, val('tomadas')), sinpre = $('#sinpre').checked;
+  const p = v => v ? new Date(v + 'T00:00:00') : null, ini = p($('#ini').value), fin = p($('#fin').value), dia = 864e5;
+  if (!ini || !fin || fin < ini) { $('#res').innerHTML = 'Revisá las fechas.'; return; }
+  let anios = fin.getFullYear() - ini.getFullYear(); if (new Date(fin.getFullYear(), ini.getMonth(), ini.getDate()) > fin) anios--;
+  const trab = sueldo / 30 * Math.min(30, fin.getDate());
+  const semIni = new Date(fin.getFullYear(), fin.getMonth() < 6 ? 0 : 6, 1), semFin = new Date(fin.getFullYear(), fin.getMonth() < 6 ? 5 : 11, fin.getMonth() < 6 ? 30 : 31);
+  const desde = ini > semIni ? ini : semIni;
+  const sac = sueldo / 2 * (Math.round((fin - desde) / dia) + 1) / (Math.round((semFin - semIni) / dia) + 1);
+  const diasAnio = anios < 5 ? 14 : anios < 10 ? 21 : anios < 20 ? 28 : 35;
+  const ia = new Date(fin.getFullYear(), 0, 1), dA = ini > ia ? ini : ia;
+  const diasVac = Math.max(0, diasAnio * (Math.round((fin - dA) / dia) + 1) / 365 - tomadas);
+  const vac = sueldo / 25 * diasVac, sacVac = vac / 12, desc = sinpre ? sueldo / 2 : 0;
+  const total = trab + sac + vac + sacVac - desc;
+  $('#res').innerHTML = `<div class="label">Liquidación final estimada (bruto)</div><div class="big">${$$(total)}</div>` + filas([
+    ['Días trabajados del mes', $$(trab)],
+    ['Aguinaldo proporcional', $$(sac)],
+    ['Vacaciones no gozadas (' + num.format(diasVac) + ' días)', $$(vac)],
+    ['Aguinaldo sobre vacaciones', $$(sacVac)],
+    ...(sinpre ? [['Descuento por falta de preaviso (15 días)', '− ' + $$(desc)]] : []),
+    ['Total', $$(total), 'total'],
+  ]) + '<p class="note">A estos montos se les descuentan los aportes (17 %).</p>';
+});
+''')
+
+# ---------- PROMOCIONES DEL SÚPER ----------
+page('promociones', 'Calculadora de promociones: 2x1, 3x2 y segunda unidad al 70 %',
+ 'Calculá cuánto ahorrás de verdad con las promociones del supermercado: 2x1, 3x2, 4x3, segunda unidad con descuento y porcentajes. Precio real por unidad.',
+ nombre='Promociones del súper', body='''
+<h1>¿Cuánto ahorro con la promo?</h1>
+<p class="lead">2x1, 3x2, segunda unidad al 70 %… Calculá el descuento real y el precio que pagás por cada unidad.</p>
+<div class="card calc">
+<div class="row">
+<label>Precio de cada unidad ($)<input id="precio" type="number" inputmode="decimal" min="0" value="2000"></label>
+<label>Unidades que llevás<input id="cant" type="number" min="1" max="200" value="2"></label>
+</div>
+<label>Promoción<select id="promo">
+<option value="2x1">2x1 (llevás 2, pagás 1)</option>
+<option value="3x2">3x2 (llevás 3, pagás 2)</option>
+<option value="4x3">4x3 (llevás 4, pagás 3)</option>
+<option value="segunda">Segunda unidad con descuento</option>
+<option value="porc">Descuento en todas las unidades</option>
+</select></label>
+<div data-modo="segunda"><label>Descuento de la segunda unidad (%)<input id="d2" type="number" min="0" max="100" value="70"></label></div>
+<div data-modo="porc"><label>Descuento (%)<input id="dp" type="number" min="0" max="100" value="25"></label></div>
+<div id="res" class="result"></div>
+</div>
+<div class="article">
+<h2>¿Cuánto es el descuento real de cada promo?</h2>
+<table class="detail big-table"><tr><th>Promoción</th><th>Descuento real</th></tr>
+<tr><td>2x1</td><td>50 %</td></tr>
+<tr><td>Segunda unidad al 80 %</td><td>40 %</td></tr>
+<tr><td>Segunda unidad al 70 %</td><td>35 %</td></tr>
+<tr><td>3x2</td><td>33 %</td></tr>
+<tr><td>4x3</td><td>25 %</td></tr>
+<tr><td>Segunda unidad al 50 %</td><td>25 %</td></tr></table>
+<p>Ojo: "segunda unidad al 70 %" significa que la segunda tiene un <strong>70 % de descuento</strong>. Comprando dos, el descuento total es del 35 %, no del 70 %.</p>
+<h3>Antes de aprovechar una promo</h3>
+<ul>
+<li>Fijate si vas a usar todo antes de que venza.</li>
+<li>Compará con el precio por kilo o por litro de otras marcas: a veces una marca sin promo sigue siendo más barata.</li>
+<li>Si la promo se aplica en el total, llevar una unidad impar (por ejemplo, 3 en un 2x1) hace que la última no tenga descuento.</li>
+</ul>
+</div>
+''', faq=[
+ ('¿Qué conviene más, 2x1 o segunda unidad al 70 %?', 'El 2x1, que equivale a un 50 % de descuento. La segunda unidad al 70 % equivale a un 35 % si llevás dos.'),
+ ('¿Cuánto es el descuento de un 3x2?', 'Un 33 %: pagás 2 de cada 3 unidades.'),
+], script='''
+conectar(() => {
+  const sel = $('#promo').value; document.querySelectorAll('[data-modo]').forEach(e => e.hidden = e.dataset.modo !== sel);
+  const precio = val('precio'), cant = Math.max(1, Math.round(val('cant')));
+  let pagas;
+  if (sel === '2x1' || sel === '3x2' || sel === '4x3') { const n = +sel[0], m = +sel[2]; pagas = Math.floor(cant / n) * m * precio + (cant % n) * precio; }
+  else if (sel === 'segunda') { const d = val('d2') / 100; pagas = Math.floor(cant / 2) * precio * (2 - d) + (cant % 2) * precio; }
+  else pagas = cant * precio * (1 - val('dp') / 100);
+  const lista = cant * precio, ahorro = lista - pagas;
+  $('#res').innerHTML = `<div class="label">Pagás</div><div class="big">${$$(pagas)}</div>` + filas([
+    ['Sin promoción', $$(lista)],
+    ['Ahorrás', $$(ahorro)],
+    ['Descuento real', lista ? pct(ahorro / lista * 100) : '—', 'total'],
+    ['Precio por unidad', $$(pagas / cant)],
+  ]);
+});
+''')
+
+# ---------- GUÍA: ALTA EN EL MONOTRIBUTO ----------
+page('guias/como-darse-de-alta-en-el-monotributo', 'Cómo darse de alta en el monotributo paso a paso',
+ 'Guía para inscribirte en el monotributo en ARCA: qué necesitás, cómo elegir la categoría, cómo facturar y qué obligaciones tenés todos los meses.',
+ nombre='Alta en el monotributo', articulo=True, relacionadas=['monotributo', 'precio-de-venta', 'sueldo-por-hora'], body='''
+<h1>Cómo darse de alta en el monotributo</h1>
+<p class="lead">Si empezás a trabajar por tu cuenta o a vender, el monotributo es la forma más simple de estar en regla. Te contamos los pasos.</p>
+<h2>¿Qué es el monotributo?</h2>
+<p>Es un régimen simplificado para personas con ingresos chicos o medianos. Pagás <strong>una sola cuota mensual</strong> que incluye el impuesto, el aporte jubilatorio y la obra social, y podés emitir facturas.</p>
+<h2>Qué necesitás</h2>
+<ul>
+<li><strong>CUIT</strong> (si no tenés, se tramita en ARCA).</li>
+<li><strong>Clave fiscal</strong> nivel 3 o superior. Se saca desde la app Mi ARCA con el DNI y una selfie.</li>
+<li>Un <strong>domicilio fiscal</strong> y los datos de tu actividad.</li>
+<li>Una estimación de cuánto vas a facturar por año.</li>
+</ul>
+<h2>Paso a paso</h2>
+<ol>
+<li>Entrá a la web de ARCA con tu clave fiscal y buscá el <strong>Portal Monotributo</strong>.</li>
+<li>Elegí <strong>adherirte</strong> y completá tus datos: actividad, domicilio y obra social.</li>
+<li>Elegí la <strong>categoría</strong> según lo que estimás facturar en un año. Si recién empezás, se calcula proporcionalmente. Podés estimarla con la <a href="../../monotributo/">calculadora de monotributo</a>.</li>
+<li>Confirmá. Vas a obtener la credencial y el código para pagar la cuota.</li>
+<li>Para <strong>facturar</strong>, habilitá un punto de venta de factura electrónica en ARCA ("Comprobantes en línea" o la app).</li>
+</ol>
+<h2>Qué tenés que hacer todos los meses</h2>
+<ul>
+<li><strong>Pagar la cuota</strong>, que en general vence el día 20. Conviene adherir el débito automático.</li>
+<li><strong>Emitir factura</strong> por cada venta o servicio.</li>
+<li><strong>Recategorizarte</strong> dos veces por año, en enero y julio. Mirá la <a href="../recategorizacion-monotributo/">guía de recategorización</a>.</li>
+</ul>
+<h2>Además: Ingresos Brutos</h2>
+<p>El monotributo es un impuesto nacional. En muchas provincias también tenés que inscribirte en <strong>Ingresos Brutos</strong>; algunas tienen un régimen simplificado unificado con el monotributo. Consultá en el organismo de tu provincia.</p>
+<p class="note">Guía orientativa. Para tu caso puntual, consultá con un contador.</p>
+''', faq=[
+ ('¿Puedo estar en el monotributo y en relación de dependencia?', 'Sí. En ese caso, en general no pagás el aporte jubilatorio ni la obra social del monotributo (porque ya los pagás en tu trabajo), solo el impuesto integrado.'),
+ ('¿Cuánto cuesta el monotributo?', 'Depende de la categoría. Podés ver la cuota de cada una en la calculadora de monotributo, con los valores vigentes.'),
+])
