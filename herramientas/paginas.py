@@ -368,7 +368,7 @@ page('acerca', 'Acerca de Cuentas Claras', 'Quiénes somos y cómo hacemos las c
 <h2>Aviso</h2>
 <p>Los resultados son estimaciones orientativas. Tu caso puede tener particularidades (convenio colectivo, adicionales, impuesto a las ganancias) que cambien el número final. Ante decisiones importantes, consultá a un contador o abogado laboral.</p>
 <h2>Contacto</h2>
-<p>¿Encontraste un error o querés proponer una calculadora nueva? Escribinos a <a href="mailto:matiasj.carattoli@gmail.com">matiasj.carattoli@gmail.com</a>.</p>
+<p>¿Encontraste un error o querés proponer una calculadora nueva? Escribinos a <a href="mailto:matiasj.carattoli@gmail.com">matiasj.carattoli@gmail.com</a>. También podés usar la página de <a href="../contacto/">Contacto</a>.</p>
 </div>
 ''')
 
@@ -2371,3 +2371,24 @@ page('guias/como-darse-de-alta-en-el-monotributo', 'Cómo darse de alta en el mo
  ('¿Puedo estar en el monotributo y en relación de dependencia?', 'Sí. En ese caso, en general no pagás el aporte jubilatorio ni la obra social del monotributo (porque ya los pagás en tu trabajo), solo el impuesto integrado.'),
  ('¿Cuánto cuesta el monotributo?', 'Depende de la categoría. Podés ver la cuota de cada una en la calculadora de monotributo, con los valores vigentes.'),
 ])
+
+
+# ---------- CONTACTO ----------
+page('contacto', 'Contacto', 'Escribinos para consultas, sugerencias de calculadoras nuevas o para avisarnos de un error en Cuentas Claras.', nombre='Contacto', body='''
+<h1>Contacto</h1>
+<div class="article">
+<p>¿Encontraste un error en una calculadora, querés proponer una nueva o tenés alguna consulta sobre el sitio? Escribinos.</p>
+<div class="card" style="margin:20px 0">
+<p style="margin:0 0 6px"><strong>Mail</strong></p>
+<p style="margin:0"><a href="mailto:matiasj.carattoli@gmail.com">matiasj.carattoli@gmail.com</a></p>
+</div>
+<h2>Antes de escribir</h2>
+<ul>
+<li>Si encontraste un error, contanos <strong>en qué calculadora</strong> y <strong>qué datos cargaste</strong>, así lo podemos revisar rápido.</li>
+<li>No podemos dar asesoramiento legal, contable ni financiero sobre casos particulares. Para eso, consultá con un profesional.</li>
+<li>Nunca te vamos a pedir datos personales, claves ni datos de tarjetas.</li>
+</ul>
+<p>Respondemos en general dentro de los 2 o 3 días hábiles.</p>
+<p>Conocé más sobre el sitio en <a href="../acerca/">Acerca de</a>.</p>
+</div>
+''')
