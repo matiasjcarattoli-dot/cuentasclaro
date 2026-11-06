@@ -168,7 +168,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
         rel = '<section class="related"><h2>Otras calculadoras</h2><div class="grid">' + ''.join(tarjeta(c, up) for c in elegidas) + '</div></section>'
 
     texto = urllib.parse.quote(f'{title.split(":")[0]} {url}')
-    compartir = ('' if path in ('privacidad', 'acerca', 'guias', '404') else
+    compartir = ('' if path in ('privacidad', 'acerca', 'guias', '404', 'contacto') else
         f'<div class="share"><span>¿Te sirvió? Compartilo</span>'
         f'<a class="btn wa" href="https://wa.me/?text={texto}" target="_blank" rel="noopener">WhatsApp</a>'
         f'<button class="btn" type="button" data-compartir data-url="{url}" data-titulo="{html.escape(title)}">{icono("compartir")}Compartir</button></div>')
@@ -215,7 +215,7 @@ def page(path, title, desc, body, faq=None, script='', home=False, nombre='', re
 <div><a class="logo" href="{up}"><span class="logo-mark">{icono('calculadora')}</span><span class="logo-txt">Cuentas<b>Claras</b></span></a>
 <p>Calculadoras gratis para las cuentas de todos los días en Argentina. Sin registrarte y sin guardar tus datos.</p></div>
 <div><h3>Calculadoras</h3><ul class="foot-list">{pie_calcs}</ul></div>
-<div><h3>Guías</h3><ul>{pie_guias}</ul><h3 class="mt">El sitio</h3><ul><li><a href="{up}acerca/">Acerca de</a></li><li><a href="{up}privacidad/">Privacidad</a></li></ul></div>
+<div><h3>Guías</h3><ul>{pie_guias}</ul><h3 class="mt">El sitio</h3><ul><li><a href="{up}acerca/">Acerca de</a></li><li><a href="{up}contacto/">Contacto</a></li><li><a href="{up}privacidad/">Privacidad</a></li></ul></div>
 </div>
 <p class="legal">© <span data-anio></span> {SITE}. Los resultados son estimaciones orientativas y no reemplazan el asesoramiento de un contador o abogado.</p>
 </div></footer>
