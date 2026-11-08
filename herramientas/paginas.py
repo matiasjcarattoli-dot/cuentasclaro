@@ -1,6 +1,6 @@
 # ---------- SUELDO NETO ----------
-page('sueldo-neto', 'Calculadora de sueldo neto en Argentina: de bruto a neto',
- 'Calculá tu sueldo neto (en mano) a partir del bruto: jubilación 11 %, PAMI 3 %, obra social 3 % y sindicato. Gratis y al instante.',
+page('sueldo-neto', 'Calcular sueldo bruto a neto en Argentina (2026)',
+ 'Calculá tu sueldo neto (en mano) a partir del sueldo bruto: descuentos de jubilación 11 %, PAMI 3 %, obra social 3 % y sindicato. Gratis y al instante.',
  nombre='Sueldo neto', body='''
 <h1>Calculadora de sueldo neto</h1>
 <p class="lead">Poné tu sueldo bruto y te decimos cuánto cobrás en mano, con el detalle de cada descuento.</p>
@@ -27,6 +27,8 @@ page('sueldo-neto', 'Calculadora de sueldo neto en Argentina: de bruto a neto',
 <p>Los aportes se calculan sobre el sueldo hasta un máximo llamado <em>base imponible máxima</em>, que ARCA (ex AFIP) actualiza periódicamente. Si tu sueldo es muy alto, podés cargar ese tope para que el cálculo sea exacto.</p>
 </div>
 ''', faq=[
+ ('¿Cómo se calcula el sueldo neto a partir del bruto?', 'Al sueldo bruto se le resta el 17 % de aportes (11 % jubilación, 3 % PAMI y 3 % obra social) y la cuota sindical si estás afiliado. Por ejemplo, un bruto de $1.000.000 deja un neto de $830.000.'),
+ ('¿Qué es el sueldo bruto y qué es el neto?', 'El bruto es el sueldo total antes de los descuentos; el neto es lo que efectivamente cobrás en mano, después de los aportes.'),
  ('¿Qué porcentaje se descuenta del sueldo bruto?', 'En relación de dependencia se descuenta el 17 %: 11 % de jubilación, 3 % de PAMI (Ley 19.032) y 3 % de obra social. Si estás afiliado a un sindicato se suma la cuota sindical.'),
  ('¿Esta calculadora incluye el impuesto a las ganancias?', 'No. Ganancias depende de tus deducciones personales (cónyuge, hijos, alquiler, etc.) y solo alcanza a sueldos altos. Si te corresponde, tu neto será menor.'),
  ('¿El sueldo bruto incluye horas extra y adicionales?', 'Sí: el bruto es la suma de todos los conceptos remunerativos (básico, antigüedad, presentismo, horas extra). Los conceptos no remunerativos no llevan aportes jubilatorios.'),
@@ -1164,7 +1166,7 @@ page('guias/cuotas-o-contado', '¿Conviene pagar en cuotas o de contado? Cómo d
 ])
 
 # ---------- SUELDO BRUTO DESDE NETO ----------
-page('sueldo-bruto', 'Calculadora de sueldo bruto a partir del neto',
+page('sueldo-bruto', 'Sueldo bruto: calcular el bruto a partir del neto',
  'Calculá qué sueldo bruto necesitás para cobrar un determinado neto en mano. Ideal para negociar un sueldo o una oferta de trabajo.',
  nombre='Sueldo bruto desde el neto', body='''
 <h1>Calculadora de sueldo bruto desde el neto</h1>
@@ -1186,6 +1188,7 @@ page('sueldo-bruto', 'Calculadora de sueldo bruto a partir del neto',
 <p>En las entrevistas y en las ofertas de trabajo casi siempre se habla de sueldo <strong>bruto</strong>. Si sabés cuánto necesitás en mano, con esta cuenta sabés qué cifra pedir.</p>
 </div>
 ''', faq=[
+ ('¿Cuál es el sueldo bruto?', 'Es el sueldo total que figura en tu contrato o recibo antes de los descuentos de jubilación, PAMI, obra social y sindicato. Es la cifra que se usa en las ofertas de trabajo.'),
  ('¿Cuánto es el bruto de un sueldo neto?', 'Sin sindicato, el bruto es el neto dividido 0,83. Por ejemplo, un neto de $830.000 corresponde a un bruto de $1.000.000.'),
  ('¿El cálculo incluye Ganancias?', 'No. Si tu sueldo está alcanzado por el impuesto a las ganancias, vas a necesitar un bruto mayor para llegar al mismo neto.'),
 ], script='''
@@ -1495,10 +1498,10 @@ conectar(() => {
 ''')
 
 # ---------- REGLA DE TRES ----------
-page('regla-de-tres', 'Calculadora de regla de tres simple (directa e inversa)',
+page('regla-de-tres', 'Regla de 3 simple: calculadora online directa e inversa',
  'Resolvé una regla de tres simple directa o inversa al instante, con la explicación paso a paso y ejemplos de la vida diaria.',
  nombre='Regla de tres', body='''
-<h1>Calculadora de regla de tres</h1>
+<h1>Calculadora de regla de 3 simple</h1>
 <p class="lead">Si A es a B, ¿cuánto es C? Resolvelo al instante, directa o inversa.</p>
 <div class="card calc">
 <label>Tipo<select id="tipo"><option value="d">Directa (si uno sube, el otro sube)</option><option value="i">Inversa (si uno sube, el otro baja)</option></select></label>
@@ -1518,6 +1521,7 @@ page('regla-de-tres', 'Calculadora de regla de tres simple (directa e inversa)',
 <p>Preguntate: si una cantidad se duplica, ¿la otra también se duplica (directa) o se reduce a la mitad (inversa)?</p>
 </div>
 ''', faq=[
+ ('¿Cómo se hace una regla de 3 simple?', 'Si A es a B, entonces C es a X. En la directa, X = C × B ÷ A. Por ejemplo: si 3 kg cuestan $1.500, 5 kg cuestan 5 × 1.500 ÷ 3 = $2.500.'),
  ('¿Cuál es la fórmula de la regla de tres simple?', 'Directa: X = C × B ÷ A. Inversa: X = A × B ÷ C.'),
  ('¿Sirve para calcular porcentajes?', 'Sí: si 100 es a 80.000, el 15 es a X = 15 × 80.000 ÷ 100 = 12.000. También podés usar la calculadora de porcentajes.'),
 ], script='''
@@ -1529,10 +1533,11 @@ conectar(() => {
 });
 ''')
 
-page('guias/sueldo-bruto-y-neto', 'Sueldo bruto y neto: qué te descuentan y cómo leer tu recibo',
+page('guias/sueldo-bruto-y-neto', '¿Qué es el sueldo bruto y neto? Diferencia y cómo calcularlo',
  'Diferencia entre sueldo bruto y neto en Argentina: qué descuentos tiene el recibo de sueldo (jubilación, PAMI, obra social, sindicato, Ganancias) y cómo calcularlos.',
  nombre='Sueldo bruto y neto', articulo=True, relacionadas=_rel('sueldo-bruto-y-neto'), body='''
-<h1>Sueldo bruto y neto: qué te descuentan</h1>
+<h1>¿Qué es el sueldo bruto y el sueldo neto?</h1>
+<div class="card" style="margin:0 0 20px"><p style="margin:0"><strong>En resumen:</strong> el <strong>sueldo bruto</strong> es el total antes de los descuentos y el <strong>sueldo neto</strong> es lo que cobrás en mano. La diferencia son los aportes: en relación de dependencia te descuentan un <strong>17 %</strong> del bruto (más la cuota sindical si estás afiliado). Con un bruto de $1.000.000, cobrás $830.000 de neto.</p></div>
 <p class="lead">Por qué cobrás menos de lo que dice tu contrato, y cómo leer cada línea del recibo de sueldo.</p>
 <h2>Bruto, neto y "de bolsillo"</h2>
 <ul>
@@ -1553,14 +1558,17 @@ page('guias/sueldo-bruto-y-neto', 'Sueldo bruto y neto: qué te descuentan y có
 <p>Además de tu bruto, el empleador paga <strong>contribuciones patronales</strong> (jubilación, obra social, ART, etc.). No salen de tu sueldo, por eso no las ves descontadas, pero hacen que tu costo para la empresa sea mayor que tu bruto.</p>
 <p>Calculá tu caso con la <a href="../../sueldo-neto/">calculadora de sueldo neto</a> o, al revés, con la de <a href="../../sueldo-bruto/">sueldo bruto desde el neto</a>.</p>
 ''', faq=[
+ ('¿Cuál es la diferencia entre sueldo bruto y neto?', 'El bruto es el sueldo antes de los descuentos y el neto es lo que te depositan. La diferencia son los aportes obligatorios (17 %) y, si corresponde, la cuota sindical y el impuesto a las ganancias.'),
+ ('¿Cómo paso de bruto a neto?', 'Multiplicá el bruto por 0,83 (si no estás afiliado a un sindicato). Para pasar de neto a bruto, dividí el neto por 0,83.'),
  ('¿Cuánto me descuentan del sueldo en Argentina?', 'En relación de dependencia, el 17 % del bruto (11 % jubilación, 3 % PAMI y 3 % obra social), más la cuota sindical si estás afiliado y Ganancias si corresponde.'),
  ('¿El sueldo que me ofrecen en una entrevista es bruto o neto?', 'Casi siempre es bruto. Para saber cuánto vas a cobrar, restale el 17 %.'),
 ])
 
-page('guias/tna-tea-cft', 'TNA, TEA, TEM y CFT: qué significa cada tasa y cómo compararlas',
+page('guias/tna-tea-cft', '¿Qué significa TNA, TEA, TEM y CFT? Explicación simple con ejemplos',
  'Qué es la TNA, la TEA, la TEM y el CFT, cómo se calculan y cuál mirar para comparar plazos fijos, billeteras virtuales, préstamos y tarjetas en Argentina.',
  nombre='TNA, TEA, TEM y CFT', articulo=True, relacionadas=_rel('tna-tea-cft'), body='''
-<h1>TNA, TEA, TEM y CFT explicados</h1>
+<h1>¿Qué significa TNA, TEA, TEM y CFT?</h1>
+<div class="card" style="margin:0 0 20px"><p style="margin:0"><strong>En resumen:</strong> <strong>TNA</strong> es la tasa nominal anual (la que publica el banco), <strong>TEA</strong> es la tasa efectiva anual (lo que ganás en un año reinvirtiendo los intereses), <strong>TEM</strong> es la tasa efectiva mensual (lo que ganás en un mes) y <strong>CFT</strong> es el costo financiero total de un préstamo, con intereses, IVA, seguros y comisiones.</p></div>
 <p class="lead">Las siglas que aparecen en cada plazo fijo, préstamo o billetera virtual, explicadas con ejemplos.</p>
 <h2>TNA: tasa nominal anual</h2>
 <p>Es la tasa que publican bancos y billeteras. Indica cuánto pagan o cobran en un año <strong>sin reinvertir los intereses</strong>. Sirve para calcular los intereses de un período: un plazo fijo de $1.000.000 a 30 días con una TNA del 30 % paga $1.000.000 × 0,30 × 30 ÷ 365 = <strong>$24.658</strong>.</p>
@@ -1578,6 +1586,9 @@ page('guias/tna-tea-cft', 'TNA, TEA, TEM y CFT: qué significa cada tasa y cómo
 </ul>
 <p>Convertí una tasa en otra con el <a href="../../tasas/">conversor de tasas</a>.</p>
 ''', faq=[
+ ('¿Qué significa TNA?', 'Tasa Nominal Anual. Es la tasa de interés anual que informan los bancos, sin considerar la reinversión de los intereses. Sirve para calcular los intereses de un período: monto × TNA × días ÷ 365.'),
+ ('¿Qué significa TEM?', 'Tasa Efectiva Mensual. Es lo que ganás o pagás en un mes. Con un plazo fijo a 30 días se calcula como TNA × 30 ÷ 365; es la mejor tasa para comparar con la inflación mensual.'),
+ ('¿Qué significa TEA?', 'Tasa Efectiva Anual. Es lo que ganarías en un año si reinvertís los intereses cada vez. Siempre es mayor que la TNA.'),
  ('¿Qué es mejor, una TNA o una TEA alta?', 'Para comparar entre opciones de inversión usá la TEA, porque incluye la reinversión de intereses. Dos productos con la misma TNA pueden tener TEA distintas.'),
  ('¿Qué es el CFTEA?', 'Es el costo financiero total expresado como tasa efectiva anual. Es el número más completo para comparar el costo de un préstamo.'),
 ])
@@ -1686,7 +1697,7 @@ conectar(() => {
 ''')
 
 # ---------- PLAZO FIJO UVA ----------
-page('plazo-fijo-uva', 'Calculadora de plazo fijo UVA: cuánto rinde y si conviene',
+page('plazo-fijo-uva', 'Plazo fijo UVA: cómo se calcula y cuánto rinde (calculadora)',
  'Simulá un plazo fijo UVA: capital ajustado por inflación más la tasa adicional, y comparalo con un plazo fijo tradicional para ver cuál conviene.',
  nombre='Plazo fijo UVA', body='''
 <h1>Calculadora de plazo fijo UVA</h1>
@@ -1704,6 +1715,13 @@ page('plazo-fijo-uva', 'Calculadora de plazo fijo UVA: cuánto rinde y si convie
 <div id="res" class="result"></div>
 </div>
 <div class="article">
+<h2>¿Cómo se calcula el plazo fijo UVA?</h2>
+<ol>
+<li>El día que lo constituís, tu capital se pasa a UVA: <em>UVA compradas = capital ÷ valor de la UVA ese día</em>.</li>
+<li>Al vencimiento, esas UVA se pasan a pesos al valor de la UVA de ese día, que subió con la inflación.</li>
+<li>Sobre ese monto ajustado, el banco suma la tasa adicional por los días del plazo.</li>
+</ol>
+<p>Por ejemplo, con $1.000.000, una inflación del 2 % mensual y 90 días, el capital ajustado queda en unos $1.061.000, y con 1 % de tasa adicional cobrás alrededor de $1.063.800.</p>
 <h2>¿Cómo funciona el plazo fijo UVA?</h2>
 <p>El capital se convierte a <strong>UVA</strong> (Unidad de Valor Adquisitivo), una unidad que publica el Banco Central y que sube todos los días siguiendo la inflación. Al vencimiento, tus UVA se vuelven a pasar a pesos al valor de ese día, y además el banco te paga una <strong>tasa adicional</strong> (en general baja, alrededor del 1 % anual).</p>
 <p><em>Monto final ≈ capital × (UVA final ÷ UVA inicial) × (1 + tasa adicional × días ÷ 365)</em></p>
@@ -1721,6 +1739,7 @@ page('plazo-fijo-uva', 'Calculadora de plazo fijo UVA: cuánto rinde y si convie
 </ul>
 </div>
 ''', faq=[
+ ('¿Cómo se calcula el plazo fijo UVA?', 'Se pasa el capital a UVA al valor del día, al vencimiento se vuelven a pasar a pesos al nuevo valor de la UVA (que siguió a la inflación) y se suma la tasa adicional que paga el banco por los días del plazo.'),
  ('¿Qué es la UVA?', 'Es la Unidad de Valor Adquisitivo, que publica el BCRA y se actualiza a diario por el índice CER, que sigue a la inflación.'),
  ('¿Cuál es el plazo mínimo de un plazo fijo UVA?', 'El plazo mínimo es de 90 días. Algunos bancos ofrecen la opción precancelable, que permite retirar antes con una tasa menor.'),
 ], script='''
