@@ -4,7 +4,7 @@ Sitio de calculadoras para Argentina (sueldo, aguinaldo, vacaciones, indemnizaci
 
 ## Estructura
 
-- `sitio/` — lo que se publica en https://cuentasclaro.com (GitHub Pages, ver `.github/workflows/pages.yml`).
+- `sitio/` — lo que se publica en https://cuentasclaro.com. Lo publica **Cloudflare Pages**, conectado a este repo: cada push a `main` se publica solo (sin comando de build; directorio de salida `sitio`).
 - `herramientas/armar.py` — también tiene el catálogo (`CALCS`): nombre, ícono y categoría de cada calculadora, que arma la portada, el pie y las relacionadas.
 - `herramientas/paginas.py` — el contenido de cada página (texto, preguntas frecuentes y el JavaScript de cada calculadora).
 - `herramientas/armar.py` — arma las páginas de `sitio/`, el `sitemap.xml` y el `robots.txt`.
